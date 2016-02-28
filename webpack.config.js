@@ -1,6 +1,6 @@
-
 var path = require('path')
 var webpack = require('webpack')
+var ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   target: 'atom',
@@ -11,6 +11,13 @@ module.exports = {
     path: './build',
     filename: '[name].js',
   },
+	plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
+		new ExtractTextWebpackPlugin("styles.css")
+  ],
   module: {
     loaders: [
       {
@@ -22,11 +29,10 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel!eslint'
       },
-      { test: /\.json$/, loader: 'json-loader' }
+      { test: /\.json$/, loader: 'json-loader' },
+			{ test: /\.css$/, loader: ExtractTextWebpackPlugin.extract('style-loader', 'css-loader') },
+			{ test: /\.(jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/, loader: 'url-loader?importLoaders=1&limit=100000' }
     ]
-  },
-   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.js']
   },
   vue: {
     loaders: {

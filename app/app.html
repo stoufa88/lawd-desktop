@@ -5,8 +5,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Streamer</title>
 	  <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
-	  <link href="./node_modules/spinkit/css/spinners/5-pulse.css" rel="stylesheet" type="text/css">
-	  <link href="./node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+		<!-- Load external stylesheets here -->
+	  <link href="styles.css" rel="stylesheet" type="text/css">
 
     <script src="vendor/electron_boilerplate/env_config.js"></script>
     <script src="vendor/electron_boilerplate/context_menu.js"></script>
@@ -14,11 +15,12 @@
 </head>
 <body>
 
-	<div id="app">
+	<div id="app" class="container-fluid">
+		<appbar></appbar>
     <router-view></router-view>
   </div>
 
-  <script src="app.js"></script>
+	<script src="app.js"></script>
 
 </body>
 </html>
