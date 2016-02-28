@@ -1,0 +1,29 @@
+{
+  "name": "Streamer",
+  "productName": "Streamer",
+  "identifier": "com.example.electron-boilerplate-vue",
+  "description": "Starter for your Electron application with Vue.js. Out of the box ready for serious stuff.",
+  "version": "0.1.0",
+  "author": "Mr Gumby <gumby@sillywalks.com>",
+  "main": "background.js",
+  "config": {
+    "target": "development"
+  },
+  "dependencies": {
+    "babel-loader": "5.4.0",
+    "babel-runtime": "5.8.34",
+    "css-loader": "0.23.0",
+    "font-awesome": "^4.5.0",
+    "fs-jetpack": "^0.7.0",
+    "spinkit": "^1.2.5",
+    "style-loader": "0.13.0",
+    "stylus-loader": "^1.5.1",
+    "vue": "^1.0.1",
+    "vue-hot-reload-api": "1.2.2",
+    "vue-html-loader": "1.0.0",
+    "vue-loader": "^6.0.0",
+    "vue-resource": "^0.7.0",
+    "vue-router": "^0.7.11",
+    "webpack": "1.12.9"
+  }
+}

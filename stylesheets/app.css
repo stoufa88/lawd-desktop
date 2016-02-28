@@ -1,0 +1,76 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,800,600,500,300);
+
+body{
+	background: #101010;
+	color: white;
+	font-family: 'Raleway', sans-serif;
+}
+
+.hidden{
+	display: none !important;
+}
+
+.flex-center{
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/******************* movies index ********************/
+.movie-list > li{
+  float: left;
+  padding: 5px;
+  cursor: pointer;
+}
+
+	.movie-list > li img{
+		height: 150px;
+	}
+
+/******************** Details *************************/
+.movie-header{
+	padding: 50px;
+	text-align: center;
+}
+	.movie-header h1{
+		border-bottom: 1px solid #FFE4B5;
+		padding-bottom: 20px;
+	}
+	.movie-header p{
+		font-weight: 600;
+	}
+	.movie-header p.plot{
+		font-weight: 400;
+		text-align: justify;
+	}
+
+.movie-poster{
+	padding: 50px;
+}
+
+.movie-start{
+	text-align: center;
+}
+	.movie-start button{
+		padding: 10px 75px;
+	   background: black;
+	}
+	.movie-start button:hover{
+	}
+
+
+
+/******************** Player *************************/
+
+.vjs_video_3-dimensions, .video-js{
+	width: 100vw;
+	height: 100vh;
+}
+
+#infos{
+	position: absolute;
+  right: 20px;
+  top: 0;
+  z-index: 1;
+}
