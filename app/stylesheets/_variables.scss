@@ -1,0 +1,12 @@
+$default-color: gray;
+$font-color: darken($default-color, 60%);
+$light-color: lighten($default-color, 20%);
+$dark-color: darken($default-color, 20%);
+$contrast-color: teal;
+$warning-color: yellow;
+$important-color: red;
+$information-color: blue;
+$black-color: lighten(black, 5%);
+$white-color: darken(white, 5%);
+
+$body-bg: #333;

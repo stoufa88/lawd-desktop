@@ -10,7 +10,9 @@
 			</li>
 		</ul>
 
-		<div class="load-more" v-if="!isLoading" v-on:click="loadMore">Load More</div>
+		<div v-if="!isLoading" class="centered">
+			<button class="btn btn-default" v-on:click="loadMore">Load more</button>
+		</div>
 	</section>
 
 	<loading v-if="isLoading"></loading>
@@ -55,13 +57,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-.movie-list li
-		display: inline-flex
-		padding: 5px
-		cursor: pointer
-	.poster img
-			width: 100px
-			height: 150px
-</style>

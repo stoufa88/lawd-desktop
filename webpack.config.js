@@ -31,7 +31,8 @@ module.exports = {
       },
       { test: /\.json$/, loader: 'json-loader' },
 			{ test: /\.css$/, loader: ExtractTextWebpackPlugin.extract('style-loader', 'css-loader') },
-			{ test: /\.(jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/, loader: 'url-loader?importLoaders=1&limit=100000' }
+			{ test: /\.(jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/, loader: 'url-loader?importLoaders=1&limit=100000' },
+			{ test: /\.scss$/, loaders: ["style", "css", "sass"] }
     ]
   },
   vue: {
