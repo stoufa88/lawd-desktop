@@ -4,15 +4,14 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Streamer</title>
-	
+
   <script src="vendor/electron_boilerplate/env_config.js"></script>
   <script src="vendor/electron_boilerplate/context_menu.js"></script>
   <script src="vendor/electron_boilerplate/external_links.js"></script>
 </head>
 <body>
 
-	<div id="app">
-		<appbar></appbar>
+	<div id="app" v-bind:class="{ 'overflow-hidden': this.$route.name == 'movieDetails' }">
     <router-view></router-view>
   </div>
 

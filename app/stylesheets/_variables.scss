@@ -9,4 +9,7 @@ $information-color: blue;
 $black-color: lighten(black, 5%);
 $white-color: darken(white, 5%);
 
+// Bootstrap variable overrides
 $body-bg: #333;
+$navbar-default-bg: darken($body-bg, 25%);
+$navbar-border-radius: 0px;

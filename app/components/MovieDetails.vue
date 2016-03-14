@@ -2,7 +2,7 @@
 	<section id="movie-details" v-show="show" class="animated" transition="fade">
 		<div id="movie-header">
 			<h1 class="title"> {{movie.title}} </h1>
-			<a class="close" v-link="{ name: 'movieList' }">
+			<a class="close" v-link="{ name: 'movieList', query: {sort_by: sort} }">
 				<i class="fa fa-times"></i>
 			</a>
 		</div>
@@ -18,7 +18,8 @@ export default {
 	data () {
 		return {
 			show: false,
-			movie: {}
+			movie: {},
+			sort: this.$route.query.sort_by
 		}
 	},
 	ready () {

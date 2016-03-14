@@ -16,16 +16,12 @@ Vue.transition('fade', {
   leaveClass: 'slideOutRight'
 })
 
-var App = Vue.extend({
-	components: {
-   'appbar': require('./components/AppBar.vue')
- 	}
-})
+var App = Vue.extend({})
 
 var router = new VueRouter()
 
 router.map({
-  '/': {
+  '/movies': {
 		name: 'movieList',
     component: require('./components/MovieList.vue'),
 		subRoutes: {
@@ -35,6 +31,10 @@ router.map({
 			}
 		}
   }
+})
+
+router.redirect({
+  '*': '/movies'
 })
 
 router.start(App, '#app')
