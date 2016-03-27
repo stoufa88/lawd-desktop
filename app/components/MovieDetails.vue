@@ -1,10 +1,14 @@
 <template>
 	<section id="movie-details" v-show="show" class="animated" transition="fade">
 		<div id="movie-header">
-			<h1 class="title"> {{movie.title}} </h1>
-			<a class="close" v-link="{ name: 'movieList', query: {sort_by: sort} }">
-				<i class="fa fa-times"></i>
-			</a>
+			<button type="button" class="close" aria-label="Close">
+			  <span aria-hidden="true">
+					<a v-link="{ name: 'movieList', query: {sort_by: sort} }">
+						&times;
+					</a>
+				</span>
+			</button>
+			<h1 class="title">{{movie.title}}</h1>
 		</div>
 		<div id="movie-body"></div>
 	</section>

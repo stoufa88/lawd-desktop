@@ -1,5 +1,5 @@
 const MOVIES	=	'http://yify.is/api/v2/list_movies.json'
-const MOVIE_DETAILS	=	'http://yify.is/api/v2/movie_details.json?movie_id='
+const MOVIE_DETAILS	=	'http://yify.is/api/v2/movie_details.json?with_cast=true&movie_id='
 
 export default class DataService {
   getMovies (context) {

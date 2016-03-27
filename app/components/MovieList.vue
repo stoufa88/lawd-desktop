@@ -1,22 +1,24 @@
 <template>
 	<appbar></appbar>
-	<section id="movies-section" v-if="movies.length">
-		<ul class="movie-list">
-			<li class="movie" v-for="movie in movies">
-				<a v-link="{ name: 'movieDetails', params: { id: movie.id }}">
-					<div class="poster">
-						<img v-bind:src="movie.medium_cover_image" />
-					</div>
-				</a>
-			</li>
-		</ul>
 
-		<div class="centered">
-			<button class="btn btn-default" v-on:click="loadMore">
-				Load more
-			</button>
+	<div class="container" v-if="movies.length">
+		<div class="row">
+			<div class="card" v-for="movie in movies">
+	      <img id="{{movie.id}}" class="card-img-top" v-on:click="toggleDetails" v-bind:src="movie.medium_cover_image" />
+	      <div class="card-block">
+	        <h6 class="card-title">{{ movie.title }}</h6>
+	        <p class="card-text"><small class="text-muted">{{movie.genres}}</small></p>
+	        <p class="card-text"><small class="text-muted">{{movie.runtime}} min</small></p>
+	      </div>
+	    </div>
 		</div>
-	</section>
+	</div>
+
+	<div v-if="movies.length">
+		<button class="btn btn-primary  center-block" v-on:click="loadMore">
+			Load more
+		</button>
+	</div>
 
 	<loading v-if="!movies.length"></loading>
 
@@ -36,7 +38,8 @@ export default {
 		return {
 			movies: [],
 			page: 1,
-			sort: 'date_added'
+			sort: 'date_added',
+			popoverOpened: false
 		}
 	},
 	methods: {
@@ -51,7 +54,32 @@ export default {
 				for (let movie of response.data.movies) {
 					self.movies.push(movie)
 				}
-			});
+			})
+		},
+		toggleDetails: function(e) {
+			const that = this
+			const id = e.target.id
+
+			$('img').popover('dispose')
+			if(that.popoverOpened) {
+				that.$set('popoverOpened', false)
+				return
+			}
+
+			service.getMovie(that, id).then(function(response) {
+				console.log(response.data)
+				let content = ['<div class="description">'+ response.data.description_full +'</div>',
+	        '<div class="director">' + response.data.director + '</div>',
+	        '<div class="stars"><strong>Stars: </strong>' + response.data.cast.join(', ') + '</div>',
+					'<a class="btn btn-success">Play</div>',].join('');
+				$(e.target).popover({
+					title: response.data.title,
+					content:  content,
+					html: true
+				})
+				$(e.target).popover('show')
+				that.$set('popoverOpened', true)
+			})
 		}
 	},
 	events: {
@@ -72,7 +100,6 @@ export default {
 	// the api
 	ready: function() {
 		const self = this
-
 		service.getMovies(self).then(function(response) {
 			self.$set('movies', response.data.movies)
 		});

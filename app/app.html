@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Streamer</title>
+  <head>
+    <meta charset="UTF-8">
+    <title>Streamer</title>
+    <script>
+      (function() {
+        if (!process.env.HOT) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = '../dist/style.css';
+          document.write(link.outerHTML);
+        }
+      }());
+    </script>
+  </head>
+  <body>
 
-  <script src="vendor/electron_boilerplate/env_config.js"></script>
-  <script src="vendor/electron_boilerplate/context_menu.js"></script>
-  <script src="vendor/electron_boilerplate/external_links.js"></script>
-</head>
-<body>
+    <div id="app" v-bind:class="{ 'overflow-hidden': this.$route.name == 'movieDetails' }">
+      <router-view></router-view>
+    </div>
 
-	<div id="app" v-bind:class="{ 'overflow-hidden': this.$route.name == 'movieDetails' }">
-    <router-view></router-view>
-  </div>
+    <script>
+      (function() {
+        const script = document.createElement('script');
+        console.info('Environment:', process.env.NODE_ENV);
+        script.src = (process.env.HOT) ? 'http://localhost:3000/dist/bundle.js' : '../dist/bundle.js';
+        document.write(script.outerHTML);
+      }());
+    </script>
 
-	<script src="app.js"></script>
-
-</body>
+  </body>
 </html>
