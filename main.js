@@ -15,7 +15,7 @@ let session;
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 800, height: 460 });
+  mainWindow = new BrowserWindow({ width: 1024, height: 800 });
 
   // Load the index.html of the app.
   // Most examples use __dirname instead of process.cwd().

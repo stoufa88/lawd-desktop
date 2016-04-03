@@ -2,11 +2,18 @@
 	<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
     <a class="navbar-brand" href="#">Streamer</a>
 
+		<form class="form-inline pull-xs-right">
+			<div class="form-group">
+				<input v-model="searchQuery" v-on:keyup.enter="search" type="text"
+					class="form-control" placeholder="Movie Title, Actor Name, ImDB codes">
+			</div>
+		</form>
+
 		<div class="btn-group pull-xs-right">
 		  <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		    {{ sort }}
 		  </button>
-		  <div class="dropdown-menu">
+		  <div class="dropdown-menu dropdown-menu-right">
 				<a class="dropdown-item" href="#"
 					 v-for="sort in sorting"
 					 v-on:click="updateSort(sort.value, sort.text)">
@@ -24,11 +31,16 @@ export default {
     updateSort: function(value, text) {
 			this.$dispatch('change-sort', value)
 			this.$set('sort', text)
-    }
+    },
+		search: function(e){
+			e.preventDefault()
+			this.$dispatch('search-query', this.searchQuery)
+		}
   },
 	data () {
 		return {
 			sort: 'Latest',
+			searchQuery: '',
 			sorting: [
 				{ value: 'date_added', text: 'Latest' },
 				{ value: 'like_count', text: 'Most popular' },

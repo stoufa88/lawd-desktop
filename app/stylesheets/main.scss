@@ -17,12 +17,17 @@ body{
   font-size: 40px;
 }
 
+// -------------------------- App bar ----------------------------------
+.sort-button {
+	margin-right: 75px;
+}
+
 //  --------------------------- Movie list ------------------------------------
 
 .card {
   width: 150px;
   padding: .75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
   border: 0;
 }
 

@@ -28,7 +28,11 @@ router.map({
 				component: require('./components/MovieDetails.vue')
 			}
 		}
-  }
+  },
+	'player/:id': {
+		name: 'player',
+		component: require('./components/Player.vue'),
+	}
 })
 
 router.redirect({

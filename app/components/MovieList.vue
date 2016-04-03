@@ -4,9 +4,11 @@
 	<div class="container" v-if="movies.length">
 		<div class="row">
 			<div class="card" v-for="movie in movies">
-	      <img id="{{movie.id}}" class="card-img-top" v-on:click="toggleDetails" v-bind:src="movie.medium_cover_image" />
+	      <img id="{{$index}}" class="card-img-top" v-on:click="toggleDetails" v-bind:src="movie.medium_cover_image" />
 	      <div class="card-block">
-	        <h6 class="card-title">{{ movie.title }}</h6>
+	        <h6 class="card-title" data-toggle="tooltip" data-placement="bottom"
+							title="{{movie.title}}">{{ movie.title }}
+					</h6>
 	        <p class="card-text"><small class="text-muted">{{movie.genres}}</small></p>
 	        <p class="card-text"><small class="text-muted">{{movie.runtime}} min</small></p>
 	      </div>
@@ -39,6 +41,7 @@ export default {
 			movies: [],
 			page: 1,
 			sort: 'date_added',
+			query: '',
 			popoverOpened: false
 		}
 	},
@@ -58,7 +61,13 @@ export default {
 		},
 		toggleDetails: function(e) {
 			const that = this
-			const id = e.target.id
+			const index = e.target.id
+
+			const popoverWidth = 346
+			const location = e.clientX
+			const width = $('body')[0].offsetWidth
+
+ 			let placement = (width - location) < popoverWidth ? 'left' : 'right'
 
 			$('img').popover('dispose')
 			if(that.popoverOpened) {
@@ -66,20 +75,21 @@ export default {
 				return
 			}
 
-			service.getMovie(that, id).then(function(response) {
-				console.log(response.data)
-				let content = ['<div class="description">'+ response.data.description_full +'</div>',
-	        '<div class="director">' + response.data.director + '</div>',
-	        '<div class="stars"><strong>Stars: </strong>' + response.data.cast.join(', ') + '</div>',
-					'<a class="btn btn-success">Play</div>',].join('');
-				$(e.target).popover({
-					title: response.data.title,
-					content:  content,
-					html: true
-				})
-				$(e.target).popover('show')
-				that.$set('popoverOpened', true)
+			let movie = that.movies[index]
+			let content = ['<p class="description">'+ movie.synopsis +'</p>',
+				'<p class="director"><strong>Director: </strong>' + movie.directors.join(', ') + '</p>',
+				'<p class="stars"><strong>Stars: </strong>' + movie.cast.join(', ') + '</p>',
+				'<a class="btn btn-success">Play</div>',].join('')
+
+			$(e.target).popover({
+				title: movie.title,
+				content: content,
+				html: true,
+				placement: placement
 			})
+
+			$(e.target).popover('show')
+			that.$set('popoverOpened', true)
 		}
 	},
 	events: {
@@ -94,7 +104,17 @@ export default {
 			service.getMovies(self).then(function(response) {
 				self.$set('movies', response.data.movies)
 			});
-    }
+    },
+		'search-query': function(query) {
+			const self = this
+
+			self.$set('query', query)
+			self.$set('page', 1)
+			self.$set('movies', [])
+			service.getMovies(self).then(function(response) {
+				self.$set('movies', response.data.movies)
+			});
+		}
   },
 	// ready inits movies array with result from resource service which calls
 	// the api
