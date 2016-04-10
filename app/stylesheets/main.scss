@@ -5,9 +5,8 @@
 @import './_loading';
 @import './_side_nav';
 
-.close{
-	margin-right: 25px !important;
-  font-size: 40px;
+#main-content {
+	padding-top: 50px;
 }
 
 // -------------------------- App bar ----------------------------------
@@ -24,10 +23,6 @@
 }
 
 //  --------------------------- Movie list ------------------------------------
-
-#movie-list {
-	padding-top: 50px;
-}
 
 .card {
   width: 150px;
@@ -91,13 +86,9 @@
 	height: 100vh;
 }
 
-#infos {
+#toggle-me {
 	position: absolute;
   right: 20px;
   top: 0;
   z-index: 1;
-}
-
-#exit {
-	position: absolute;
 }

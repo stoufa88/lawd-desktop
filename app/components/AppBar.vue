@@ -18,9 +18,10 @@
 		    {{ sort }}
 		  </button>
 		  <div class="dropdown-menu dropdown-menu-right">
-				<a class="dropdown-item" href="#"
-					 v-for="sort in sorting"
-					 v-on:click="updateSort(sort.value, sort.text)">
+				<a class="dropdown-item"
+					:href="'#/movies/1' + '?sort_by=' + sort.value"
+					@click="updateSort(sort.text)"
+					 v-for="sort in sorting">
 					{{ sort.text }}
 				</a>
 		  </div>
@@ -34,23 +35,31 @@ export default {
 		toggleMenu: function() {
 			$('#wrapper').toggleClass('side-menu-open');
 		},
-		// Update label + dispatch event to parent: MovieList
-    updateSort: function(value, text) {
-			this.$dispatch('change-sort', value)
-			this.$set('sort', text)
-    },
 		search: function(e){
 			e.preventDefault()
-			this.$dispatch('search-query', this.searchQuery)
-		}
+			this.$route.router.go({
+				name: 'movieList',
+				query: {
+					query: this.searchQuery,
+					sort: this.$route.query.sort
+				},
+				params: {
+					page: 1
+				}
+
+			})
+		},
+		updateSort: function( text) {
+			this.$set('sort', text)
+    }
   },
 	data () {
 		return {
-			sort: 'Latest',
+			sort: 'Most popular',
 			searchQuery: '',
 			sorting: [
-				{ value: 'date_added', text: 'Latest' },
 				{ value: 'like_count', text: 'Most popular' },
+				{ value: 'date_added', text: 'Latest' },
 				{ value: 'rating', text: 'Top rated' }
 			]
 		}

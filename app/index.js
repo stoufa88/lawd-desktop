@@ -1,6 +1,5 @@
 // Vendor dependencies
 require('bootstrap/dist/js/bootstrap.js')
-require('video.js/dist/video.js')
 
 require('./stylesheets/main.scss')
 

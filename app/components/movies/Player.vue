@@ -1,17 +1,12 @@
 <template>
   <div id="toggle-me" class="invisible">
-		<div id="infos">
-  		<p>{{ downloaded }} / {{ total }}</p>
-  		<p>{{ downloadSpeed }}</p>
-		</div>
-
-		<div id="exit">
-			<a v-link="{ name: 'movieList'}">Exit</a></div>
-		</div>
+		<a v-link="{ name: 'movieList'}">Exit</a>
+		<p>{{ downloaded }} / {{ total }}</p>
+		<p>{{ downloadSpeed }}</p>
 	</div>
 
 	<div id="player">
-		<video class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay preload="auto" data-setup="{}">
+		<video id="asba" class="video-js vjs-default-skin vjs-big-play-centered">
 			<track kind="captions" srclang="en" label="English" default>
 		</video>
 	</div>
@@ -23,6 +18,7 @@ let service = new DataService()
 
 const WebTorrent = require('webtorrent')
 const filesize = require('filesize')
+const videojs = require('video.js')
 
 const ipcRenderer = require('electron').ipcRenderer
 
@@ -38,7 +34,7 @@ export default {
 
 	methods: {
 		trackInfos () {
-			let that = this;
+			let self = this;
 			let exit = false;
 			$('#player').mousemove(function(event) {
 				if(exit) return
@@ -49,16 +45,23 @@ export default {
 					exit = false
 				}, 5000)
 			});
+		},
+
+		_init() {
+			$('.popover').remove()
+			videojs("asba", { "controls": true, "autoplay": false, "preload": "auto" });
 		}
 	},
 
 	ready () {
-		const that = this
-		const id = that.$route.params.id
+		const self = this
+		const id = self.$route.params.id
+
+		self._init()
 
 		let engine = new WebTorrent()
 
-		service.getMovie(that, id).then(function(response) {
+		service.getMovie(self, id).then(function(response) {
 			let movie = response.data
 			let torrent = movie.torrents.torrent[0].url
 			engine.add(torrent, function (torrent) {
@@ -74,15 +77,19 @@ export default {
 				});
 				movieFile.renderTo('video')
 
-				that.$set('total', filesize(movieFile.length))
+				self.$set('total', filesize(movieFile.length))
 				setInterval(() => {
-					that.$set('downloaded', filesize(torrent.downloaded))
-					that.$set('downloadSpeed', filesize(torrent.downloadSpeed) + ' /s')
+					self.$set('downloaded', filesize(torrent.downloaded))
+					self.$set('downloadSpeed', filesize(torrent.downloadSpeed) + ' /s')
 				}, 1000)
 
-				that.trackInfos()
+				self.trackInfos()
 			})
   	})
+	},
+
+	beforeDestroy() {
+		videojs('asba').dispose()
 	}
 }
 </script>

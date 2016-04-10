@@ -1,7 +1,7 @@
 #side-menu {
-  position: absolute;
+  position: fixed;
   left: -$side-menu-width;
-  top: 0;
+  top: 54px;
   height: 100%;
   width: $side-menu-width;
   background-color: #333;

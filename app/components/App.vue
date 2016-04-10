@@ -1,15 +1,15 @@
 <template>
   <div id="wrapper">
-		<appbar ></appbar>
 
-		<div id="side-menu">
-			<sidenav></sidenav>
+		<div v-if="$route.name == 'movieList'">
+			<appbar></appbar>
+			<div id="side-menu">
+				<sidenav></sidenav>
+			</div>
 		</div>
 
     <!-- main view -->
-		<div id="main-content">
-    	<router-view></router-view>
-		</div>
+    <router-view></router-view>
 
   </div>
 </template>

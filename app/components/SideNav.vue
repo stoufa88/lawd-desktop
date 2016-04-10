@@ -1,14 +1,14 @@
 <template>
 	<ul class="nav">
 	 <li class="nav-item">
-		 <Link class="nav-item-link" to="/all">
+		 <a class="nav-item-link" v-link="'movieList'">
 			 <i class="fa fa-music fa-fw"></i> All
-		 </Link>
+		 </a>
 	 </li>
 	 <li class="nav-item">
-		 <Link class="nav-item-link" to="/staff_picks">
+		 <a class="nav-item-link" href="/staff_picks">
 			 <i class="fa fa-cogs fa-fw"></i> Staff picks
-		 </Link>
+		 </a>
 	 </li>
 	</ul>
 </template>
