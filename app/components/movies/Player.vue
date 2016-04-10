@@ -63,18 +63,20 @@ export default {
 
 		service.getMovie(self, id).then(function(response) {
 			let movie = response.data
-			let torrent = movie.torrents.torrent[0].url
+			let torrent = movie.torrents.torrent.url
 			engine.add(torrent, function (torrent) {
-				// Got torrent metadata!
-				console.log('Torrent info hash:', torrent.infoHash);
 				let movieFile;
-				// Select the file to download and load subs to the player
 				torrent.files.forEach(function (f) {
 					if (/\.(mp4|mkv)$/i.test(f.name)) {
 						if(!movieFile || f.length > movieFile.length)
 							movieFile = f;
 					}
 				});
+
+				service.getSub(self, movie.imdb_code, torrent).then(function(subs) {
+					console.log(subs)
+				})
+
 				movieFile.renderTo('video')
 
 				self.$set('total', filesize(movieFile.length))

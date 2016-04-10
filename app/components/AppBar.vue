@@ -58,7 +58,7 @@ export default {
 			sort: 'Most popular',
 			searchQuery: '',
 			sorting: [
-				{ value: 'like_count', text: 'Most popular' },
+				{ value: 'download_count', text: 'Most popular' },
 				{ value: 'date_added', text: 'Latest' },
 				{ value: 'rating', text: 'Top rated' }
 			]

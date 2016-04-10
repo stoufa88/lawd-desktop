@@ -1,6 +1,6 @@
 <template>
 	<div id="main-content">
-		<div id="movie-list" :class="{ 'container-fluid': true, loading: !movies.length }">
+		<div id="movie-list" :class="{ 'container': true, loading: !movies.length }">
 			<div class="row">
 				<div class="card" v-for="movie in movies">
 		      <img id="{{$index}}" class="card-img-top" @click="toggleDetails" v-bind:src="movie.medium_cover_image" />
@@ -12,7 +12,7 @@
 		        <p class="card-text"><small class="text-muted">{{ movie.runtime }} min</small></p>
 		      </div>
 
-					<div id="popover-details" v-show="false">
+					<div id="popover-details-{{movie.id}}" v-show="false">
 						<p class="description">{{ movie.synopsis }}</p>
 						<p class="director"><strong>Director: </strong>{{ movie.directors.join(', ') }}</p>
 						<p class="stars"><strong>Stars: </strong>{{ movie.cast.join(', ') }}</p>
@@ -83,7 +83,7 @@ export default {
 
 			$(e.target).popover({
 				title: that.movies[index].title,
-				content: $('#popover-details').html(),
+				content: $('#popover-details-' + that.movies[index].id).html(),
 				html: true,
 				placement: placement
 			})

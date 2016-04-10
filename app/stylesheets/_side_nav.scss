@@ -1,3 +1,8 @@
+.navbar-toggler:focus {
+	border: none;
+	outline: none;
+}
+
 #side-menu {
   position: fixed;
   left: -$side-menu-width;
