@@ -6,7 +6,7 @@
 	</div>
 
 	<div id="player">
-		<video id="asba" class="video-js vjs-default-skin vjs-big-play-centered">
+		<video id="video-player" class="video-js vjs-default-skin vjs-big-play-centered">
 			<track kind="captions" srclang="en" label="English" default>
 		</video>
 	</div>
@@ -19,6 +19,9 @@ let service = new DataService()
 const WebTorrent = require('webtorrent')
 const filesize = require('filesize')
 const videojs = require('video.js')
+const path = require('path')
+const fs = require('fs')
+const srt2vtt = require('srt2vtt')
 
 const ipcRenderer = require('electron').ipcRenderer
 
@@ -49,7 +52,7 @@ export default {
 
 		_init() {
 			$('.popover').remove()
-			videojs("asba", { "controls": true, "autoplay": false, "preload": "auto" });
+			videojs("video-player", { "controls": true, "autoplay": false, "preload": "auto" });
 		}
 	},
 
@@ -63,9 +66,10 @@ export default {
 
 		service.getMovie(self, id).then(function(response) {
 			let movie = response.data
-			let torrent = movie.torrents.torrent.url
+			let torrent = movie.torrents.torrent[0].url
 			engine.add(torrent, function (torrent) {
 				let movieFile;
+				console.log(torrent.infoHash)
 				torrent.files.forEach(function (f) {
 					if (/\.(mp4|mkv)$/i.test(f.name)) {
 						if(!movieFile || f.length > movieFile.length)
@@ -73,8 +77,13 @@ export default {
 					}
 				});
 
-				service.getSub(self, movie.imdb_code, torrent).then(function(subs) {
-					console.log(subs)
+				service.getSubData(self, movie.imdb_code).then(function(srtData) {
+					srt2vtt(srtData, function(err, vttData) {
+						if (err) throw new Error(err)
+						let vttPath = path.join(torrent.path, torrent.name, 'sub.vtt')
+						fs.writeFileSync(vttPath, vttData)
+						$('#video-player track').attr('src', vttPath);
+					})
 				})
 
 				movieFile.renderTo('video')

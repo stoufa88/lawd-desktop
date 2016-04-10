@@ -20,10 +20,8 @@ export default class DataService {
 		})
 	}
 
-	getSub (context, imdbId, torrent) {
-		const srt2vtt = require('srt2vtt')
+	getSubData (context, imdbId) {
 		var OS = require('opensubtitles-api')
-		var path = require('path')
 
 		var OpenSubtitles = new OS({
 	    useragent:'OSTestUserAgent',
@@ -35,17 +33,11 @@ export default class DataService {
 			extensions: ['srt', 'vtt'],
 			imdbid: imdbId,
 		}).then(function (subtitles) {
-				console.log(torrent.path)
-				//let srtPath = torrent.path + '/' + f.path
 				console.log(subtitles)
-				context.$http({url: subtitles.fr.url, method: 'GET' }).then(function (response) {
-					console.log(response)
+				return context.$http({url: subtitles.fr.url, method: 'GET' }).then(function (response) {
 					return response.data
 				})
-		});
-
-
-
+		})
 
 	}
 }
