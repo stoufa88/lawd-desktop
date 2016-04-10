@@ -1,8 +1,9 @@
 const path = require('path');
 
 module.exports = {
+	target: 'electron',
   module: {
-    noParse: /node_modules\/json-schema\/lib\/validate\.js/,
+    noParse: [/node_modules\/json-schema\/lib\/validate\.js/, 'ws'],
     loaders: [
       {
         test: /\.js$/,
@@ -30,6 +31,7 @@ module.exports = {
 
   ],
   externals: [
+		'ws'
     // put your node 3rd party libraries which can't be built with webpack here
     // (mysql, mongodb, and so on..)
   ]

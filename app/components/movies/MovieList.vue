@@ -1,17 +1,23 @@
 <template>
-	<appbar></appbar>
 
-	<div class="container" v-if="movies.length">
+	<div id="movie-list" class="container" :class="{ loading: !movies.length }">
 		<div class="row">
 			<div class="card" v-for="movie in movies">
-	      <img id="{{$index}}" class="card-img-top" v-on:click="toggleDetails" v-bind:src="movie.medium_cover_image" />
+	      <img id="{{$index}}" class="card-img-top" @click="toggleDetails" v-bind:src="movie.medium_cover_image" />
 	      <div class="card-block">
 	        <h6 class="card-title" data-toggle="tooltip" data-placement="bottom"
 							title="{{movie.title}}">{{ movie.title }}
 					</h6>
-	        <p class="card-text"><small class="text-muted">{{movie.genres}}</small></p>
-	        <p class="card-text"><small class="text-muted">{{movie.runtime}} min</small></p>
+	        <p class="card-text"><small class="text-muted">{{ movie.genres }}</small></p>
+	        <p class="card-text"><small class="text-muted">{{ movie.runtime }} min</small></p>
 	      </div>
+
+				<div id="popover-details" v-show="false">
+					<p class="description">{{ movie.synopsis }}</p>
+					<p class="director"><strong>Director: </strong>{{ movie.directors.join(', ') }}</p>
+					<p class="stars"><strong>Stars: </strong>{{ movie.cast.join(', ') }}</p>
+					<a class="btn btn-success" v-link="{ name: 'player', params: { id: movie.id }}">Play</a>
+				</div>
 	    </div>
 		</div>
 	</div>
@@ -22,20 +28,13 @@
 		</button>
 	</div>
 
-	<loading v-if="!movies.length"></loading>
-
-	<router-view></router-view>
 </template>
 
 <script>
-import DataService from '../services/movies';
+import DataService from '../../services/movies';
 let service = new DataService();
 
 export default {
-	components: {
-		loading: require('./Loading.vue'),
-		appbar: require('./AppBar.vue')
-	},
 	data () {
 		return {
 			movies: [],
@@ -75,15 +74,9 @@ export default {
 				return
 			}
 
-			let movie = that.movies[index]
-			let content = ['<p class="description">'+ movie.synopsis +'</p>',
-				'<p class="director"><strong>Director: </strong>' + movie.directors.join(', ') + '</p>',
-				'<p class="stars"><strong>Stars: </strong>' + movie.cast.join(', ') + '</p>',
-				'<a class="btn btn-success">Play</div>',].join('')
-
 			$(e.target).popover({
-				title: movie.title,
-				content: content,
+				title: that.movies[index].title,
+				content: $('#popover-details').html(),
 				html: true,
 				placement: placement
 			})
@@ -92,10 +85,17 @@ export default {
 			that.$set('popoverOpened', true)
 		}
 	},
+
+  route: {
+    data ({ to }) {
+      const page = +to.params.page
+			console.log(page)
+    }
+  },
 	events: {
 		// This event is dispatched from child (appbar). It tells to refresh the list
 		// with a new sorting. It also sets the page to one.
-    'change-sort': function (sort) {
+    'apply-sort': function (sort) {
 			const self = this
 
 			self.$set('sort', sort)
@@ -120,9 +120,7 @@ export default {
 	// the api
 	ready: function() {
 		const self = this
-		service.getMovies(self).then(function(response) {
-			self.$set('movies', response.data.movies)
-		});
+
   }
 }
 </script>

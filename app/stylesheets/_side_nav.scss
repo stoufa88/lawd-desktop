@@ -1,0 +1,48 @@
+#side-menu {
+  position: absolute;
+  left: -$side-menu-width;
+  top: 0;
+  height: 100%;
+  width: $side-menu-width;
+  background-color: #333;
+  transition:left 0.2s linear;
+
+  > ul {
+    .nav-item {
+      border-bottom: 1px solid #424242;
+
+      &:first-child {
+        border-top: 1px solid #424242;
+      }
+
+      .nav-item-link {
+        display: block;
+        color: #6C7B83;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: $side-menu-padding-left/2 $side-menu-padding-left;
+
+        &:hover {
+          text-decoration: none;
+          color: #fff;
+        }
+
+        &:focus {
+          text-decoration: none;
+          outline: none;
+        }
+      }
+    }
+  }
+}
+
+.side-menu-open {
+  #side-menu {
+    left: 0;
+  }
+
+  #movie-list {
+    padding-left: $side-menu-width;
+  }
+}

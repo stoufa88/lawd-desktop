@@ -1,16 +1,9 @@
 @import './_variables';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~animate.css/animate.min.css';
-// @import '~font-awesome/css/font-awesome.css';
+@import '~video.js/dist/video-js.min.css';
 @import './_loading';
-
-body{
-	padding-top: 5rem;
-}
-
-.dropdown-inverse{
-	left: -90px;
-}
+@import './_side_nav';
 
 .close{
 	margin-right: 25px !important;
@@ -22,7 +15,19 @@ body{
 	margin-right: 75px;
 }
 
+.search-control {
+	height: 38px;
+}
+
+.sort-control {
+	padding-top: 3px;
+}
+
 //  --------------------------- Movie list ------------------------------------
+
+#movie-list {
+	padding-top: 50px;
+}
 
 .card {
   width: 150px;
@@ -77,4 +82,22 @@ body{
 			color: #fff;
 		}
 	}
+}
+
+/******************** Player *************************/
+
+.vjs_video_3-dimensions, .video-js {
+	width: 100vw;
+	height: 100vh;
+}
+
+#infos {
+	position: absolute;
+  right: 20px;
+  top: 0;
+  z-index: 1;
+}
+
+#exit {
+	position: absolute;
 }

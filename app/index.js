@@ -1,11 +1,17 @@
 // Vendor dependencies
 require('bootstrap/dist/js/bootstrap.js')
+require('video.js/dist/video.js')
 
 require('./stylesheets/main.scss')
 
 var Vue = require('vue')
 var VueResource = require('vue-resource')
 var VueRouter = require('vue-router')
+
+import App from './components/App.vue'
+import MovieList from './components/movies/MovieList.vue'
+import Player from './components/movies/Player.vue'
+
 Vue.use(VueResource)
 Vue.use(VueRouter)
 
@@ -14,29 +20,21 @@ Vue.transition('fade', {
   leaveClass: 'slideOutRight'
 })
 
-var App = Vue.extend({})
-
 var router = new VueRouter()
 
 router.map({
-  '/movies': {
+  '/movies/:page': {
 		name: 'movieList',
-    component: require('./components/MovieList.vue'),
-		subRoutes: {
-			'/:id': {
-				name: 'movieDetails',
-				component: require('./components/MovieDetails.vue')
-			}
-		}
+    component: MovieList
   },
 	'player/:id': {
 		name: 'player',
-		component: require('./components/Player.vue'),
+		component: Player,
 	}
 })
 
 router.redirect({
-  '*': '/movies'
+  '*': '/movies/1'
 })
 
 router.start(App, '#app')
