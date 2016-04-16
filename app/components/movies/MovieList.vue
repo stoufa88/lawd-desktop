@@ -1,6 +1,6 @@
 <template>
 	<div id="main-content">
-		<div id="movie-list" :class="{ 'container': true, loading: !movies.length }">
+		<div id="movie-list" :class="{ 'container-fluid': true, loading: !movies.length }">
 			<div class="row">
 				<div class="card" v-for="movie in movies">
 		      <img id="{{$index}}" class="card-img-top" @click="toggleDetails" v-bind:src="movie.medium_cover_image" />
@@ -8,22 +8,23 @@
 		        <h6 class="card-title" data-toggle="tooltip" data-placement="bottom"
 								title="{{movie.title}}">{{ movie.title }}
 						</h6>
-		        <p class="card-text"><small class="text-muted">{{ movie.genres }}</small></p>
-		        <p class="card-text"><small class="text-muted">{{ movie.runtime }} min</small></p>
+		        <p class="card-text"><small>{{ movie.genres.join(', ') }}</small></p>
+		        <p class="card-text"><small>{{ movie.runtime }} min</small></p>
 		      </div>
 
 					<div id="popover-details-{{movie.id}}" v-show="false">
 						<p class="description">{{ movie.synopsis }}</p>
-						<p class="director"><strong>Director: </strong>{{ movie.directors.join(', ') }}</p>
-						<p class="stars"><strong>Stars: </strong>{{ movie.cast.join(', ') }}</p>
-						<a class="btn btn-success" v-link="{ name: 'player', params: { id: movie.id }}">Play</a>
+						<span v-for="torrent in movie.torrents">
+							<a class="btn btn-success"
+								 v-link="{ name: 'player', params: { id: movie.id, hash: torrent.hash }}">
+								 {{torrent.quality}}</a>
+						</div>
 					</div>
 		    </div>
 			</div>
-		</div>
 
 		<div v-if="movies.length">
-			<button class="btn btn-primary  center-block" v-on:click="loadMore">
+			<button class="btn btn-primary center-block" v-on:click="loadMore">
 				Load more
 			</button>
 		</div>
@@ -40,7 +41,7 @@ export default {
 		return {
 			movies: [],
 			page: 1,
-			sort: 'like_count',
+			sort: 'download_count',
 			query: '',
 			popoverOpened: false
 		}
@@ -73,7 +74,7 @@ export default {
 			const location = e.clientX
 			const width = $('body')[0].offsetWidth
 
- 			let placement = (width - location) < popoverWidth ? 'left' : 'right'
+ 			let placement = (width - location) < popoverWidth + 150 ? 'left' : 'right'
 
 			$('img').popover('dispose')
 			if(that.popoverOpened) {
@@ -98,7 +99,7 @@ export default {
 			const self = this
 			self.$set('movies', [])
 			let options = {
-				sort: to.query.sort_by || 'data_added',
+				sort: to.query.sort_by || self.sort,
 				query: to.query.query || ''
 			}
 

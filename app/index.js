@@ -26,7 +26,7 @@ router.map({
 		name: 'movieList',
     component: MovieList
   },
-	'player/:id': {
+	'player/:id/:hash': {
 		name: 'player',
 		component: Player,
 	}

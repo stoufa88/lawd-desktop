@@ -5,8 +5,17 @@
 @import './_loading';
 @import './_side_nav';
 
+.bg-inverse {
+	background: $navbar-bg;
+}
+
 #main-content {
-	padding-top: 50px;
+	padding: 50px 0;
+	background: $body-bg;
+}
+
+.btn-primary:hover {
+  border: 1px solid #fff;
 }
 
 // -------------------------- App bar ----------------------------------
@@ -25,10 +34,17 @@
 //  --------------------------- Movie list ------------------------------------
 
 .card {
-  width: 150px;
-  padding: .75rem;
-  margin-bottom: 0rem;
-  border: 0;
+	width: 150px;
+	padding: 0.75rem;
+	margin-bottom: 0rem;
+	margin-right: 2rem;
+	border: 0;
+	background: none;
+	color: white;
+
+	p {
+		color: white;
+	}
 }
 
 .card .card-block{

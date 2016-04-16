@@ -1,5 +1,5 @@
-const MOVIES	=	'http://yify.is/api/v2/list_movies.json'
-const MOVIE_DETAILS	=	'http://yify.is/api/v2/movie_details.json?with_cast=true&movie_id='
+const MOVIES	=	'http://yts.ag/api/v2/list_movies.json'
+const MOVIE_DETAILS	=	'http://yts.ag/api/v2/movie_details.json?with_cast=true&movie_id='
 
 export default class DataService {
   getMovies (context, options) {
@@ -22,21 +22,20 @@ export default class DataService {
 
 	getSubData (context, imdbId) {
 		var OS = require('opensubtitles-api')
-
+console.log(imdbId)
 		var OpenSubtitles = new OS({
-	    useragent:'OSTestUserAgent',
+	    useragent:'streamer',
 	    ssl: true
 		})
 
 		return OpenSubtitles.search({
-			sublanguageid: 'fre',
+			sublanguageid: 'eng, fre',
 			extensions: ['srt', 'vtt'],
 			imdbid: imdbId,
 		}).then(function (subtitles) {
-				console.log(subtitles)
-				return context.$http({url: subtitles.fr.url, method: 'GET' }).then(function (response) {
-					return response.data
-				})
+			return context.$http({url: subtitles.fr.url, method: 'GET' }).then(function (response) {
+				return response.data
+			})
 		})
 
 	}

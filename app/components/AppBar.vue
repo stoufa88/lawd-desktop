@@ -55,10 +55,10 @@ export default {
   },
 	data () {
 		return {
-			sort: 'Most popular',
+			sort: 'Popular',
 			searchQuery: '',
 			sorting: [
-				{ value: 'download_count', text: 'Most popular' },
+				{ value: 'download_count', text: 'Popular' },
 				{ value: 'date_added', text: 'Latest' },
 				{ value: 'rating', text: 'Top rated' }
 			]

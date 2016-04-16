@@ -25,6 +25,13 @@ const srt2vtt = require('srt2vtt')
 
 const ipcRenderer = require('electron').ipcRenderer
 
+let trackers = [
+	'udp://open.demonii.com:1337/announce',
+	'udp://tracker.openbittorrent.com:80',
+ 	'udp://tracker.coppersurfer.tk:6969',
+	'udp://tracker.opentrackr.org:1337/announce'
+]
+
 export default {
 	data () {
 		return {
@@ -36,7 +43,7 @@ export default {
 	},
 
 	methods: {
-		trackInfos () {
+		toggleInfos () {
 			let self = this;
 			let exit = false;
 			$('#player').mousemove(function(event) {
@@ -59,15 +66,24 @@ export default {
 	ready () {
 		const self = this
 		const id = self.$route.params.id
+		const hash = self.$route.params.hash
 
 		self._init()
 
 		let engine = new WebTorrent()
 
 		service.getMovie(self, id).then(function(response) {
-			let movie = response.data
-			let torrent = movie.torrents.torrent[0].url
-			engine.add(torrent, function (torrent) {
+			let movie = response.data.movie
+
+			let magnetUri = 'magnet:?xt=urn:btih:' + hash
+			magnetUri += '&dn=' + encodeURI(movie.url)
+			trackers.forEach(function(t) {
+				magnetUri += '&tr=' + t
+			})
+
+			console.log(magnetUri)
+
+			engine.add(magnetUri, function (torrent) {
 				let movieFile;
 				console.log(torrent.infoHash)
 				torrent.files.forEach(function (f) {
@@ -77,11 +93,13 @@ export default {
 					}
 				});
 
+				console.info('Downloading subtitles...')
 				service.getSubData(self, movie.imdb_code).then(function(srtData) {
 					srt2vtt(srtData, function(err, vttData) {
 						if (err) throw new Error(err)
 						let vttPath = path.join(torrent.path, torrent.name, 'sub.vtt')
 						fs.writeFileSync(vttPath, vttData)
+						console.info('Sub ready, adding it to video track')
 						$('#video-player track').attr('src', vttPath);
 					})
 				})
@@ -94,7 +112,7 @@ export default {
 					self.$set('downloadSpeed', filesize(torrent.downloadSpeed) + ' /s')
 				}, 1000)
 
-				self.trackInfos()
+				self.toggleInfos()
 			})
   	})
 	},
