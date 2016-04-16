@@ -2,25 +2,10 @@
 	<div id="main-content">
 		<div id="movie-list" :class="{ 'container-fluid': true, loading: !movies.length }">
 			<div class="row">
-				<div class="card" v-for="movie in movies">
-		      <img id="{{$index}}" class="card-img-top" @click="toggleDetails" v-bind:src="movie.medium_cover_image" />
-		      <div class="card-block">
-		        <h6 class="card-title" data-toggle="tooltip" data-placement="bottom"
-								title="{{movie.title}}">{{ movie.title }}
-						</h6>
-		        <p class="card-text"><small>{{ movie.genres.join(', ') }}</small></p>
-		        <p class="card-text"><small>{{ movie.runtime }} min</small></p>
-		      </div>
-
-					<div id="popover-details-{{movie.id}}" v-show="false">
-						<p class="description">{{ movie.synopsis }}</p>
-						<span v-for="torrent in movie.torrents">
-							<a class="btn btn-success"
-								 v-link="{ name: 'player', params: { id: movie.id, hash: torrent.hash }}">
-								 {{torrent.quality}}</a>
-						</div>
-					</div>
-		    </div>
+				<movie v-for="movie in movies"
+							:movie="movie"
+							:index="$index">
+				</movie>
 			</div>
 
 		<div v-if="movies.length">
@@ -35,15 +20,18 @@
 <script>
 import DataService from '../../services/movies';
 let service = new DataService();
+import MovieItem from './MovieItem.vue'
 
 export default {
+	components: {
+		'movie': MovieItem,
+	},
 	data () {
 		return {
 			movies: [],
 			page: 1,
 			sort: 'download_count',
-			query: '',
-			popoverOpened: false
+			query: ''
 		}
 	},
 	methods: {

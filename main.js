@@ -7,8 +7,6 @@ const app = electron.app;
 const ipcMain = electron.ipcMain;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-// Path
-const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -28,7 +26,9 @@ function createWindow() {
   mainWindow.loadURL(`file://${__dirname}/app/app.html`);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (process.env.NODE_ENV == 'development') {
+      mainWindow.webContents.openDevTools();
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -58,26 +58,4 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow();
   }
-});
-
-// Torrent download
-
-const WebTorrent = require('webtorrent');
-const engine = new WebTorrent();
-
-ipcMain.on('asynchronous-message', function(event, magnetUri) {
-	engine.add(magnetUri, function (torrent) {
-		// Got torrent metadata!
-		console.log('Torrent info hash:', torrent.infoHash);
-		let movieFile;
-		// Select the file to download and load subs to the player
-		torrent.files.forEach(function (f) {
-			if (/\.(mp4|mkv)$/i.test(f.name)) {
-				if(!movieFile || f.length > movieFile.length)
-					movieFile = f;
-			}
-		});
-		// event.sender.send('moviefile', path.join('/tmp', torrent.infoHash, movieFile.path));
-		event.sender.send('moviefile', movieFile);
-	})
 });

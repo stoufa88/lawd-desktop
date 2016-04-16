@@ -9,20 +9,25 @@ export default class DataService {
 
 		console.log(sortParam)
 
-		return context.$http({url: MOVIES + pageParam + sortParam + queryParam, method: 'GET' }).then(function (response) {
+		return context.$http({
+			url: MOVIES + pageParam + sortParam + queryParam,
+			method: 'GET' 
+		}).then(function (response) {
 			return response.data
 		})
   }
 
 	getMovie (context, id) {
-		return context.$http({url: MOVIE_DETAILS + id, method: 'GET' }).then(function (response) {
+		return context.$http({
+			url: MOVIE_DETAILS + id,
+			method: 'GET' 
+		}).then(function (response) {
 			return response.data
 		})
 	}
 
 	getSubData (context, imdbId) {
 		var OS = require('opensubtitles-api')
-console.log(imdbId)
 		var OpenSubtitles = new OS({
 	    useragent:'streamer',
 	    ssl: true
