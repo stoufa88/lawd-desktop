@@ -25,6 +25,7 @@
 
 .search-control {
 	height: 38px;
+	font-size: 14px
 }
 
 .sort-control {
@@ -32,6 +33,10 @@
 }
 
 //  --------------------------- Movie list ------------------------------------
+
+#movie-list div {
+	justify-content: center;
+}
 
 .card {
 	width: 150px;
@@ -66,6 +71,10 @@
 .card > img {
 	width: 150px;
 	height: 200px;
+	cursor: pointer;
+	&:hover, &:focus {
+		outline: 2px solid #fff;
+	}
 }
 
 //  --------------------------- Movie details ------------------------------------

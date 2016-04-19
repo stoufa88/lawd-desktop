@@ -1,6 +1,7 @@
 <template>
   <div class="card">
-    <img id="{{index}}" class="card-img-top" @click="toggleDetails" v-bind:src="movie.medium_cover_image" />
+    <img id="{{index}}" class="card-img-top" @click="toggleDetails"
+          v-bind:src="movie.medium_cover_image" tabindex="0"/>
     <div class="card-block">
       <h6 class="card-title" data-toggle="tooltip" data-placement="bottom"
           title="{{movie.title}}">{{ movie.title }}
@@ -19,7 +20,7 @@
     </div>
    </div>
 </template>
- 
+
 <script>
 
 export default {
