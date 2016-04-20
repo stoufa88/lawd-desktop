@@ -13,16 +13,16 @@ config.entry = './app/index';
 config.output.publicPath = '../dist/';
 
 config.module.loaders.push({
-  test: /\.global\.css$/,
+  test: /\.global\.scss$/,
   loader: ExtractTextPlugin.extract(
     'style-loader',
-    'css-loader'
+    'css-loader!sass-loader'
   )
 }, {
-  test: /^((?!\.global).)*\.css$/,
+  test: /^((?!\.global).)*\.scss$/,
   loader: ExtractTextPlugin.extract(
     'style-loader',
-    'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+    'css-loader!sass-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
   )
 });
 
@@ -40,7 +40,15 @@ config.plugins.push(
       warnings: false
     }
   }),
-  new ExtractTextPlugin('style.css', { allChunks: true })
+  new ExtractTextPlugin('style.css', { allChunks: true }),
+  new webpack.ProvidePlugin({
+    $: "jquery",
+    jQuery: "jquery"
+  }),
+  new webpack.ProvidePlugin({
+    "window.Tether": "tether",
+    Tether: "tether"
+  })
 );
 
 config.target = webpackTargetElectronRenderer(config);
