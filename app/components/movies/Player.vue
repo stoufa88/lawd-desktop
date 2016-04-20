@@ -1,6 +1,6 @@
 <template>
   <div id="toggle-me" class="invisible">
-		<a v-link="{ name: 'movieList'}">Exit</a>
+		<a v-link="{ name: 'movieList', params: { page: 1 }}">Exit</a>
 		<p>{{ downloaded }} / {{ total }}</p>
 		<p>{{ downloadSpeed }}</p>
 	</div>
@@ -118,7 +118,7 @@ export default {
 	},
 
 	beforeDestroy() {
-		videojs('asba').dispose()
+		videojs('video-player').dispose()
 	}
 }
 </script>

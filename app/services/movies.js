@@ -11,7 +11,7 @@ export default class DataService {
 
 		return context.$http({
 			url: MOVIES + pageParam + sortParam + queryParam,
-			method: 'GET' 
+			method: 'GET'
 		}).then(function (response) {
 			return response.data
 		})
@@ -20,7 +20,7 @@ export default class DataService {
 	getMovie (context, id) {
 		return context.$http({
 			url: MOVIE_DETAILS + id,
-			method: 'GET' 
+			method: 'GET'
 		}).then(function (response) {
 			return response.data
 		})
@@ -33,11 +33,14 @@ export default class DataService {
 	    ssl: true
 		})
 
+    console.log(imdbId)
+
 		return OpenSubtitles.search({
 			sublanguageid: 'eng, fre',
 			extensions: ['srt', 'vtt'],
 			imdbid: imdbId,
 		}).then(function (subtitles) {
+      console.log(subtitles)
 			return context.$http({url: subtitles.fr.url, method: 'GET' }).then(function (response) {
 				return response.data
 			})
