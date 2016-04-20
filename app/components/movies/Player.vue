@@ -7,7 +7,8 @@
 
 	<div id="player">
 		<video id="video-player" class="video-js vjs-default-skin vjs-big-play-centered">
-			<track kind="captions" srclang="en" label="English" default>
+			<track kind="captions" srclang="en" label="English">
+			<track kind="captions" srclang="fr" label="French" default>
 		</video>
 	</div>
 </template>
@@ -94,14 +95,22 @@ export default {
 				});
 
 				console.info('Downloading subtitles...')
-				service.getSubData(self, movie.imdb_code).then(function(srtData) {
-					srt2vtt(srtData, function(err, vttData) {
-						if (err) throw new Error(err)
-						let vttPath = path.join(torrent.path, torrent.name, 'sub.vtt')
-						fs.writeFileSync(vttPath, vttData)
-						console.info('Sub ready, adding it to video track')
-						$('#video-player track').attr('src', vttPath);
-					})
+				service.getSubData(self, movie.imdb_code).then(function(subs) {
+          console.log(subs)
+          for(const lang in subs) {
+            let sub = subs[lang]
+            console.log(sub)
+            self.$http({url: sub.url, method: 'GET' }).then(function (response) {
+              srt2vtt(response.data, function(err, vttData) {
+    						if (err) throw new Error(err)
+                let filename = 'sub' + - sub.lang + ''
+    						let vttPath = path.join(torrent.path, torrent.name, filename)
+    						fs.writeFileSync(vttPath, vttData)
+    						console.info('Sub ready, adding it to video track')
+    						$('#video-player track[srclang='+ sub.lang +'] ').attr('src', vttPath);
+    					})
+            })
+          }
 				})
 
 				movieFile.renderTo('video')

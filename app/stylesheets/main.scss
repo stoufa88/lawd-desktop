@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Cabin:400,500,400italic,500italic,600,600italic,700,700italic);
 @import './_variables';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~animate.css/animate.min.css';
@@ -19,6 +20,11 @@
 }
 
 // -------------------------- App bar ----------------------------------
+
+.navbar-brand {
+	text-transform: uppercase;
+}
+
 .sort-button {
 	margin-right: 75px;
 }

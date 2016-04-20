@@ -4,7 +4,7 @@
       &#9776;
     </button>
 
-    <a class="navbar-brand" href="#">Streamer</a>
+    <a class="navbar-brand" href="#">Homely</a>
 
 		<form class="form-inline pull-xs-right">
 			<div class="form-group">

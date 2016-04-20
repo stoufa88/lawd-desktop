@@ -1,5 +1,16 @@
+$font-family-sans-serif: Cabin, Arial, sans-serif;
+$font-family-serif:      Georgia, "Times New Roman", Times, serif;
+$font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$font-family-base:       $font-family-sans-serif;
+
+$brand-primary:             brown;
+$brand-success:             #5cb85c;
+$brand-info:                #5bc0de;
+$brand-warning:             #f0ad4e;
+$brand-danger:              #d9534f;
+
 $body-bg: #333;
-$navbar-bg: brown;
+$navbar-bg: $brand-primary;
 
 $btn-secondary-color:            #fff !default;
 $btn-secondary-bg:               transparent !default;

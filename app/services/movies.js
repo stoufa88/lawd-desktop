@@ -33,17 +33,12 @@ export default class DataService {
 	    ssl: true
 		})
 
-    console.log(imdbId)
-
 		return OpenSubtitles.search({
 			sublanguageid: 'eng, fre',
 			extensions: ['srt', 'vtt'],
 			imdbid: imdbId,
 		}).then(function (subtitles) {
-      console.log(subtitles)
-			return context.$http({url: subtitles.fr.url, method: 'GET' }).then(function (response) {
-				return response.data
-			})
+      return subtitles
 		})
 
 	}
