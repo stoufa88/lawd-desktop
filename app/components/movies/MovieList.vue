@@ -18,9 +18,10 @@
 </template>
 
 <script>
-import DataService from '../../services/movies';
-let service = new DataService();
+import DataService from '../../services/movies'
 import MovieItem from './MovieItem.vue'
+
+let service = new DataService()
 
 export default {
 	components: {
@@ -53,32 +54,6 @@ export default {
 					self.movies.push(movie)
 				}
 			})
-		},
-		toggleDetails: function(e) {
-			const that = this
-			const index = e.target.id
-
-			const popoverWidth = 346
-			const location = e.clientX
-			const width = $('body')[0].offsetWidth
-
- 			let placement = (width - location) < popoverWidth + 150 ? 'left' : 'right'
-
-			$('img').popover('dispose')
-			if(that.popoverOpened) {
-				that.$set('popoverOpened', false)
-				return
-			}
-
-			$(e.target).popover({
-				title: that.movies[index].title,
-				content: $('#popover-details-' + that.movies[index].id).html(),
-				html: true,
-				placement: placement
-			})
-
-			$(e.target).popover('show')
-			that.$set('popoverOpened', true)
 		}
 	},
 
@@ -86,6 +61,9 @@ export default {
     data ({ to }) {
 			const self = this
 			self.$set('movies', [])
+
+			console.log(this.$route)
+
 			let options = {
 				sort: to.query.sort_by || self.sort,
 				query: to.query.query || ''

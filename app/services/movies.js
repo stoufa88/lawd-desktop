@@ -7,7 +7,7 @@ export default class DataService {
 		const sortParam = '&sort_by=' + options.sort
 		const queryParam = '&query_term=' + options.query
 
-		console.log(sortParam)
+		console.log('Fetching movies with...', options)
 
 		return context.$http({
 			url: MOVIES + pageParam + sortParam + queryParam,

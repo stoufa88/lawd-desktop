@@ -1,14 +1,14 @@
 <template>
 	<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
+		<!-- <button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
       &#9776;
-    </button>
+    </button> -->
 
     <a class="navbar-brand" href="#">Homely</a>
 
-		<form class="form-inline pull-xs-right">
+		<form class="form-inline pull-xs-right" v-on:submit="search">
 			<div class="form-group">
-				<input v-model="searchQuery" v-on:keyup.enter="search" type="text"
+				<input v-model="searchQuery" type="text"
 					class="form-control search-control" placeholder="Movie Title, Actor Name, ImDB codes">
 			</div>
 		</form>
@@ -46,7 +46,6 @@ export default {
 				params: {
 					page: 1
 				}
-
 			})
 		},
 		updateSort: function( text) {
