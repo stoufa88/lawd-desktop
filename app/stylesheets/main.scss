@@ -19,6 +19,11 @@
   border: 1px solid #fff;
 }
 
+.popover-content {
+	max-height: 16rem;
+	overflow: auto;
+}
+
 // -------------------------- App bar ----------------------------------
 
 .navbar-brand {
@@ -31,7 +36,8 @@
 
 .search-control {
 	height: 38px;
-	font-size: 14px
+	font-size: 14px;
+	width: 15rem !important;
 }
 
 .sort-control {
@@ -84,30 +90,9 @@
 }
 
 //  --------------------------- Movie details ------------------------------------
-#movie-details{
-	position: fixed;
-	top: 0;
-	z-index: 5000;
-	right: 0;
-	background: rgba(51, 51, 51, 0.93);
-	height: 100%;
-	width: 75%;
-	#movie-header{
-		position: relative;
-		h1.title{
-			text-align: center;
-			text-transform: uppercase;
-			color: #fff;
-			padding-top: 50px;
-		}
-		a.close{
-			position: absolute;
-			right: 25px;
-			top: 0;
-			font-size: 25px;
-			color: #fff;
-		}
-	}
+
+.torrent-links {
+	margin-right: 10px;
 }
 
 /******************** Player *************************/

@@ -25,21 +25,4 @@ export default class DataService {
 			return response.data
 		})
 	}
-
-	getSubData (context, imdbId) {
-		var OS = require('opensubtitles-api')
-		var OpenSubtitles = new OS({
-	    useragent:'streamer',
-	    ssl: true
-		})
-
-		return OpenSubtitles.search({
-			sublanguageid: 'eng, fre',
-			extensions: ['srt', 'vtt'],
-			imdbid: imdbId,
-		}).then(function (subtitles) {
-      return subtitles
-		})
-
-	}
 }

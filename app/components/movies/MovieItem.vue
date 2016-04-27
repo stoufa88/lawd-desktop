@@ -12,7 +12,7 @@
 
     <div id="popover-details-{{movie.id}}" v-show="false">
       <p class="description">{{ movie.synopsis }}</p>
-      <span v-for="torrent in movie.torrents">
+      <span class="torrent-links" v-for="torrent in movie.torrents | filterBy 'p' in 'quality'">
         <a class="btn btn-success"
             v-link="{ name: 'player', params: { id: movie.id, hash: torrent.hash }}">
             {{torrent.quality}}</a>
@@ -39,10 +39,10 @@ export default {
 			const index = e.target.id
 
 			const popoverWidth = 346
-			const location = e.clientX
+			const locationX = e.clientX
 			const width = $('body')[0].offsetWidth
 
- 			let placement = (width - location) < popoverWidth + 150 ? 'left' : 'right'
+ 			let placement = (width - locationX) < popoverWidth + 150 ? 'left' : 'right'
 
 			$('img').popover('dispose')
 			if(that.popoverOpened) {

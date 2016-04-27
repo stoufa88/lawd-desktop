@@ -7,22 +7,20 @@
 
 	<div id="player">
 		<video id="video-player" class="video-js vjs-default-skin vjs-big-play-centered">
-			<track kind="captions" srclang="en" label="English">
-			<track kind="captions" srclang="fr" label="French" default>
 		</video>
 	</div>
 </template>
 
 <script>
 import DataService from '../../services/movies'
-let service = new DataService()
+import SubtitlesServices from '../../services/subs'
+import Engine from '../../services/engine'
 
-const WebTorrent = require('webtorrent')
+let movieService = new DataService()
+
 const filesize = require('filesize')
 const videojs = require('video.js')
 const path = require('path')
-const fs = require('fs')
-const srt2vtt = require('srt2vtt')
 
 const ipcRenderer = require('electron').ipcRenderer
 
@@ -37,15 +35,16 @@ export default {
 	data () {
 		return {
 			movie: {},
-			downloaded: 0,
       total: 0,
+      torrent: {},
+      downloaded: 0,
       downloadSpeed: '0 /s'
 		}
 	},
 
 	methods: {
-		toggleInfos () {
-			let self = this;
+    refreshInfoUI () {
+      let self = this;
 			let exit = false;
 			$('#player').mousemove(function(event) {
 				if(exit) return
@@ -56,12 +55,27 @@ export default {
 					exit = false
 				}, 5000)
 			});
-		},
+
+      setInterval(() => {
+        self.$set('downloaded', filesize(self.torrent.downloaded))
+        self.$set('downloadSpeed', filesize(self.torrent.downloadSpeed) + ' /s')
+      }, 1000)
+    },
 
 		_init() {
-			$('.popover').remove()
-			videojs("video-player", { "controls": true, "autoplay": false, "preload": "auto" });
-		}
+      if('.popover')
+			  $('.popover').remove()
+			videojs('video-player', { 'controls': true, 'autoplay': false, 'preload': 'auto' })
+		},
+
+    addSubtitle(lang, path) {
+      console.info('New subtitle is added', lang)
+      let label = lang == 'en' ? 'English' : 'Français'
+      $('#video-player_html5_api').append(
+        `<track kind="captions" srclang=''${lang} label=${label} src=${path}>`
+      )
+    }
+
 	},
 
 	ready () {
@@ -71,9 +85,7 @@ export default {
 
 		self._init()
 
-		let engine = new WebTorrent()
-
-		service.getMovie(self, id).then(function(response) {
+		movieService.getMovie(self, id).then(function(response) {
 			let movie = response.data.movie
 
 			let magnetUri = 'magnet:?xt=urn:btih:' + hash
@@ -82,52 +94,36 @@ export default {
 				magnetUri += '&tr=' + t
 			})
 
-			console.log(magnetUri)
+      // Start torrent downlaod and streaming
+      let engine = new Engine()
+      engine.addMagnet(magnetUri, ((file) => {
+        file.renderTo('video')
 
-			engine.add(magnetUri, function (torrent) {
-				let movieFile;
-				console.log(torrent.infoHash)
-				torrent.files.forEach(function (f) {
-					if (/\.(mp4|mkv)$/i.test(f.name)) {
-						if(!movieFile || f.length > movieFile.length)
-							movieFile = f;
-					}
-				});
+        var torrent = engine.getTorrent(hash)
+        self.$set('torrent', torrent)
+        self.$set('total', filesize(file.length))
 
-				console.info('Downloading subtitles...')
-				service.getSubData(self, movie.imdb_code).then(function(subs) {
-          console.log(subs)
+        self.refreshInfoUI()
+
+        // Call the subs service and add the available subs.
+        let subsService = new SubtitlesServices(self)
+        subsService.getSubtitles(movie.imdb_code).then(function(subs) {
           for(const lang in subs) {
             let sub = subs[lang]
-            console.log(sub)
-            self.$http({url: sub.url, method: 'GET' }).then(function (response) {
-              srt2vtt(response.data, function(err, vttData) {
-    						if (err) throw new Error(err)
-                let filename = 'sub' + - sub.lang + ''
-    						let vttPath = path.join(torrent.path, torrent.name, filename)
-    						fs.writeFileSync(vttPath, vttData)
-    						console.info('Sub ready, adding it to video track')
-    						$('#video-player track[srclang='+ sub.lang +'] ').attr('src', vttPath);
-    					})
+            let dir = path.join(torrent.path, torrent.name)
+            subsService.saveSubData(sub, dir, function(vttPath) {
+              self.addSubtitle(lang, encodeURI(vttPath))
             })
           }
-				})
+        })
+      }))
 
-				movieFile.renderTo('video')
-
-				self.$set('total', filesize(movieFile.length))
-				setInterval(() => {
-					self.$set('downloaded', filesize(torrent.downloaded))
-					self.$set('downloadSpeed', filesize(torrent.downloadSpeed) + ' /s')
-				}, 1000)
-
-				self.toggleInfos()
-			})
   	})
 	},
 
 	beforeDestroy() {
 		videojs('video-player').dispose()
+    this.torrent.destroy()
 	}
 }
 </script>
