@@ -8,10 +8,11 @@
 
 .bg-inverse {
 	background: $navbar-bg;
+	border-bottom: 1px solid #ddd;
 }
 
 #main-content {
-	padding: 50px 0;
+	padding: 75px 0;
 	background: $body-bg;
 }
 

@@ -1,7 +1,9 @@
 const path = require('path')
+const http = require('http')
 const fs = require('fs')
 const srt2vtt = require('srt2vtt')
 const OS = require('opensubtitles-api')
+const iconv  = require('iconv-lite')
 import DataService from './movies'
 
 export default class Subtitles {
@@ -21,21 +23,26 @@ export default class Subtitles {
 			extensions: ['srt', 'vtt'],
 			imdbid: imdbId,
 		}).then(function (subtitles) {
+      console.log(subtitles)
       return subtitles
 		})
 	}
 
   saveSubData(sub, dir, cb) {
     let self = this
-    return self.context.$http({url: sub.url, method: 'GET' }).then(function (response) {
-      return srt2vtt(response.data, function(err, vttData) {
-        if (err) throw new Error(err)
-        let filename = 'sub-' + sub.lang
-        let vttPath = path.join(dir, filename)
-        fs.writeFileSync(vttPath, vttData)
-        cb(vttPath)
-      })
-    })
+
+    http.get(sub.url, function(res) {
+      res.pipe(iconv.decodeStream('win1252')).collect(function(err, decodedBody) {
+        srt2vtt(decodedBody, function(err, vttData) {
+          if (err) throw new Error(err)
+
+          let filename = 'sub-' + sub.lang + 'vtt'
+          let vttPath = path.join(dir, filename)
+          fs.writeFileSync(vttPath, vttData)
+          cb(vttPath)
+        })
+      });
+    });
   }
 
 }

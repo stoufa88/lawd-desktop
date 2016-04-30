@@ -8,9 +8,10 @@ $brand-success:             #5cb85c;
 $brand-info:                #5bc0de;
 $brand-warning:             #f0ad4e;
 $brand-danger:              #d9534f;
+$brand-background:          #333;
 
-$body-bg: #333;
-$navbar-bg: $brand-primary;
+$body-bg: $brand-background;
+$navbar-bg: $brand-background;
 
 $btn-secondary-color:            #fff !default;
 $btn-secondary-bg:               transparent !default;

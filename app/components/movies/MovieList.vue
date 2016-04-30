@@ -1,5 +1,5 @@
 <template>
-	<div id="main-content">
+	<div id="main-content" @click="escape" v-on:keyup.27="escape">
 		<div id="movie-list" :class="{ 'container-fluid': true, loading: !movies.length }">
 			<div class="row">
 				<movie v-for="movie in movies"
@@ -54,6 +54,12 @@ export default {
 					self.movies.push(movie)
 				}
 			})
+		},
+
+		escape: function() {
+			if($('.popover').length > 0) {
+				$('img').popover('dispose')
+			}
 		}
 	},
 

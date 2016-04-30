@@ -26,7 +26,8 @@
 export default {
   props: {
     movie: Object,
-    index: Number
+    index: Number,
+
   },
 	data () {
 		return {
@@ -35,7 +36,13 @@ export default {
 	},
 	methods: {
 		toggleDetails: function(e) {
-			const that = this
+      if($('.popover').length > 0) {
+        e.stopPropagation()
+        this.$set('popoverOpened', false)
+        $('img').popover('dispose')
+        return
+      }
+
 			const index = e.target.id
 
 			const popoverWidth = 346
@@ -44,21 +51,16 @@ export default {
 
  			let placement = (width - locationX) < popoverWidth + 150 ? 'left' : 'right'
 
-			$('img').popover('dispose')
-			if(that.popoverOpened) {
-				that.$set('popoverOpened', false)
-				return
-			}
+      e.stopPropagation()
 
 			$(e.target).popover({
-				title: that.movie.title,
-				content: $('#popover-details-' + that.movie.id).html(),
+				title: this.movie.title,
+				content: $('#popover-details-' + this.movie.id).html(),
 				html: true,
 				placement: placement
 			})
 
 			$(e.target).popover('show')
-			that.$set('popoverOpened', true)
 		}
 	}
 }
