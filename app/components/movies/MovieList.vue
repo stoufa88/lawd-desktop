@@ -1,6 +1,6 @@
 <template>
 	<div id="main-content" @click="escape" v-on:keyup.27="escape">
-		<div id="movie-list" :class="{ 'container-fluid': true, loading: !movies.length }">
+		<div id="movie-list" v-if="movies" :class="{ 'container-fluid': true, loading: !movies.length }">
 			<div class="row">
 				<movie v-for="movie in movies"
 							:movie="movie"
@@ -8,10 +8,15 @@
 				</movie>
 			</div>
 
-		<div v-if="movies.length">
-			<button class="btn btn-primary center-block" v-on:click="loadMore">
-				Load more
-			</button>
+			<div v-if="movies.length">
+				<button class="btn btn-primary center-block" v-on:click="loadMore">
+					{{ $t('movies.more') }}
+				</button>
+			</div>
+		</div>
+
+		<div v-if="!movies">
+			<p class="text-xs-center text-info">{{ randomEmptyMessage() }}</p>
 		</div>
 	</div>
 
@@ -20,6 +25,7 @@
 <script>
 import DataService from '../../services/movies'
 import MovieItem from './MovieItem.vue'
+import nokat from '../../i18n/nokat.js'
 
 let service = new DataService()
 
@@ -60,6 +66,9 @@ export default {
 			if($('.popover').length > 0) {
 				$('img').popover('dispose')
 			}
+		},
+		randomEmptyMessage: function() {
+			return nokat[Math.floor(Math.random() * nokat.length)]
 		}
 	},
 

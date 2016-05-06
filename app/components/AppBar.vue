@@ -4,12 +4,12 @@
       &#9776;
     </button> -->
 
-    <a class="navbar-brand" href="#">Homely</a>
+    <a class="navbar-brand" href="#">specta</a>
 
 		<form class="form-inline pull-xs-right" v-on:submit="search">
 			<div class="form-group">
 				<input v-model="searchQuery" type="text"
-					class="form-control search-control" placeholder="Movie Title, Actor Name, ImDB codes">
+					class="form-control search-control" placeholder="{{ $t('movies.search') }}">
 			</div>
 		</form>
 
@@ -32,6 +32,9 @@
 <script>
 export default {
 	methods: {
+		getMessage: function (key) {
+      return this.$t(key)
+    },
 		toggleMenu: function() {
 			$('#wrapper').toggleClass('side-menu-open');
 		},
@@ -54,12 +57,12 @@ export default {
   },
 	data () {
 		return {
-			sort: 'Popular',
+			sort: this.getMessage('movies.popular'),
 			searchQuery: '',
 			sorting: [
-				{ value: 'download_count', text: 'Popular' },
-				{ value: 'date_added', text: 'Latest' },
-				{ value: 'rating', text: 'Top rated' }
+				{ value: 'download_count', text: this.getMessage('movies.popular') },
+				{ value: 'date_added', text: this.getMessage('movies.latest') },
+				{ value: 'rating', text: this.getMessage('movies.top_rated') }
 			]
 		}
 	}
