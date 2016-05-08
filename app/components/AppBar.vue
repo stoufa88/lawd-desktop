@@ -4,7 +4,7 @@
       &#9776;
     </button> -->
 
-    <a class="navbar-brand" href="#">tlatach</a>
+    <a class="navbar-brand" href="#">kickbg</a>
 
 		<form class="form-inline pull-xs-right" v-on:submit="search">
 			<div class="form-group">
@@ -43,11 +43,11 @@ export default {
 			this.$route.router.go({
 				name: 'movieList',
 				query: {
-					query: this.searchQuery,
+					searchQuery: this.searchQuery,
 					sort: this.$route.query.sort
 				},
 				params: {
-					page: 1
+					skip: 0
 				}
 			})
 		},
@@ -57,12 +57,12 @@ export default {
   },
 	data () {
 		return {
-			sort: this.getMessage('movies.popular'),
+			sort: this.getMessage('movies.top_rated'),
 			searchQuery: '',
 			sorting: [
-				{ value: 'download_count', text: this.getMessage('movies.popular') },
-				{ value: 'date_added', text: this.getMessage('movies.latest') },
-				{ value: 'rating', text: this.getMessage('movies.top_rated') }
+				//{ value: 'popular', text: this.getMessage('movies.popular') },
+				{ value: 'random', text: this.getMessage('movies.random') },
+				{ value: 'imdbRating', text: this.getMessage('movies.top_rated') }
 			]
 		}
 	}

@@ -36,9 +36,9 @@ export default {
 	data () {
 		return {
 			movies: [],
-			page: 1,
-			sort: 'download_count',
-			query: ''
+			skip: 0,
+			sort: 'top_rated',
+			searchQuery: ''
 		}
 	},
 	methods: {
@@ -47,16 +47,16 @@ export default {
 		// XXX: Here we loop the array, should we concat?
 		loadMore: function() {
 			const self = this
-			self.$set('page', self.page + 1)
+			self.$set('skip', self.skip + 10)
 
 			let options = {
 				sort: self.sort,
-				query: self.query,
-				page: self.page
+				query: self.searchQuery,
+				skip: self.skip
 			}
 
-			service.getMovies(self, options).then(function(response) {
-				for (let movie of response.data.movies) {
+			service.getMoviesFromParse(options).then(function(results) {
+				for (let movie of results) {
 					self.movies.push(movie)
 				}
 			})
@@ -77,26 +77,25 @@ export default {
 			const self = this
 			self.$set('movies', [])
 
-			console.log(this.$route)
-
 			let options = {
 				sort: to.query.sort_by || self.sort,
-				query: to.query.query || ''
+				searchQuery: to.query.searchQuery || '',
+				skip: 0
 			}
 
 			self.$set('sort', options.sort)
-			self.$set('query', options.query)
+			self.$set('searchQuery', options.searchQuery)
 
-			service.getMovies(self, options).then(function(response) {
-				self.$set('movies', response.data.movies)
-			});
+			service.getMoviesFromParse(options).then(function(results){
+				self.$set('movies', results)
+			})
     }
   },
 	events: {
-		'search-query': function(query) {
+		'search-query': function(searchQuery) {
 			const self = this
 
-			self.$set('query', query)
+			self.$set('searchQuery', searchQuery)
 			self.$set('page', 1)
 			self.$set('movies', [])
 			service.getMovies(self).then(function(response) {
