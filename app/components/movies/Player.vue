@@ -25,9 +25,10 @@ const path = require('path')
 const ipcRenderer = require('electron').ipcRenderer
 
 let trackers = [
-	'udp://open.demonii.com:1337/announce',
-	'udp://tracker.openbittorrent.com:80',
- 	'udp://tracker.coppersurfer.tk:6969',
+	'udp://tracker.publicbt.com:80/announce',
+	'udp://glotorrents.pw:6969/announce',
+  'udp://tracker.coppersurfer.tk:6969/announce',
+ 	'udp://tracker.openbittorrent.com:80/announce',
 	'udp://tracker.opentrackr.org:1337/announce'
 ]
 
@@ -63,8 +64,9 @@ export default {
     },
 
 		_init() {
-      if('.popover')
-			  $('.popover').remove()
+      if('.popover') {
+        $('.popover').remove()
+      }
 			videojs('video-player', { 'controls': true, 'autoplay': false, 'preload': 'auto' })
 		},
 
@@ -85,19 +87,20 @@ export default {
 
 		self._init()
 
-		movieService.getMovie(self, id).then(function(response) {
-			let movie = response.data.movie
-
+		movieService.getMovieFromParse(id).then(function(movie) {
 			let magnetUri = 'magnet:?xt=urn:btih:' + hash
-			magnetUri += '&dn=' + encodeURI(movie.url)
+			magnetUri += '&dn=' + encodeURI(movie.get('torrents')[0].name)
 			trackers.forEach(function(t) {
 				magnetUri += '&tr=' + t
 			})
 
-      // Start torrent downlaod and streaming
+      // Start torrent download and streaming
       let engine = new Engine()
       engine.addMagnet(magnetUri, ((file) => {
-        file.renderTo('video')
+        console.log(file.path)
+        file.renderTo('video', function(err, elem) {
+          console.log(err, elem)
+        })
 
         var torrent = engine.getTorrent(hash)
         self.$set('torrent', torrent)
@@ -107,7 +110,7 @@ export default {
 
         // Call the subs service and add the available subs.
         let subsService = new SubtitlesServices(self)
-        subsService.getSubtitles(movie.imdb_code).then(function(subs) {
+        subsService.getSubtitles(movie.get('imdbID')).then(function(subs) {
           for(const lang in subs) {
             let sub = subs[lang]
             let dir = path.join(torrent.path, torrent.name)

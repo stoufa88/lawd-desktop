@@ -17,7 +17,7 @@
       <p class="description">{{ movie.get('plot') }}</p>
       <span class="torrent-links" v-for="torrent in movie.get('torrents') | filterBy 'p' in 'quality'">
         <a class="btn btn-success"
-            v-link="{ name: 'player', params: { id: movie.id, hash: torrent.hash }}">
+            v-link="{ name: 'player', params: { id: movie.id, hash: torrent.info_hash }}">
             Tfaraj {{torrent.quality}}</a>
       </span>
     </div>

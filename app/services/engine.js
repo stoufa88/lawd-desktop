@@ -22,7 +22,7 @@ export default class Engine {
 
       let movieFile;
       torrent.files.forEach(function (f) {
-        if (/\.(mp4|mkv)$/i.test(f.name)) {
+        if (/\.(mp4|mkv|avi)$/i.test(f.name)) {
           if(!movieFile || f.length > movieFile.length){
             movieFile = f
           }

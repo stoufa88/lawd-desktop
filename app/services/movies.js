@@ -1,5 +1,4 @@
 import Parse from 'parse/node'
-import _ from 'underscore'
 
 const MOVIES_PARSE_ENDPOINT = 'http://149.202.45.9/parse/hammamet/classes/Movie'
 
@@ -7,6 +6,7 @@ Parse.initialize('88c22318aaeda928f5a9748884203f6b6c1a6d46');
 Parse.serverURL = 'http://149.202.45.9/parse/streaming'
 
 export default class DataService {
+
   // options are sort, skip and query
   getMoviesFromParse (options) {
     var Movie = Parse.Object.extend('Movie');
@@ -15,7 +15,6 @@ export default class DataService {
     query.skip(options.skip)
     query.exists('plot')
     query.notEqualTo('poster', 'N/A')
-    query.exists('imdbRating')
 
     if(options.searchQuery) {
       query.contains('name', options.searchQuery)
@@ -26,20 +25,19 @@ export default class DataService {
     }
 
     return query.find().then(function(results) {
+      results.forEach(function(movie){
+        console.log(movie.get('released'))
+      })
       return results
     });
   }
 
-  getMovieFromParse(context, id) {
-    return context.$http({
-			url: `${MOVIES_PARSE_ENDPOINT}/${id}`,
-			method: 'GET'
-		}).then(function (response) {
-			return response.data
-		})
+  getMovieFromParse(id) {
+    var Movie = Parse.Object.extend('Movie');
+    var query = new Parse.Query(Movie);
+
+    return query.get(id).then(function(result) {
+      return result
+    });
   }
 }
-
-let popularRatings = _.map(_.range(7, 10, 0.1), ((v) => {
-  return (Math.round( v * 10 ) / 10).toString()
-}))
