@@ -55,8 +55,6 @@ export default {
 				}, 5000)
 			});
 
-      self.$set('total', filesize(self.torrent.files[0].length))
-
       setInterval(() =>{
         self.$set('downloaded', filesize(self.torrent.downloaded))
         self.$set('downloadSpeed', filesize(self.torrent.downloadSpeed) + ' /s')
@@ -96,13 +94,20 @@ export default {
 
       // Start torrent download and streaming
       let engine = new Engine()
-      engine.addMagnet(magnetUri, ((torrent) => {
-        $('#video-player_html5_api').attr(
-          'src',
-          'http://localhost:25111/0'
-        )
+      engine.addMagnet(magnetUri, ((torrent, mediaIndex, mediaType) => {
+        console.info('Player: media type is', mediaType)
+
+        if(mediaType == 'mp4') {
+          torrent.files[mediaIndex].renderTo('video')
+        }else if(mediaType == 'mkv') {
+          $('#video-player_html5_api').attr(
+            'src',
+            'http://localhost:25111/0'
+          )
+        }
 
         self.$set('torrent', torrent)
+        self.$set('total', filesize(self.torrent.files[mediaIndex].length))
         self.donwloadInfosInit()
 
         // Call the subs service and add the available subs.

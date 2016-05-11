@@ -22,10 +22,20 @@ export default class Engine {
       server = torrent.createServer()
       server.listen('25111')
 
-      torrent.files.forEach(function (f) {
+      let movieFile
+      let mediaIndex = 0
+      torrent.files.forEach(function (f, index) {
         f.select()
+
+        if (/\.(mp4|mkv)$/i.test(f.name)) {
+          if(!movieFile || f.length > movieFile.length){
+            movieFile = f
+            mediaIndex = index
+          }
+        }
       })
-      cb(torrent)
+      let mediaType = movieFile.name.indexOf('mkv') > -1 ? 'mkv' : 'mp4'
+      cb(torrent, mediaIndex, mediaType)
     })
   }
 
