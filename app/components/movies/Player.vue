@@ -1,7 +1,7 @@
 <template>
   <div id="toggle-me" class="invisible">
 		<a v-link="{ name: 'movieList', params: { page: 1 }}">Exit</a>
-		<p>{{ downloaded }} / {{ total }}</p>
+		<p>{{ downloaded }} / {{ total }} </p>
 		<p>{{ downloadSpeed }}</p>
 	</div>
 
@@ -22,8 +22,6 @@ const filesize = require('filesize')
 const videojs = require('video.js')
 const path = require('path')
 
-const ipcRenderer = require('electron').ipcRenderer
-
 let trackers = [
 	'udp://tracker.publicbt.com:80/announce',
 	'udp://glotorrents.pw:6969/announce',
@@ -36,15 +34,15 @@ export default {
 	data () {
 		return {
 			movie: {},
-      total: 0,
       torrent: {},
       downloaded: 0,
-      downloadSpeed: '0 /s'
+      downloadSpeed: 0,
+      total: 0
 		}
 	},
 
 	methods: {
-    refreshInfoUI () {
+    donwloadInfosInit () {
       let self = this;
 			let exit = false;
 			$('#player').mousemove(function(event) {
@@ -57,7 +55,9 @@ export default {
 				}, 5000)
 			});
 
-      setInterval(() => {
+      self.$set('total', filesize(self.torrent.files[0].length))
+
+      setInterval(() =>{
         self.$set('downloaded', filesize(self.torrent.downloaded))
         self.$set('downloadSpeed', filesize(self.torrent.downloadSpeed) + ' /s')
       }, 1000)
@@ -96,24 +96,21 @@ export default {
 
       // Start torrent download and streaming
       let engine = new Engine()
-      engine.addMagnet(magnetUri, ((file) => {
-        console.log(file.path)
-        file.renderTo('video', function(err, elem) {
-          console.log(err, elem)
-        })
+      engine.addMagnet(magnetUri, ((torrent) => {
+        $('#video-player_html5_api').attr(
+          'src',
+          'http://localhost:25111/0'
+        )
 
-        var torrent = engine.getTorrent(hash)
         self.$set('torrent', torrent)
-        self.$set('total', filesize(file.length))
-
-        self.refreshInfoUI()
+        self.donwloadInfosInit()
 
         // Call the subs service and add the available subs.
-        let subsService = new SubtitlesServices(self)
+        let subsService = new SubtitlesServices()
         subsService.getSubtitles(movie.get('imdbID')).then(function(subs) {
           for(const lang in subs) {
             let sub = subs[lang]
-            let dir = path.join(torrent.path, torrent.name)
+            let dir = path.join(torrent.path)
             subsService.saveSubData(sub, dir, function(vttPath) {
               self.addSubtitle(lang, encodeURI(vttPath))
             })
@@ -126,7 +123,7 @@ export default {
 
 	beforeDestroy() {
 		videojs('video-player').dispose()
-    this.torrent.destroy()
+    this.torrent.destroy(() => console.info('Torrent destroyed.'))
 	}
 }
 </script>

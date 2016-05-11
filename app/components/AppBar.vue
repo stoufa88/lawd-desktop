@@ -57,11 +57,10 @@ export default {
   },
 	data () {
 		return {
-			sort: this.getMessage('movies.top_rated'),
+			sort: this.getMessage('movies.popular'),
 			searchQuery: '',
 			sorting: [
-				//{ value: 'popular', text: this.getMessage('movies.popular') },
-				{ value: 'random', text: this.getMessage('movies.random') },
+				{ value: 'popular', text: this.getMessage('movies.popular') },
 				{ value: 'imdbRating', text: this.getMessage('movies.top_rated') }
 			]
 		}

@@ -7,8 +7,7 @@ const iconv  = require('iconv-lite')
 import DataService from './movies'
 
 export default class Subtitles {
-  constructor(context) {
-    this.context = context
+  constructor() {
   }
 
   getSubtitles(imdbId) {
@@ -31,12 +30,16 @@ export default class Subtitles {
   saveSubData(sub, dir, cb) {
     let self = this
 
-    http.get(sub.url, function(res) {
+    // Open subs api is broken
+    // Remove the .srt the file url to download
+    let url = sub.url.slice(0, sub.url.indexOf('.srt'))
+
+    http.get(url, function(res) {
       res.pipe(iconv.decodeStream('win1252')).collect(function(err, decodedBody) {
         srt2vtt(decodedBody, function(err, vttData) {
           if (err) throw new Error(err)
 
-          let filename = 'sub-' + sub.lang + 'vtt'
+          let filename = 'sub-' + sub.lang + '.vtt'
           let vttPath = path.join(dir, filename)
           fs.writeFileSync(vttPath, vttData)
           cb(vttPath)

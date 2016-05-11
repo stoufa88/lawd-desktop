@@ -20,14 +20,16 @@ export default class DataService {
       query.contains('name', options.searchQuery)
     }
 
-    if(options.sort) {
-      query.descending(options.sort)
+    if(options.sort == 'popular') {
+      query.descending('released')
+      query.greaterThan('imdbVotes', 100)
+    }
+
+    if(options.sort == 'imdbRating') {
+      query.descending('imdbRating')
     }
 
     return query.find().then(function(results) {
-      results.forEach(function(movie){
-        console.log(movie.get('released'))
-      })
       return results
     });
   }

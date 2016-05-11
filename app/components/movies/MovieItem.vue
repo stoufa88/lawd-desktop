@@ -8,18 +8,22 @@
       </h6>
       <p class="card-text"><small>{{ movie.get('genre') }}</small></p>
       <p class="card-text">
-        <small class="pull-xs-left">{{ movie.get('released') }}</small>
+        <small class="pull-xs-left">{{ releaseDate }}</small>
         <small class="pull-xs-right">{{ movie.get('runtime') }}</small>
       </p>
     </div>
 
     <div id="popover-details-{{movie.id}}" v-show="false">
       <p class="description">{{ movie.get('plot') }}</p>
-      <span class="torrent-links" v-for="torrent in movie.get('torrents') | filterBy 'p' in 'quality'">
-        <a class="btn btn-success"
-            v-link="{ name: 'player', params: { id: movie.id, hash: torrent.info_hash }}">
-            Tfaraj {{torrent.quality}}</a>
-      </span>
+      <ul class="torrent-links" v-for="torrent in movie.get('torrents') | filterBy 'p' in 'quality'">
+        <li>
+          <p>{{torrent.name}}</p>
+          <p>{{torrent.language}} / {{torrent.quality}} / {{ filesize(torrent.size) }}</p>
+          <a class="btn btn-success"
+              v-link="{ name: 'player', params: { id: movie.id, hash: torrent.info_hash }}">
+              Tfaraj {{torrent.quality}}</a>
+        </li>
+      </ul>
     </div>
    </div>
 </template>
@@ -30,13 +34,21 @@ export default {
   props: {
     movie: Object,
     index: Number,
-
+  },
+  created () {
+    this.filesize = require('filesize')
+    this.moment = require('moment')
   },
 	data () {
 		return {
 			popoverOpened: false
 		}
 	},
+  computed: {
+    releaseDate: function() {
+      return this.moment(this.movie.get('released')).format('YYYY/MM/DD')
+    }
+  },
 	methods: {
 		toggleDetails: function(e) {
       if($('.popover').length > 0) {

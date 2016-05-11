@@ -37,7 +37,7 @@ export default {
 		return {
 			movies: [],
 			skip: 0,
-			sort: 'top_rated',
+			sort: 'popular',
 			searchQuery: ''
 		}
 	},

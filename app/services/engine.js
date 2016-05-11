@@ -3,6 +3,7 @@ const WebTorrent = require('webtorrent')
 let _initCalled = false
 let engine
 let _torrents = {}
+let server
 
 export default class Engine {
   constructor() {
@@ -18,18 +19,18 @@ export default class Engine {
     engine.add(magnetUri, function (torrent) {
       console.log('new torrent added to engine', torrent.infoHash)
 
-      _torrents[torrent.infoHash] = torrent
+      server = torrent.createServer()
+      server.listen('25111')
 
-      let movieFile;
       torrent.files.forEach(function (f) {
-        if (/\.(mp4|mkv|avi)$/i.test(f.name)) {
-          if(!movieFile || f.length > movieFile.length){
-            movieFile = f
-          }
-        }
+        f.select()
       })
-      cb(movieFile)
+      cb(torrent)
     })
+  }
+
+  destroyServer() {
+    server.close()
   }
 
   getTorrents() {
@@ -39,10 +40,6 @@ export default class Engine {
       array.push(_torrents[id])
 
     return array
-  }
-
-  getTorrent(hash) {
-    return _torrents[hash.toLowerCase()]
   }
 
 }
