@@ -30,7 +30,10 @@ let trackers = [
 	'udp://tracker.opentrackr.org:1337/announce'
 ]
 
+let player
+
 export default {
+
 	data () {
 		return {
 			movie: {},
@@ -65,7 +68,7 @@ export default {
       if('.popover') {
         $('.popover').remove()
       }
-			videojs('video-player', { 'controls': true, 'autoplay': false, 'preload': 'auto' })
+			player = videojs('video-player', { 'controls': true, 'autoplay': false, 'preload': 'auto' })
 		},
 
     addSubtitle(lang, path) {
@@ -74,6 +77,8 @@ export default {
       $('#video-player_html5_api').append(
         `<track kind="captions" srclang=''${lang} label=${label} src=${path}>`
       )
+
+      // TODO use player.addRemoteTextTrack()
     }
 
 	},

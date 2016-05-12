@@ -11,25 +11,26 @@ export default class DataService {
   getMoviesFromParse (options) {
     var Movie = Parse.Object.extend('Movie');
     var query = new Parse.Query(Movie);
-    query.limit(30)
+    query.limit(options.show)
     query.skip(options.skip)
     query.exists('plot')
     query.notEqualTo('poster', 'N/A')
 
     if(options.searchQuery) {
       query.contains('name', options.searchQuery)
-    }
+    } else {
+      if(options.sort == 'popular') {
+        query.descending('released')
+        query.greaterThan('imdbVotes', 100)
+      }
 
-    if(options.sort == 'popular') {
-      query.descending('released')
-      query.greaterThan('imdbVotes', 100)
-    }
-
-    if(options.sort == 'imdbRating') {
-      query.descending('imdbRating')
+      if(options.sort == 'imdbRating') {
+        query.descending('imdbRating')
+      }
     }
 
     return query.find().then(function(results) {
+      console.log(results.length)
       return results
     });
   }

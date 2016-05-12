@@ -37,6 +37,7 @@ export default {
 		return {
 			movies: [],
 			skip: 0,
+			show: 30,
 			sort: 'popular',
 			searchQuery: ''
 		}
@@ -47,12 +48,13 @@ export default {
 		// XXX: Here we loop the array, should we concat?
 		loadMore: function() {
 			const self = this
-			self.$set('skip', self.skip + 10)
+			self.$set('skip', self.skip + self.show)
 
 			let options = {
 				sort: self.sort,
 				query: self.searchQuery,
-				skip: self.skip
+				skip: self.skip,
+				show: self.show
 			}
 
 			service.getMoviesFromParse(options).then(function(results) {
@@ -80,7 +82,8 @@ export default {
 			let options = {
 				sort: to.query.sort_by || self.sort,
 				searchQuery: to.query.searchQuery || '',
-				skip: 0
+				skip: self.skip,
+				show: self.show
 			}
 
 			self.$set('sort', options.sort)
