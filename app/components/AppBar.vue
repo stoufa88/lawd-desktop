@@ -4,7 +4,7 @@
       &#9776;
     </button> -->
 
-    <a class="navbar-brand">kickbg</a>
+    <a class="navbar-brand">vodon</a>
 
 		<form class="form-inline pull-xs-right" v-on:submit="search">
 			<div class="form-group">

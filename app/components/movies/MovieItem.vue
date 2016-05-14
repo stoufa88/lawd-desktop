@@ -1,11 +1,19 @@
 <template>
   <div class="card">
-    <img id="{{index}}" class="card-img-top" @click="toggleDetails"
-          v-bind:src="movie.get('poster')" tabindex="0"/>
+    <div class="card-top">
+      <img id="{{index}}" class="card-img-top" @click="toggleDetails"
+            v-bind:src="movie.get('poster')" tabindex="0" />
+      <div class="rating">
+        <h3>{{ movie.get('imdbRating') }}</h3>
+        <p> / 10</p>
+      </div>
+    </div>
+
     <div class="card-block">
       <h6 class="card-title" data-toggle="tooltip" data-placement="bottom"
-          title="{{movie.title}}">{{ movie.get('name') }}
+          title="{{movie.get('name')}}">{{ movie.get('name') }}
       </h6>
+      <p class="card-text"><strong>{{ movie.get('actors') }}</strong></p>
       <p class="card-text"><small>{{ movie.get('genre') }}</small></p>
       <p class="card-text">
         <small class="pull-xs-left">{{ releaseDate }}</small>

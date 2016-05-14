@@ -16,6 +16,8 @@ export default class DataService {
     mainQuery.exists('plot')
     mainQuery.notEqualTo('poster', 'N/A')
 
+    console.log(options)
+
     if(options.searchQuery) {
       var queryEqualName = new Parse.Query(Movie)
       queryEqualName.contains('name', options.searchQuery)

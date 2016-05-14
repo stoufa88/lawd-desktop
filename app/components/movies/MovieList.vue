@@ -90,7 +90,7 @@ export default {
 
 			let options = {
 				sort: to.query.sort_by || self.sort,
-				filter: to.query.filter || '',
+				filter: to.query.filter || self.filter,
 				searchQuery: to.query.searchQuery || '',
 				skip: self.skip,
 				show: self.show

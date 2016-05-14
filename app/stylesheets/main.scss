@@ -91,11 +91,8 @@
 	margin-right: 2rem;
 	border: 0;
 	background: none;
-	color: white;
+  color: white;
 
-	p {
-		color: white;
-	}
 }
 
 .card .card-block{
@@ -114,13 +111,31 @@
 	text-overflow: ellipsis;
 }
 
-.card > img {
-	width: 150px;
-	height: 200px;
-	cursor: pointer;
-	&:hover, &:focus {
-		outline: 2px solid #fff;
-	}
+.card-top {
+  img {
+    width: 150px;
+    height: 200px;
+    cursor: pointer;
+    &:hover, &:focus {
+      outline: 2px solid #fff;
+      opacity: 0.3;
+      background: $body-bg;
+    }
+  }
+  .rating {
+    visibility: hidden;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    cursor: pointer;
+    pointer-events: none;
+  }
+  &:hover {
+    .rating {
+      visibility: visible;
+    }
+  }
+
 }
 
 //  --------------------------- Movie details ------------------------------------
@@ -129,7 +144,7 @@
 	margin-right: 10px;
 }
 
-/******************** Player *************************/
+// --------------------------- Player ---------------------------------------/
 
 .vjs_video_3-dimensions, .video-js {
 	width: 100vw;
@@ -137,8 +152,17 @@
 }
 
 #toggle-me {
+  background: #000;
 	position: absolute;
-  right: 20px;
-  top: 0;
+  left: 15px;
+  right: 15px;
   z-index: 1;
+  color: white;
+  img {
+    width: 50px;
+  }
+  .close {
+    font-size: 4.5rem;
+    opacity: 1;
+  }
 }

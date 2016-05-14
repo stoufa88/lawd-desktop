@@ -1,8 +1,22 @@
 <template>
-  <div id="toggle-me" class="invisible">
-		<a v-link="{ name: 'movieList', params: { page: 1 }}">Exit</a>
-		<p>{{ downloaded }} / {{ total }} </p>
-		<p>{{ downloadSpeed }}</p>
+  <div id="toggle-me" class="invisible" v-if="movie">
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-2">
+        <img v-bind:src="movie.get('poster')" tabindex="0" />
+      </div>
+
+      <div class="col-xs-5">
+        <p>{{ downloaded }} / {{ total }} </p>
+    		<p>{{ downloadSpeed }}</p>
+      </div>
+
+      <div class="col-xs-2">
+        <button type="button" class="close">
+          <a v-link="{ name: 'movieList', params: { page: 1 }}">&times;</a>
+        </button>
+      </div>
+    </div>
+
 	</div>
 
 	<div id="player">
@@ -36,7 +50,7 @@ export default {
 
 	data () {
 		return {
-			movie: {},
+			movie: null,
       torrent: {},
       downloaded: 0,
       downloadSpeed: 0,
@@ -91,6 +105,8 @@ export default {
 		self._init()
 
 		movieService.getMovieFromParse(id).then(function(movie) {
+      self.$set('movie', movie)
+      console.log(movie)
 			let magnetUri = 'magnet:?xt=urn:btih:' + hash
 			magnetUri += '&dn=' + encodeURI(movie.get('torrents')[0].name)
 			trackers.forEach(function(t) {
