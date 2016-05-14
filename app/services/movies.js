@@ -20,7 +20,7 @@ export default class DataService {
 
     if(options.searchQuery) {
       var queryEqualName = new Parse.Query(Movie)
-      queryEqualName.contains('name', options.searchQuery)
+      queryEqualName.contains('nameLowCase', (options.searchQuery).toLowerCase())
 
       var queryContainActors = new Parse.Query(Movie)
       queryContainActors.contains('actors', options.searchQuery)

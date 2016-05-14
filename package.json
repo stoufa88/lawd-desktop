@@ -1,7 +1,7 @@
 {
   "name": "lawd",
   "version": "1.0.0-alpha",
-  "description": "Find and instantly watch greatest movies",
+  "description": "Find and instantly watch movies",
   "main": "main.js",
   "scripts": {
     "hot-server": "node server.js",
