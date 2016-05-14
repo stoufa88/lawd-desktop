@@ -19,7 +19,7 @@
         <li>
           <p>{{torrent.name}}</p>
           <p>{{torrent.language}} / {{torrent.quality}} / {{ filesize(torrent.size) }}</p>
-          <a class="btn btn-success"
+          <a class="btn btn-primary"
               v-link="{ name: 'player', params: { id: movie.id, hash: torrent.info_hash }}">
               Tfaraj {{torrent.quality}}</a>
         </li>
@@ -64,7 +64,7 @@ export default {
 			const locationX = e.clientX
 			const width = $('body')[0].offsetWidth
 
- 			let placement = (width - locationX) < popoverWidth + 150 ? 'left' : 'right'
+ 			let placement = (width - locationX) < popoverWidth + 100 ? 'left' : 'right'
 
       e.stopPropagation()
 

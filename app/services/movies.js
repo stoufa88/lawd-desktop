@@ -10,29 +10,45 @@ export default class DataService {
   // options are sort, skip and query
   getMoviesFromParse (options) {
     var Movie = Parse.Object.extend('Movie');
-    var query = new Parse.Query(Movie);
-    query.limit(options.show)
-    query.skip(options.skip)
-    query.exists('plot')
-    query.notEqualTo('poster', 'N/A')
+    var mainQuery = new Parse.Query(Movie);
+    mainQuery.limit(options.show)
+    mainQuery.skip(options.skip)
+    mainQuery.exists('plot')
+    mainQuery.notEqualTo('poster', 'N/A')
 
     if(options.searchQuery) {
-      query.contains('name', options.searchQuery)
+      var queryEqualName = new Parse.Query(Movie)
+      queryEqualName.contains('name', options.searchQuery)
+
+      var queryContainActors = new Parse.Query(Movie)
+      queryContainActors.contains('actors', options.searchQuery)
+
+      var queryEqualID = new Parse.Query(Movie)
+      queryEqualID.equalTo('imdbID', options.searchQuery)
+
+      mainQuery = Parse.Query.or(queryEqualName, queryContainActors, queryEqualID)
+
+      return mainQuery.find().then(function(results) {
+        return results
+      });
     } else {
       if(options.sort == 'popular') {
-        query.descending('released')
-        query.greaterThan('imdbVotes', 100)
+        mainQuery.descending('released')
+        mainQuery.greaterThan('imdbVotes', 100)
       }
 
       if(options.sort == 'imdbRating') {
-        query.descending('imdbRating')
+        mainQuery.descending('imdbRating')
       }
-    }
 
-    return query.find().then(function(results) {
-      console.log(results.length)
-      return results
-    });
+      if(options.filter !== '') {
+        mainQuery.contains('genre', (options.filter).capitalizeFirstLetter())
+      }
+
+      return mainQuery.find().then(function(results) {
+        return results
+      });
+    }
   }
 
   getMovieFromParse(id) {

@@ -9,16 +9,20 @@ $brand-info:                #5bc0de;
 $brand-warning:             #f0ad4e;
 $brand-danger:              #d9534f;
 $brand-background:          #333;
+$brand-accent:  #2c3e50;
 
 $body-bg: $brand-background;
 $navbar-bg: $brand-primary;
 
 $btn-secondary-color:            #fff !default;
-$btn-secondary-bg:               transparent !default;
-$btn-secondary-border:           transparent !default;
+$btn-secondary-bg:               $brand-accent !default;
+$btn-secondary-border:           darken($btn-secondary-bg, 3%) !default;
 
 $side-menu-width: 250px;
 $side-menu-padding-left: 25px;
 $enable-flex: true !default;
 $popover-max-width: 350px !default;
 $navbar-border-radius: 0px !default;
+
+$popover-bg:                          $brand-accent !default;
+$popover-title-bg:                    darken($popover-bg, 3%) !default;

@@ -12,6 +12,7 @@ import App from './components/App.vue'
 import MovieList from './components/movies/MovieList.vue'
 import Player from './components/movies/Player.vue'
 import locales from './i18n/locales.js'
+import strings from './utils/strings.js'
 
 Vue.use(VueResource)
 Vue.use(VueRouter)
@@ -25,7 +26,7 @@ Vue.transition('fade', {
 var router = new VueRouter()
 
 router.map({
-  '/movies/:page': {
+  '/movies': {
 		name: 'movieList',
     component: MovieList
   },
@@ -36,12 +37,12 @@ router.map({
 })
 
 router.redirect({
-  '*': '/movies/1'
+  '*': '/movies'
 })
 
 router.start(App, '#app')
 
-Vue.config.lang = navigator.language
+Vue.config.lang = navigator.language.indexOf('fr') > - 1 ? 'fr' : 'en'
 
 Object.keys(locales).forEach(function (lang) {
   Vue.locale(lang, locales[lang])

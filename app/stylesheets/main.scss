@@ -6,9 +6,23 @@
 @import './_loading';
 @import './_side_nav';
 
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgb(40, 40, 40);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 1px solid rgb(40, 40, 40);
+  border-radius: 10px;
+  background: linear-gradient(to right, rgb(90, 90, 90), rgb(80, 80, 80));
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(40, 40, 40);
+}
+
 .bg-inverse {
 	background: $navbar-bg;
-	border-bottom: 1px solid #ddd;
 }
 
 #main-content {
@@ -16,13 +30,32 @@
 	background: $body-bg;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:focus {
   border: 1px solid #fff;
+  outline: 0;
+}
+
+.btn-transparent, .btn-transparent:hover {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+// -------------------------- Popovers ----------------------------------
+
+.popover-title {
+  color: #fff;
 }
 
 .popover-content {
 	max-height: 16rem;
 	overflow: auto;
+  color: #eee;
 }
 
 // -------------------------- App bar ----------------------------------

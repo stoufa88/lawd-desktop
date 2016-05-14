@@ -1,6 +1,6 @@
 <template>
 	<div id="main-content" @click="escape" v-on:keyup.27="escape">
-		<div id="movie-list" v-if="movies" :class="{ 'container-fluid': true, loading: !movies.length }">
+		<div id="movie-list" v-if="movies" :class="{ 'container-fluid': true, loading: !movies.length > 0 }">
 			<div class="row">
 				<movie v-for="movie in movies"
 							:movie="movie"
@@ -8,8 +8,8 @@
 				</movie>
 			</div>
 
-			<div v-if="movies.length">
-				<button class="btn btn-primary center-block" v-on:click="loadMore">
+			<div v-if="movies.length > 0 && hasMore">
+				<button class="btn btn-secondary center-block" v-on:click="loadMore">
 					{{ $t('movies.more') }}
 				</button>
 			</div>
@@ -39,7 +39,9 @@ export default {
 			skip: 0,
 			show: 30,
 			sort: 'popular',
-			searchQuery: ''
+			filter: '',
+			searchQuery: '',
+			hasMore: true
 		}
 	},
 	methods: {
@@ -52,12 +54,17 @@ export default {
 
 			let options = {
 				sort: self.sort,
-				query: self.searchQuery,
+				filter: self.filter,
+				searchQuery: self.searchQuery,
 				skip: self.skip,
 				show: self.show
 			}
 
 			service.getMoviesFromParse(options).then(function(results) {
+				if(results.length === 0) {
+					self.$set('hasMore', false)
+				}
+
 				for (let movie of results) {
 					self.movies.push(movie)
 				}
@@ -78,16 +85,21 @@ export default {
     data ({ to }) {
 			const self = this
 			self.$set('movies', [])
+			self.$set('skip', 0)
+			self.$set('show', 30)
 
 			let options = {
 				sort: to.query.sort_by || self.sort,
+				filter: to.query.filter || '',
 				searchQuery: to.query.searchQuery || '',
 				skip: self.skip,
 				show: self.show
 			}
 
 			self.$set('sort', options.sort)
+			self.$set('filter', options.filter)
 			self.$set('searchQuery', options.searchQuery)
+			self.$set('hasMore', true)
 
 			service.getMoviesFromParse(options).then(function(results){
 				self.$set('movies', results)
