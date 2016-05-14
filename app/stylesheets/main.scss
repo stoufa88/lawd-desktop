@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Cabin:400,500,400italic,500italic,600,600italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,900,700italic,700,400italic,300,900italic);
 @import './_variables';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~animate.css/animate.min.css';
@@ -7,7 +7,7 @@
 @import './_side_nav';
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 13px;
   background-color: rgb(40, 40, 40);
 }
 
@@ -42,6 +42,7 @@
 
 .btn-transparent, .btn-transparent:hover {
   background: transparent;
+  color: white;
   border: none;
   outline: none;
 }
@@ -62,6 +63,7 @@
 
 .navbar-brand {
 	text-transform: uppercase;
+  font-weight: 900;
 }
 
 .sort-button {

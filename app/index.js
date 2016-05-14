@@ -28,7 +28,7 @@ var router = new VueRouter()
 router.map({
   '/movies': {
 		name: 'movieList',
-    component: MovieList
+    component: MovieList,
   },
 	'player/:id/:hash': {
 		name: 'player',

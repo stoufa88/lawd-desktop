@@ -13,7 +13,7 @@
       <h6 class="card-title" data-toggle="tooltip" data-placement="bottom"
           title="{{movie.get('name')}}">{{ movie.get('name') }}
       </h6>
-      <p class="card-text"><strong>{{ movie.get('actors') }}</strong></p>
+      <p class="card-text">{{ movie.get('actors') }}</p>
       <p class="card-text"><small>{{ movie.get('genre') }}</small></p>
       <p class="card-text">
         <small class="pull-xs-left">{{ releaseDate }}</small>
