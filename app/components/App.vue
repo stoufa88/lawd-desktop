@@ -6,18 +6,18 @@
 			<div id="side-menu">
 				<sidenav></sidenav>
 			</div>
+
+      <nav class="navbar navbar-fixed-bottom">
+        <button type="button" class="btn btn-sm btn-transparent" data-toggle="modal" data-target="#infosModal">
+          Infos
+        </button>
+      </nav>
+
+      <infos></infos>
 		</div>
 
     <!-- main view -->
     <router-view></router-view>
-
-    <nav class="navbar navbar-fixed-bottom">
-      <button type="button" class="btn btn-sm btn-transparent" data-toggle="modal" data-target="#infosModal">
-        Infos
-      </button>
-    </nav>
-
-    <infos></infos>
 
   </div>
 </template>
