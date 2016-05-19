@@ -1,5 +1,5 @@
 <template>
-  <h3>{{ list.get('name') }}</h3>
+  <h3 class="text-xs-center">{{ list.get('name') }}</h3>
   <div class="container-fluid movie-list">
     <div class="row">
       <movie v-for="movie in list.get('movies')"
