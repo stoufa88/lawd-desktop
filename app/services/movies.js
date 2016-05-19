@@ -54,11 +54,21 @@ export default class DataService {
   }
 
   getMovieFromParse(id) {
-    var Movie = Parse.Object.extend('Movie');
-    var query = new Parse.Query(Movie);
+    var Movie = Parse.Object.extend('Movie')
+    var query = new Parse.Query(Movie)
 
     return query.get(id).then(function(result) {
       return result
+    })
+  }
+
+  getCuratedListFromParse() {
+    var CuratedList = Parse.Object.extend('CuratedList')
+    var query = new Parse.Query(CuratedList)
+    query.include("movies")
+
+    return query.find().then(function(results) {
+      return results
     });
   }
 }

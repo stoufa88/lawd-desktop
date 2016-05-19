@@ -10,6 +10,7 @@ var VueI18n = require('vue-i18n')
 
 import App from './components/App.vue'
 import MovieList from './components/movies/MovieList.vue'
+import CuratedList from './components/movies/curated/CuratedListList.vue'
 import Player from './components/movies/Player.vue'
 import locales from './i18n/locales.js'
 import strings from './utils/strings.js'
@@ -29,6 +30,10 @@ router.map({
   '/movies': {
 		name: 'movieList',
     component: MovieList,
+  },
+  '/curatedList': {
+    name: 'curatedList',
+    component: CuratedList
   },
 	'player/:id/:hash': {
 		name: 'player',

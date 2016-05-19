@@ -1,8 +1,8 @@
 <template>
 	<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-		<!-- <button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
+		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
       &#9776;
-    </button> -->
+    </button>
 
     <a class="navbar-brand">lawd</a>
 

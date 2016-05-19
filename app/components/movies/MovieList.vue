@@ -1,6 +1,6 @@
 <template>
 	<div id="main-content" @click="escape" v-on:keyup.27="escape">
-		<div id="movie-list" v-if="movies" :class="{ 'container-fluid': true, loading: !movies.length > 0 }">
+		<div v-if="movies" :class="{ 'movie-list': true, 'container-fluid': true, loading: !movies.length > 0 }">
 			<div class="row">
 				<movie v-for="movie in movies"
 							:movie="movie"

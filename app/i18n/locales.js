@@ -1,5 +1,9 @@
 let locales = {
   en: {
+    navigation: {
+      all: 'All',
+      curated: 'Curated Lists'
+    },
     movies: {
       popular: 'Popular',
       latest: 'Latest',
@@ -35,6 +39,10 @@ let locales = {
     }
   },
   fr: {
+    navigation: {
+      all: 'Tous',
+      curated: 'Sélection'
+    },
     movies: {
       popular: 'Populaires',
       latest: 'Nouveaux',

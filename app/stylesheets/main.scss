@@ -89,7 +89,7 @@ html {
 
 //  --------------------------- Movie list ------------------------------------
 
-#movie-list div {
+.movie-list div {
 	justify-content: center;
 }
 
@@ -145,6 +145,12 @@ html {
     }
   }
 
+}
+
+//  --------------------------- Curated list ------------------------------------
+.curated-list h3{
+  color: rgba(255, 255, 255, 0.69);
+  text-align: center;
 }
 
 //  --------------------------- Movie details ------------------------------------
