@@ -6,6 +6,10 @@
 @import './_loading';
 @import './_side_nav';
 
+html {
+  overflow: hidden;
+}
+
 ::-webkit-scrollbar {
   width: 13px;
   background-color: rgb(40, 40, 40);
@@ -26,7 +30,10 @@
 }
 
 #main-content {
-	padding: 75px 0;
+	margin-top: 54px;
+  padding: 25px 0;
+  overflow-y: scroll;
+  height: calc(100vh - 54px);
 	background: $body-bg;
 }
 
