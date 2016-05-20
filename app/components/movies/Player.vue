@@ -118,12 +118,14 @@ export default {
       engine.addMagnet(magnetUri, ((torrent, mediaIndex, mediaType) => {
         console.info('Player: media type is', mediaType)
 
+        console.log (mediaIndex)
+
         if(mediaType == 'mp4') {
           torrent.files[mediaIndex].renderTo('video')
         }else if(mediaType == 'mkv') {
           $('#video-player_html5_api').attr(
             'src',
-            'http://localhost:25111/0'
+            'http://localhost:25111/' + mediaIndex
           )
         }
 
