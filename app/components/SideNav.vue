@@ -1,14 +1,19 @@
 <template>
 	<ul class="nav">
 	 <li class="nav-item">
-		 <a class="nav-item-link" v-link="'movieList'">
-			 <i class="fa fa-music fa-fw"></i> {{ $t('navigation.all') }}
+		 <a class="nav-item-link" v-link="{ name: 'showList', params: { type: 'movies' }}">
+			 <i class="fa fa-music fa-fw"></i> {{ $t('navigation.movies') }}
 		 </a>
 	 </li>
 	 <li class="nav-item">
-		 <a class="nav-item-link" v-link="{ name: 'curatedList' }">
-			 <i class="fa fa-cogs fa-fw"></i> {{ $t('navigation.curated') }}
+		 <a class="nav-item-link" v-link="{ name: 'showList', params: { type: 'tv' }}">
+			 <i class="fa fa-music fa-fw"></i> {{ $t('navigation.tv') }}
 		 </a>
+	 </li>
+	 <li class="nav-item">
+		 <!-- <a class="nav-item-link" v-link="{ name: 'curatedList' }">
+			 <i class="fa fa-cogs fa-fw"></i> {{ $t('navigation.curated') }}
+		 </a> -->
 	 </li>
 	</ul>
 

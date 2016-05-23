@@ -4,7 +4,7 @@ const fs = require('fs')
 const srt2vtt = require('srt2vtt')
 const OS = require('opensubtitles-api')
 const iconv  = require('iconv-lite')
-import DataService from './movies'
+import DataService from './parse'
 
 export default class Subtitles {
   constructor() {

@@ -12,7 +12,9 @@
 
       <div class="col-xs-2">
         <button type="button" class="close">
-          <a v-link="{ name: 'movieList', params: { page: 1 }}">&times;</a>
+          <a v-link="{ name: 'showList', params: { type: this.$route.params.type }}">
+  				    &times;
+          </a>
         </button>
       </div>
     </div>
@@ -26,11 +28,11 @@
 </template>
 
 <script>
-import DataService from '../../services/movies'
+import DataService from '../../services/parse'
 import SubtitlesServices from '../../services/subs'
 import Engine from '../../services/engine'
 
-let movieService = new DataService()
+let parseService = new DataService()
 
 const filesize = require('filesize')
 const videojs = require('video.js')
@@ -41,7 +43,14 @@ let trackers = [
 	'udp://glotorrents.pw:6969/announce',
   'udp://tracker.coppersurfer.tk:6969/announce',
  	'udp://tracker.openbittorrent.com:80/announce',
-	'udp://tracker.opentrackr.org:1337/announce'
+	'udp://tracker.opentrackr.org:1337/announce',
+  'http://tracker.calculate.ru:6969/announce',
+  'http://tracker1.wasabii.com.tw:6969/announce',
+  'http://thetracker.org/announce',
+  'http://tracker.files.fm:6969/announce',
+  'http://tracker1.itzmx.com:8080/announce',
+  'udp://tracker.opentrackr.org:1337/announce',
+  'http://tracker.baravik.org:6970/announce'
 ]
 
 let player
@@ -50,7 +59,7 @@ export default {
 
 	data () {
 		return {
-			movie: null,
+			show: null,
       torrent: {},
       downloaded: 0,
       downloadSpeed: 0,
@@ -101,14 +110,15 @@ export default {
 		const self = this
 		const id = self.$route.params.id
 		const hash = self.$route.params.hash
+		const type = self.$route.params.type
 
 		self._init()
 
-		movieService.getMovieFromParse(id).then(function(movie) {
-      self.$set('movie', movie)
-      console.log(movie)
+		parseService.getShowFromParse(id, type).then(function(show) {
+      self.$set('show', show)
+      console.log(show)
 			let magnetUri = 'magnet:?xt=urn:btih:' + hash
-			magnetUri += '&dn=' + encodeURI(movie.get('torrents')[0].name)
+			magnetUri += '&dn=' + encodeURI(show.get('torrents')[0].name)
 			trackers.forEach(function(t) {
 				magnetUri += '&tr=' + t
 			})
@@ -135,7 +145,7 @@ export default {
 
         // Call the subs service and add the available subs.
         let subsService = new SubtitlesServices()
-        subsService.getSubtitles(movie.get('imdbID')).then(function(subs) {
+        subsService.getSubtitles(show.get('name')).then(function(subs) {
           for(const lang in subs) {
             let sub = subs[lang]
             let dir = path.join(torrent.path)

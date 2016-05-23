@@ -19,7 +19,7 @@
 		  </button>
 		  <div class="dropdown-menu dropdown-menu-right">
 				<a class="dropdown-item"
-					:href="'#/movies' + '?filter=' + filter.value"
+					v-link="{ name: 'showList', params: { type: this.$route.params.type }, query: {filter: filter.value}}"
 					@click="updateFilter(filter.text)"
 					 v-for="filter in filters">
 					{{ filter.text }}
@@ -33,7 +33,7 @@
 		  </button>
 		  <div class="dropdown-menu dropdown-menu-right">
 				<a class="dropdown-item"
-					:href="'#/movies' + '?sort_by=' + sort.value"
+					v-link="{ name: 'showList', params: { type: this.$route.params.type }, query: {sort: sort.value}}"
 					@click="updateSort(sort.text)"
 					 v-for="sort in sorting">
 					{{ sort.text }}
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+// :href="routePath + '?sort_by=' + sort.value"
 
 export default {
 	methods: {
@@ -51,12 +52,12 @@ export default {
       return this.$t(key)
     },
 		toggleMenu: function() {
-			$('#wrapper').toggleClass('side-menu-open');
+			$('#wrapper').toggleClass('side-menu-open')
 		},
 		search: function(e){
 			e.preventDefault()
 			this.$route.router.go({
-				name: 'movieList',
+				name: 'showList',
 				query: {
 					searchQuery: this.searchQuery,
 					sort: this.$route.query.sort
@@ -75,37 +76,37 @@ export default {
   },
 	data () {
 		return {
-			sort: this.getMessage('movies.popular'),
-			filter: this.getMessage('movies.genres.all'),
+			sort: this.getMessage('shows.popular'),
+			filter: this.getMessage('shows.genres.all'),
 			searchQuery: '',
 			sorting: [
-				{ value: 'popular', text: this.getMessage('movies.popular') },
-				{ value: 'imdbRating', text: this.getMessage('movies.top_rated') }
+				{ value: 'popular', text: this.getMessage('shows.popular') },
+				{ value: 'imdbRating', text: this.getMessage('shows.top_rated') }
 			],
 			filters: [
-				{ value: '', text: this.getMessage('movies.genres.all') },
-				{ value: 'action', text: this.getMessage('movies.genres.action') },
-				{ value: 'adventure', text: this.getMessage('movies.genres.adventure') },
-				{ value: 'animation', text: this.getMessage('movies.genres.animation') },
-				{ value: 'biography', text: this.getMessage('movies.genres.biography') },
-				{ value: 'comedy', text: this.getMessage('movies.genres.comedy') },
-				{ value: 'crime', text: this.getMessage('movies.genres.crime') },
-				{ value: 'documentary', text: this.getMessage('movies.genres.documentary') },
-				{ value: 'drama', text: this.getMessage('movies.genres.drama') },
-				{ value: 'family', text: this.getMessage('movies.genres.family') },
-				{ value: 'fantasy', text: this.getMessage('movies.genres.fantasy') },
-				{ value: 'filmnoir', text: this.getMessage('movies.genres.filmnoir') },
-				{ value: 'history', text: this.getMessage('movies.genres.history') },
-				{ value: 'horror', text: this.getMessage('movies.genres.horror') },
-				{ value: 'music', text: this.getMessage('movies.genres.music') },
-				{ value: 'musical', text: this.getMessage('movies.genres.musical') },
-				{ value: 'mystery', text: this.getMessage('movies.genres.mystery') },
-				{ value: 'romance', text: this.getMessage('movies.genres.romance') },
-				{ value: 'scienfiction', text: this.getMessage('movies.genres.scienfiction') },
-				{ value: 'sport', text: this.getMessage('movies.genres.sport') },
-				{ value: 'thriller', text: this.getMessage('movies.genres.thriller') },
-				{ value: 'war', text: this.getMessage('movies.genres.war') },
-				{ value: 'western', text: this.getMessage('movies.genres.western') }
+				{ value: '', text: this.getMessage('shows.genres.all') },
+				{ value: 'action', text: this.getMessage('shows.genres.action') },
+				{ value: 'adventure', text: this.getMessage('shows.genres.adventure') },
+				{ value: 'animation', text: this.getMessage('shows.genres.animation') },
+				{ value: 'biography', text: this.getMessage('shows.genres.biography') },
+				{ value: 'comedy', text: this.getMessage('shows.genres.comedy') },
+				{ value: 'crime', text: this.getMessage('shows.genres.crime') },
+				{ value: 'documentary', text: this.getMessage('shows.genres.documentary') },
+				{ value: 'drama', text: this.getMessage('shows.genres.drama') },
+				{ value: 'family', text: this.getMessage('shows.genres.family') },
+				{ value: 'fantasy', text: this.getMessage('shows.genres.fantasy') },
+				{ value: 'filmnoir', text: this.getMessage('shows.genres.filmnoir') },
+				{ value: 'history', text: this.getMessage('shows.genres.history') },
+				{ value: 'horror', text: this.getMessage('shows.genres.horror') },
+				{ value: 'music', text: this.getMessage('shows.genres.music') },
+				{ value: 'musical', text: this.getMessage('shows.genres.musical') },
+				{ value: 'mystery', text: this.getMessage('shows.genres.mystery') },
+				{ value: 'romance', text: this.getMessage('shows.genres.romance') },
+				{ value: 'scienfiction', text: this.getMessage('shows.genres.scienfiction') },
+				{ value: 'sport', text: this.getMessage('shows.genres.sport') },
+				{ value: 'thriller', text: this.getMessage('shows.genres.thriller') },
+				{ value: 'war', text: this.getMessage('shows.genres.war') },
+				{ value: 'western', text: this.getMessage('shows.genres.western') }
 			]
 		}
 	}

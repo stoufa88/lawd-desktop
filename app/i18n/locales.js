@@ -1,10 +1,11 @@
 let locales = {
   en: {
     navigation: {
-      all: 'All',
+      movies: 'shows',
+      tv: 'TV',
       curated: 'Curated Lists'
     },
-    movies: {
+    shows: {
       popular: 'Popular',
       latest: 'Latest',
       top_rated: 'Top rated',
@@ -40,10 +41,11 @@ let locales = {
   },
   fr: {
     navigation: {
-      all: 'Tous',
+      movies: 'Films',
+      tv: 'Séries TV',
       curated: 'Sélection'
     },
-    movies: {
+    shows: {
       popular: 'Populaires',
       latest: 'Nouveaux',
       top_rated: 'Meilleurs',

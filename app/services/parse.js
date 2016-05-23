@@ -1,4 +1,5 @@
 import Parse from 'parse/node'
+import _ from 'underscore'
 
 const MOVIES_PARSE_ENDPOINT = 'http://149.202.45.9/parse/hammamet/classes/Movie'
 
@@ -8,24 +9,25 @@ Parse.serverURL = 'http://149.202.45.9/parse/streaming'
 export default class DataService {
 
   // options are sort, skip and query
-  getMoviesFromParse (options) {
-    var Movie = Parse.Object.extend('Movie');
-    var mainQuery = new Parse.Query(Movie);
+  getShowsFromParse (options) {
+    var Show = Parse.Object.extend(options.type);
+    var mainQuery = new Parse.Query(Show);
+
+    console.log(options)
+
     mainQuery.limit(options.show)
     mainQuery.skip(options.skip)
     mainQuery.exists('plot')
     mainQuery.notEqualTo('poster', 'N/A')
 
-    console.log(options)
-
     if(options.searchQuery) {
-      var queryEqualName = new Parse.Query(Movie)
+      var queryEqualName = new Parse.Query(Show)
       queryEqualName.contains('nameLowCase', (options.searchQuery).toLowerCase())
 
-      var queryContainActors = new Parse.Query(Movie)
+      var queryContainActors = new Parse.Query(Show)
       queryContainActors.contains('actors', options.searchQuery)
 
-      var queryEqualID = new Parse.Query(Movie)
+      var queryEqualID = new Parse.Query(Show)
       queryEqualID.equalTo('imdbID', options.searchQuery)
 
       mainQuery = Parse.Query.or(queryEqualName, queryContainActors, queryEqualID)
@@ -53,9 +55,26 @@ export default class DataService {
     }
   }
 
-  getMovieFromParse(id) {
-    var Movie = Parse.Object.extend('Movie')
-    var query = new Parse.Query(Movie)
+  getTVEpisodesFromParse(id) {
+    var tv = new Parse.Object('TV');
+    tv.id = id;
+
+    var TVEpisode = Parse.Object.extend('TVEpisode')
+    var query = new Parse.Query(TVEpisode)
+    query.equalTo('parent', tv)
+    query.descending('name')
+
+    return query.find().then(function(results) {
+      var groups =  _.groupBy(results, function(r) {
+        return r.get('season')
+      });
+      return groups
+    })
+  }
+
+  getShowFromParse(id, type) {
+    var Show = Parse.Object.extend(type)
+    var query = new Parse.Query(Show)
 
     return query.get(id).then(function(result) {
       return result

@@ -9,9 +9,9 @@ var VueRouter = require('vue-router')
 var VueI18n = require('vue-i18n')
 
 import App from './components/App.vue'
-import MovieList from './components/movies/MovieList.vue'
-import CuratedList from './components/movies/curated/CuratedListList.vue'
-import Player from './components/movies/Player.vue'
+import ShowList from './components/shows/ShowList.vue'
+// import CuratedList from './components/shows/curated/CuratedListList.vue'
+import Player from './components/shows/Player.vue'
 import locales from './i18n/locales.js'
 import strings from './utils/strings.js'
 
@@ -27,22 +27,22 @@ Vue.transition('fade', {
 var router = new VueRouter()
 
 router.map({
-  '/movies': {
-		name: 'movieList',
-    component: MovieList,
+  '/shows/:type': {
+		name: 'showList',
+    component: ShowList,
   },
-  '/curatedList': {
-    name: 'curatedList',
-    component: CuratedList
-  },
-	'player/:id/:hash': {
+  // '/curatedList': {
+  //   name: 'curatedList',
+  //   component: CuratedList
+  // },
+	'player/:type/:id/:hash': {
 		name: 'player',
 		component: Player,
 	}
 })
 
 router.redirect({
-  '*': '/movies'
+  '*': '/shows/movies'
 })
 
 router.start(App, '#app')

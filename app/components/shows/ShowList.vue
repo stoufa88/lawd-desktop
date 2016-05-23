@@ -1,21 +1,21 @@
 <template>
 	<div id="main-content" @click="escape" v-on:keyup.27="escape">
-		<div v-if="movies" :class="{ 'movie-list': true, 'container-fluid': true, loading: !movies.length > 0 }">
+		<div v-if="shows" :class="{ 'movie-list': true, 'container-fluid': true, loading: !shows.length > 0 }">
 			<div class="row">
-				<movie v-for="movie in movies"
-							:movie="movie"
+				<show v-for="show in shows"
+							:show="show"
 							:index="$index">
-				</movie>
+				</show>
 			</div>
 
-			<div v-if="movies.length > 0 && hasMore">
+			<div v-if="shows.length > 0 && hasMore">
 				<button class="btn btn-secondary center-block" v-on:click="loadMore">
 					{{ $t('movies.more') }}
 				</button>
 			</div>
 		</div>
 
-		<div v-if="!movies">
+		<div v-if="!shows">
 			<p class="text-xs-center text-info">{{ randomEmptyMessage() }}</p>
 		</div>
 	</div>
@@ -23,22 +23,25 @@
 </template>
 
 <script>
-import DataService from '../../services/movies'
-import MovieItem from './MovieItem.vue'
+import DataService from '../../services/parse'
+import ShowItem from './ShowItem.vue'
 import nokat from '../../i18n/nokat.js'
 
 let service = new DataService()
 
+let defaultSort = 'popular'
+let defaultFilter = ''
+let defaultQuery = ''
+
 export default {
 	components: {
-		'movie': MovieItem,
+		'show': ShowItem,
 	},
 	data () {
 		return {
-			movies: [],
+			shows: [],
 			skip: 0,
 			show: 30,
-			sort: 'popular',
 			filter: '',
 			searchQuery: '',
 			hasMore: true
@@ -57,16 +60,17 @@ export default {
 				filter: self.filter,
 				searchQuery: self.searchQuery,
 				skip: self.skip,
-				show: self.show
+				show: self.show,
+				type: self.type
 			}
 
-			service.getMoviesFromParse(options).then(function(results) {
+			service.getShowsFromParse(options).then(function(results) {
 				if(results.length === 0) {
 					self.$set('hasMore', false)
 				}
 
-				for (let movie of results) {
-					self.movies.push(movie)
+				for (let show of results) {
+					self.shows.push(show)
 				}
 			})
 		},
@@ -84,25 +88,26 @@ export default {
   route: {
     data ({ to }) {
 			const self = this
-			self.$set('movies', [])
-			self.$set('skip', 0)
-			self.$set('show', 30)
+
+			let type = to.params.type == 'movies' ? 'Movie': 'TV'
 
 			let options = {
-				sort: to.query.sort_by || self.sort,
-				filter: to.query.filter || self.filter,
-				searchQuery: to.query.searchQuery || '',
+				sort: to.query.sort || defaultSort,
+				filter: to.query.filter || defaultFilter,
+				searchQuery: to.query.searchQuery || defaultQuery,
 				skip: self.skip,
-				show: self.show
+				show: self.show,
+				type: type
 			}
 
-			self.$set('sort', options.sort)
-			self.$set('filter', options.filter)
+			self.$set('shows', [])
+			self.$set('skip', 0)
+			self.$set('show', 30)
 			self.$set('searchQuery', options.searchQuery)
 			self.$set('hasMore', true)
 
-			service.getMoviesFromParse(options).then(function(results){
-				self.$set('movies', results)
+			service.getShowsFromParse(options).then(function(results){
+				self.$set('shows', results)
 			})
     }
   },
@@ -110,11 +115,24 @@ export default {
 		'search-query': function(searchQuery) {
 			const self = this
 
+			self.$set('shows', [])
+			self.$set('type', self.type)
 			self.$set('searchQuery', searchQuery)
-			self.$set('page', 1)
-			self.$set('movies', [])
-			service.getMovies(self).then(function(response) {
-				self.$set('movies', response.data.movies)
+			self.$set('skip', 0)
+			self.$set('show', 30)
+			self.$set('shows', [])
+
+			let options = {
+				sort: to.query.sort || defaultSort,
+				filter: to.query.filter || defaultFilter,
+				searchQuery: to.query.searchQuery || defaultQuery,
+				skip: self.skip,
+				show: self.show,
+				type: self.type
+			}
+
+			service.getShowsFromParse(options).then(function(response) {
+				self.$set('shows', response.data.movies)
 			});
 		}
   }
