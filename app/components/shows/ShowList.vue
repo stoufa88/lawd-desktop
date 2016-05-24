@@ -10,7 +10,7 @@
 
 			<div v-if="shows.length > 0 && hasMore">
 				<button class="btn btn-secondary center-block" v-on:click="loadMore">
-					{{ $t('movies.more') }}
+					{{ $t('shows.more') }}
 				</button>
 			</div>
 		</div>

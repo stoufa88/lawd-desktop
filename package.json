@@ -30,10 +30,10 @@
     "tether": "^1.2.0",
     "underscore": "^1.8.3",
     "video.js": "^5.9.0",
-    "vue": "^1.0.21",
-    "vue-i18n": "^3.0.0",
+    "vue": "^1.0.24",
+    "vue-i18n": "^4.0.0",
     "vue-resource": "^0.7.0",
-    "vue-router": "^0.7.11",
+    "vue-router": "^0.7.13",
     "webtorrent": "^0.94.0",
     "ws": "^1.1.0"
   },

@@ -32,13 +32,18 @@
         </torrent>
       </div>
 
-      <div v-if="type == 'tv'">
-        <p v-for="episodes in seasons">
+      <div v-if="type == 'tv'" v-for="episodes in seasons">
+        <a class="btn btn-primary" data-toggle="collapse"
+            :href="'#' + $key + '-' + index"
+            aria-expanded="false" :aria-controls="$key + '-' + index">
           {{ $key }}
-          <season
-            :episodes="episodes"
-          </season>
-        </p>
+        </a>
+
+        <div class="collapse" :id="$key + '-' + index">
+          <div class="card card-block">
+            <season :episodes="episodes"></season>
+          </div>
+        </div>
 
       </div>
     </div>

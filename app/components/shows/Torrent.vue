@@ -1,7 +1,9 @@
 <template>
   <li>
-    <p>{{ torrent.name }}</p>
-    <p>{{ torrent.language }} / {{ torrent.quality }} / {{ filesize(torrent.size) }}</p>
+    <p class="torrent-name" v-if="torrent.name">{{ torrent.name }}</p>
+    <p class="torrent-lang" v-if="torrent.language"> {{ torrent.language }} </p>
+    <p class="torrent-quality" v-if="torrent.quality"> {{ torrent.quality }} </p>
+    <p class="torrent-size" v-if="torrent.size"> {{ filesize(torrent.size) }} </p>
     <a class="btn btn-primary"
         v-link="{ name: 'player', params: { type: type, id: showId, hash: torrent.info_hash }}">
         Tfaraj {{torrent.quality}}</a>

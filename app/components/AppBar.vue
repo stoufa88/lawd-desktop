@@ -9,7 +9,7 @@
 		<form class="form-inline pull-xs-right" v-on:submit="search">
 			<div class="form-group">
 				<input v-model="searchQuery" type="text"
-					class="form-control search-control" placeholder="{{ $t('movies.search') }}">
+					class="form-control search-control" placeholder="{{ $t('shows.search') }}">
 			</div>
 		</form>
 
