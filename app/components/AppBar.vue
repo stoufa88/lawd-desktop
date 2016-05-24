@@ -1,5 +1,5 @@
 <template>
-	<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+	<nav :class="{ 'navbar navbar-fixed-top navbar-dark bg-inverse': true, 'hidden': true">
 		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
       &#9776;
     </button>

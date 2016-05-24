@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import DataService from '../../services/parse'
+import DataService from '../../../services/parse'
+import nokat from '../../../i18n/nokat.js'
 import ShowItem from './ShowItem.vue'
-import nokat from '../../i18n/nokat.js'
 
 let service = new DataService()
 
@@ -135,6 +135,11 @@ export default {
 				self.$set('shows', response.data.movies)
 			});
 		}
-  }
+  },
+	beforeDestroy() {
+		if('.popover') {
+			$('.popover').remove()
+		}
+	}
 }
 </script>

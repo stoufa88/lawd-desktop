@@ -88,9 +88,6 @@ export default {
     },
 
 		_init() {
-      if('.popover') {
-        $('.popover').remove()
-      }
 			player = videojs('video-player', { 'controls': true, 'autoplay': false, 'preload': 'auto' })
 		},
 
@@ -117,7 +114,7 @@ export default {
 		parseService.getShowFromParse(id, type).then(function(show) {
       self.$set('show', show)
       console.log(show)
-			let magnetUri = 'magnet:?xt=urn:btih:' + hash
+			let magnetUri = 'magnet:?xt=urn:btih:' + '4AC598450785A44BE3A7306CE03B1C7C55623021'
 			magnetUri += '&dn=' + encodeURI(show.get('torrents')[0].name)
 			trackers.forEach(function(t) {
 				magnetUri += '&tr=' + t

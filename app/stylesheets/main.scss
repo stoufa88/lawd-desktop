@@ -154,9 +154,30 @@ html {
 
 //  --------------------------- Movie details ------------------------------------
 
-.torrent-links {
-	margin-right: 10px;
+.movie {
+  color: #fff;
+  padding: 25px !important;
 }
+
+.movie-header {
+  .close {
+    position: absolute;
+    top: 12%;
+    right: 5%;
+    font-size: 3rem;
+  }
+}
+
+.movie-body {
+  .movie-left-section {
+    img {
+      border-radius: 15px;
+      width: 250px;
+    }
+  }
+}
+
+
 
 // --------------------------- Player ---------------------------------------/
 

@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
 
-		<div v-if="$route.name == 'showList' || $route.name == 'curatedList'">
+		<div v-if="$route.name != 'player'">
 			<appbar></appbar>
 			<div id="side-menu">
 				<sidenav></sidenav>

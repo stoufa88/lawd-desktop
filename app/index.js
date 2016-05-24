@@ -9,7 +9,8 @@ var VueRouter = require('vue-router')
 var VueI18n = require('vue-i18n')
 
 import App from './components/App.vue'
-import ShowList from './components/shows/ShowList.vue'
+import ShowList from './components/shows/list/ShowList.vue'
+import ShowDetails from './components/shows/details/ShowDetails.vue'
 // import CuratedList from './components/shows/curated/CuratedListList.vue'
 import Player from './components/shows/Player.vue'
 import locales from './i18n/locales.js'
@@ -30,6 +31,10 @@ router.map({
   '/shows/:type': {
 		name: 'showList',
     component: ShowList,
+  },
+  'shows/:type/:id': {
+    name: 'showDetails',
+    component: ShowDetails,
   },
   // '/curatedList': {
   //   name: 'curatedList',
