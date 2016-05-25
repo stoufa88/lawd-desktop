@@ -3,7 +3,7 @@
 
 		<div v-if="$route.name != 'player'">
 			<appbar></appbar>
-			<div id="side-menu">
+			<div id="side-menu" v-if="$route.name == 'showList'">
 				<sidenav></sidenav>
 			</div>
 		</div>

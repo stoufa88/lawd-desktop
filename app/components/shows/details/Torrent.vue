@@ -1,12 +1,26 @@
 <template>
   <li>
-    <p class="torrent-name" v-if="torrent.name">{{ torrent.name }}</p>
-    <p class="torrent-lang" v-if="torrent.language"> {{ torrent.language }} </p>
-    <p class="torrent-quality" v-if="torrent.quality"> {{ torrent.quality }} </p>
-    <p class="torrent-size" v-if="torrent.size"> {{ filesize(torrent.size) }} </p>
-    <a class="btn btn-primary"
-        v-link="{ name: 'player', params: { type: type, id: showId, hash: torrent.info_hash }}">
-        Tfaraj {{torrent.quality}}</a>
+    <span class="torrent-language">
+      <img class="flag"
+        src="https://lipis.github.io/flag-icon-css/flags/1x1/fr.svg"
+        v-if="torrent.language == 'fr'"
+      />
+
+      <img class="flag"
+        src="https://lipis.github.io/flag-icon-css/flags/1x1/gb.svg"
+        v-if="torrent.language == 'en'"
+      />
+    </span>
+
+    <span class="torrent-name">
+      <span class="torrent-name" v-if="showName">{{ showName }}</span>
+    </span>
+
+    <span>
+      <a class="btn btn-primary"
+          v-link="{ name: 'player', params: { type: type, id: showId, hash: torrent.info_hash }}">
+          Tfaraj {{torrent.quality}} | {{ filesize(torrent.size) }}</a>
+    </span>
   </li>
 </template>
 
@@ -16,6 +30,7 @@ export default {
     torrent: Object,
     type: String,
     showId: String,
+    showName: String,
     index: Number,
   },
 

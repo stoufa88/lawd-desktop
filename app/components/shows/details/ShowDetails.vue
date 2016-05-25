@@ -4,9 +4,13 @@
       <h1 class="text-xs-center">{{ show.get("name") }}</h1>
       <p class="text-xs-center">{{ show.get("genre") }}</p>
 
-      <button type="button" class="close" aria-label="Close">
+      <a class="close"
+        v-link="{
+          name: 'showList',
+          params: { type: this.$route.params.type }
+        }">
         <span aria-hidden="true">&times;</span>
-      </button>
+      </a>
     </header>
 
     <section class="movie-body">
@@ -16,20 +20,45 @@
         </div>
 
         <div class="movie-center-section col-xs-6">
-          <p class="movie-description">{{ show.get('plot') }}</p>
+          <p class="movie-description lead">{{ show.get('plot') }}</p>
 
-          <h6>Actors</h6>
+          <p><strong>Actors</strong></p>
           <p>{{ show.get("actors") }}</p>
 
-          <h6>Director</h6>
+          <p><strong>Director</strong></p>
           <p>{{ show.get("director") }}</p>
         </div>
 
         <div class="movie-right-section col-xs-2">
           <h3>Details</h3>
-          <p>Runtime: {{ show.get("runtime") }}</p>
-          <p>Country: {{ show.get("country") }}</p>
-          <p>Release Date: {{ releaseDate }}</p>
+          <p><strong>Runtime:</strong> {{ show.get("runtime") }}</p>
+          <p><strong>Country:</strong> {{ show.get("country") }}</p>
+          <p><strong>Release Date:</strong> {{ releaseDate }}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="movie-torrents-section col-xs-6 col-xs-offset-3" v-if="type == 'Movie'">
+          <torrent v-for="torrent in show.get('torrents') | filterBy 'p' in 'quality'"
+                :torrent="torrent"
+                :show-id="show.id"
+                :show-name="show.get('name')"
+                :type='"Movie"'>
+          </torrent>
+        </div>
+
+        <div class="movie-torrents-section col-xs-6 col-xs-offset-3" v-if="type == 'TV'">
+          <div v-for="episodes in seasons">
+            <a class="btn btn-transparent" data-toggle="collapse"
+                :href="'#' + $key"
+                aria-expanded="false" :aria-controls="$key">
+              {{ $key }}
+            </a>
+
+            <div class="collapse" :id="$key">
+              <season :episodes="episodes"></season>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -51,7 +80,9 @@ export default {
   },
 	data () {
 		return {
-      show: null
+      show: null,
+      seasons: null,
+      type: ''
 		}
 	},
   ready () {
@@ -59,13 +90,16 @@ export default {
     const id = self.$route.params.id
     const type = self.$route.params.type === 'movies' ? 'Movie' : 'TV'
 
-    console.log(type, id)
-
-    parseService.getShowFromParse(id, type).then(function(show) {
-      console.log(show)
+    parseService.getShowFromParse(id, type).then((show) => {
       self.$set('show', show)
-    })
+      self.$set('type', type)
 
+      if(type === 'TV') {
+        parseService.getTVEpisodesFromParse(self.show.id).then((results) => {
+          self.$set('seasons', results)
+        })
+      }
+    })
   },
   computed: {
     releaseDate: function() {

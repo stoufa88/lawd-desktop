@@ -34,6 +34,7 @@ export default class Engine {
           }
         }
       })
+
       let mediaType = movieFile.name.indexOf('mkv') > -1 ? 'mkv' : 'mp4'
       cb(torrent, mediaIndex, mediaType)
     })

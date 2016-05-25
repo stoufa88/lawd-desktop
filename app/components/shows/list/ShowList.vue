@@ -40,6 +40,7 @@ export default {
 	data () {
 		return {
 			shows: [],
+			type: '',
 			skip: 0,
 			show: 30,
 			filter: '',
@@ -65,6 +66,7 @@ export default {
 			}
 
 			service.getShowsFromParse(options).then(function(results) {
+				self.$set('show', results.length)
 				if(results.length === 0) {
 					self.$set('hasMore', false)
 				}
@@ -105,6 +107,7 @@ export default {
 			self.$set('show', 30)
 			self.$set('searchQuery', options.searchQuery)
 			self.$set('hasMore', true)
+			self.$set('type', type)
 
 			service.getShowsFromParse(options).then(function(results){
 				self.$set('shows', results)

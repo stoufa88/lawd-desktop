@@ -113,9 +113,8 @@ export default {
 
 		parseService.getShowFromParse(id, type).then(function(show) {
       self.$set('show', show)
-      console.log(show)
-			let magnetUri = 'magnet:?xt=urn:btih:' + '4AC598450785A44BE3A7306CE03B1C7C55623021'
-			magnetUri += '&dn=' + encodeURI(show.get('torrents')[0].name)
+
+			let magnetUri = 'magnet:?xt=urn:btih:' + hash
 			trackers.forEach(function(t) {
 				magnetUri += '&tr=' + t
 			})
@@ -124,8 +123,6 @@ export default {
       let engine = new Engine()
       engine.addMagnet(magnetUri, ((torrent, mediaIndex, mediaType) => {
         console.info('Player: media type is', mediaType)
-
-        console.log (mediaIndex)
 
         if(mediaType == 'mp4') {
           torrent.files[mediaIndex].renderTo('video')
@@ -142,7 +139,7 @@ export default {
 
         // Call the subs service and add the available subs.
         let subsService = new SubtitlesServices()
-        subsService.getSubtitles(show.get('name')).then(function(subs) {
+        subsService.getSubtitles(self.show.get('imdbID')).then(function(subs) {
           for(const lang in subs) {
             let sub = subs[lang]
             let dir = path.join(torrent.path)

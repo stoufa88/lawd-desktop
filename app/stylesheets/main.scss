@@ -32,7 +32,7 @@ html {
 #main-content {
 	margin-top: 54px;
   padding: 25px 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: calc(100vh - 54px);
 	background: $body-bg;
 }
@@ -67,6 +67,15 @@ html {
 }
 
 // -------------------------- App bar ----------------------------------
+
+nav.disable-controls {
+  button {
+    pointer-events: none;
+  }
+  form, .btn-group {
+    display: none;
+  }
+}
 
 .navbar-brand {
 	text-transform: uppercase;
@@ -175,8 +184,26 @@ html {
       width: 250px;
     }
   }
-}
 
+  .movie-center-section {
+    border-right: 1px solid #ccc;
+  }
+
+  .movie-torrents-section {
+    overflow-y: auto;
+    height: 10rem;
+    li {
+      list-style-type: none;
+      img {
+        width: 15px;
+        margin-right: 10px;
+      }
+      span:last-child {
+        margin-left: 25px;
+      }
+    }
+  }
+}
 
 
 // --------------------------- Player ---------------------------------------/

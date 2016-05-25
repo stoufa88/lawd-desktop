@@ -1,5 +1,7 @@
 <template>
-	<nav :class="{ 'navbar navbar-fixed-top navbar-dark bg-inverse': true, 'hidden': true">
+	<nav :class="{ 'navbar': true, 'navbar-dark bg-inverse': true, 'navbar-fixed-top': true,
+	 							'disable-controls': $route.name == 'showDetails' 
+							 }">
 		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
       &#9776;
     </button>

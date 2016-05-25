@@ -1,12 +1,11 @@
 <template>
   <ul>
     <li v-for="episode in episodes">
-        {{ episode.get("name") }}
-        <torrent v-for="torrent in episode.get('torrents')"
-              :torrent="torrent"
-              :show-id="episode.id"
-              :type='"TVEpisode"'>
-        </torrent>
+      {{ episode.get("name") }}
+      <torrent v-for="torrent in episode.get('torrents')"
+            :torrent="torrent"
+            :show-id="episode.id">
+      </torrent>
     </li>
   </ul>
 </template>
