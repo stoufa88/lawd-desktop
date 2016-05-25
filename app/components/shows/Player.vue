@@ -109,6 +109,8 @@ export default {
 		const hash = self.$route.params.hash
 		const type = self.$route.params.type
 
+    console.log(type)
+
 		self._init()
 
 		parseService.getShowFromParse(id, type).then(function(show) {

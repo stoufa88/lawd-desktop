@@ -10,10 +10,10 @@ export default class Subtitles {
   constructor() {
   }
 
-  getSubtitles(imdbId) {
+  getSubtitles(imdbId, options) {
     let self = this
 		let OpenSubtitles = new OS({
-	    useragent:'streamer',
+	    useragent: 'streamer',
 	    ssl: true
 		})
 

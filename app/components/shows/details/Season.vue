@@ -4,7 +4,8 @@
       {{ episode.get("name") }}
       <torrent v-for="torrent in episode.get('torrents')"
             :torrent="torrent"
-            :show-id="episode.id">
+            :show-id="episode.id"
+            :type='"TV"'>
       </torrent>
     </li>
   </ul>
