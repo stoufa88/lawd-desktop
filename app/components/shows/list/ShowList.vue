@@ -89,6 +89,10 @@ export default {
 
   route: {
     data ({ to }) {
+			if('.popover') {
+				$('.popover').remove()
+			}
+			
 			const self = this
 
 			let type = to.params.type == 'movies' ? 'Movie': 'TV'

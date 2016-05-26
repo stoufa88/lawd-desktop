@@ -17,9 +17,10 @@
     </span>
 
     <span>
+      Torrent {{ index + 1}} : {{ torrent.quality }}
       <a class="btn btn-primary"
           v-link="{ name: 'player', params: { type: type, id: showId, hash: torrent.info_hash }}">
-          Tfaraj {{torrent.quality}} | {{ filesize(torrent.size) }}</a>
+          Tfaraj</a>
     </span>
   </li>
 </template>

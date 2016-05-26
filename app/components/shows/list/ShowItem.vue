@@ -26,7 +26,8 @@
 
       <a class="btn btn-primary"
           v-link="{ name: 'showDetails', params: { type: $route.params.type, id: show.id }}">
-          Details</a>
+        Details
+      </a>
     </div>
    </div>
 </template>

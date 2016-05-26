@@ -1,8 +1,8 @@
 <template>
-  <div id="toggle-me" class="invisible" v-if="movie">
+  <div id="toggle-me" class="invisible" v-if="show">
     <div class="row">
       <div class="col-xs-2 col-xs-offset-2">
-        <img v-bind:src="movie.get('poster')" tabindex="0" />
+        <img v-bind:src="show.get('poster')" tabindex="0" />
       </div>
 
       <div class="col-xs-5">
@@ -60,6 +60,8 @@ export default {
 	data () {
 		return {
 			show: null,
+      season: '',
+      episode: '',
       torrent: {},
       downloaded: 0,
       downloadSpeed: 0,
@@ -107,14 +109,20 @@ export default {
 		const self = this
 		const id = self.$route.params.id
 		const hash = self.$route.params.hash
-		const type = self.$route.params.type
+		const type = self.$route.params.type === 'movies' ? 'Movie' : 'TVEpisode'
 
-    console.log(type)
+    console.log(self.$route.params.type)
 
 		self._init()
 
 		parseService.getShowFromParse(id, type).then(function(show) {
-      self.$set('show', show)
+      if(type == 'TVEpisode') {
+        self.$set('season', show.get('season'))
+        self.$set('episode', show.get('episode'))
+        self.$set('show', show.get('parent'))
+      }else {
+        self.$set('show', show)
+      }
 
 			let magnetUri = 'magnet:?xt=urn:btih:' + hash
 			trackers.forEach(function(t) {
@@ -141,7 +149,14 @@ export default {
 
         // Call the subs service and add the available subs.
         let subsService = new SubtitlesServices()
-        subsService.getSubtitles(self.show.get('imdbID')).then(function(subs) {
+        let subOptions = {}
+
+        if(self.season && self.episode) {
+          subOptions.season = self.season
+          subOptions.episode = self.episode
+        }
+
+        subsService.getSubtitles(self.show.get('imdbID'), subOptions).then(function(subs) {
           for(const lang in subs) {
             let sub = subs[lang]
             let dir = path.join(torrent.path)

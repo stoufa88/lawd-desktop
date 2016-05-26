@@ -43,17 +43,19 @@
                 :torrent="torrent"
                 :show-id="show.id"
                 :show-name="show.get('name')"
-                :type='"Movie"'>
+                :type='"movies"'>
           </torrent>
         </div>
 
         <div class="movie-torrents-section col-xs-6 col-xs-offset-3" v-if="type == 'TV'">
           <div v-for="episodes in seasons">
-            <a class="btn btn-transparent" data-toggle="collapse"
-                :href="'#' + $key"
-                aria-expanded="false" :aria-controls="$key">
-              {{ $key }}
-            </a>
+            <div class="season-title">
+              <a data-toggle="collapse"
+                  :href="'#' + $key"
+                  aria-expanded="false" :aria-controls="$key">
+                Saison {{ $key }}
+              </a>
+            </div>
 
             <div class="collapse" :id="$key">
               <season :episodes="episodes"></season>

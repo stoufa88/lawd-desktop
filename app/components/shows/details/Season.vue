@@ -1,12 +1,20 @@
 <template>
   <ul>
     <li v-for="episode in episodes">
-      {{ episode.get("name") }}
-      <torrent v-for="torrent in episode.get('torrents')"
-            :torrent="torrent"
-            :show-id="episode.id"
-            :type='"TV"'>
-      </torrent>
+      <div class="season-episodes" role="tablist" aria-multiselectable="true">
+        <a data-toggle="collapse" data-parent="#accordion" :href="'#ep' + $index" aria-expanded="false" :aria-controls="$index">
+          Episode {{ episode.get("episode") }}
+        </a>
+        <div :id="'ep' + $index" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <torrent v-for="torrent in episode.get('torrents')"
+                :torrent="torrent"
+                :show-id="episode.id"
+                :type='"tv"'
+                :index="$index">
+          </torrent>
+        </div>
+        </div>
+      </div>
     </li>
   </ul>
 </template>

@@ -10,19 +10,26 @@ export default class Subtitles {
   constructor() {
   }
 
-  getSubtitles(imdbId, options) {
+  getSubtitles(imdbid, options) {
     let self = this
 		let OpenSubtitles = new OS({
 	    useragent: 'streamer',
 	    ssl: true
 		})
 
-		return OpenSubtitles.search({
-			sublanguageid: 'eng, fre',
-			extensions: ['srt', 'vtt'],
-			imdbid: imdbId,
-		}).then(function (subtitles) {
-      console.log(subtitles)
+    var query = {
+      imdbid: imdbid,
+      sublanguageid: 'eng, fre',
+      extensions: ['srt', 'vtt']
+    }
+
+    if(options.season && options.episode) {
+      query.season = options.season
+      query.episode = options.episode
+    }
+
+		return OpenSubtitles.search(query).then(function (subtitles) {
+      console.log('Subs engine got',  subtitles)
       return subtitles
 		})
 	}

@@ -75,6 +75,7 @@ export default class DataService {
   getShowFromParse(id, type) {
     var Show = Parse.Object.extend(type)
     var query = new Parse.Query(Show)
+    query.include('parent')
 
     return query.get(id).then(function(result) {
       return result
