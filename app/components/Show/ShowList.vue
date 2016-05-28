@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import DataService from '../../../services/parse'
-import nokat from '../../../i18n/nokat.js'
+import DataService from '../../services/parse'
+import nokat from '../../i18n/nokat.js'
 import ShowItem from './ShowItem.vue'
 
 let service = new DataService()
@@ -92,7 +92,7 @@ export default {
 			if('.popover') {
 				$('.popover').remove()
 			}
-			
+
 			const self = this
 
 			let type = to.params.type == 'movies' ? 'Movie': 'TV'

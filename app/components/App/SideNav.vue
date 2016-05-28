@@ -2,12 +2,12 @@
 	<ul class="nav">
 	 <li class="nav-item">
 		 <a class="nav-item-link" v-link="{ name: 'showList', params: { type: 'movies' }}">
-			 <i class="fa fa-music fa-fw"></i> {{ $t('navigation.movies') }}
+			 <i class="fa fa-film fa-fw"></i> {{ $t('navigation.movies') }}
 		 </a>
 	 </li>
 	 <li class="nav-item">
 		 <a class="nav-item-link" v-link="{ name: 'showList', params: { type: 'tv' }}">
-			 <i class="fa fa-music fa-fw"></i> {{ $t('navigation.tv') }}
+			 <i class="fa fa-tv fa-fw"></i> {{ $t('navigation.tv') }}
 		 </a>
 	 </li>
 	 <li class="nav-item">

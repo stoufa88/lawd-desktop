@@ -2,6 +2,7 @@
 @import './_variables';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~animate.css/animate.min.css';
+@import '~font-awesome/css/font-awesome.css';
 @import '~video.js/dist/video-js.min.css';
 @import './_loading';
 @import './_side_nav';
@@ -33,6 +34,7 @@ html {
 	margin-top: 54px;
   padding: 25px 0;
   overflow-y: auto;
+  overflow-x: hidden;
   height: calc(100vh - 54px);
 	background: $body-bg;
 }
@@ -168,7 +170,32 @@ nav.disable-controls {
   padding: 25px !important;
 }
 
-.movie-header {
+.show-header {
+  margin: -75px -50px 50px -50px;
+  background: rgb(0, 0, 0);
+  border-bottom: 5px solid;
+  #show-trailer {
+    position: relative;
+    width: 480px;
+    display: flex;
+    margin: 0 auto;
+    cursor: pointer;
+    i {
+      position: absolute;
+      left: 44%;
+      top: 35%;
+      font-size: 5rem;
+      z-index: 10;
+    }
+    &:hover {
+      i {
+        visibility: visible !important;
+      }
+      img{
+        opacity: 0.8;
+      }
+    }
+  }
   .close {
     position: absolute;
     top: 12%;
@@ -187,19 +214,20 @@ nav.disable-controls {
 
   .movie-center-section {
     border-right: 1px solid #ccc;
+    padding: 0 25px;
   }
 
   .movie-torrents-section {
-    overflow-y: auto;
     height: 10rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 30px;
     li {
       list-style-type: none;
+      width: 100%;
+      line-height: 34px;
       img {
         width: 15px;
-        margin-right: 10px;
-      }
-      span:last-child {
-        margin-left: 25px;
       }
     }
 
@@ -208,10 +236,7 @@ nav.disable-controls {
     }
 
     .season-title {
-      background: rgba(255, 255, 255, 0.07);
-      border-radius: 5px;
-      text-align: center;
-      font-size: 1rem;
+      font-size: 1.5rem;
     }
 
     .season-episodes {

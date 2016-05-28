@@ -2,10 +2,10 @@
   <ul>
     <li v-for="episode in episodes">
       <div class="season-episodes" role="tablist" aria-multiselectable="true">
-        <a data-toggle="collapse" data-parent="#accordion" :href="'#ep' + $index" aria-expanded="false" :aria-controls="$index">
+        <a data-toggle="collapse" data-parent="#accordion" :href="`#${episode.get('season') + episode.get('episode')}`" aria-expanded="false" :aria-controls="$index">
           Episode {{ episode.get("episode") }}
         </a>
-        <div :id="'ep' + $index" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div :id="`${episode.get('season') + episode.get('episode')}`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
           <torrent v-for="torrent in episode.get('torrents')"
                 :torrent="torrent"
                 :show-id="episode.id"
@@ -27,7 +27,6 @@ export default {
   props: {
     episodes: Array
   },
-
   created () {
     this.filesize = require('filesize')
   },

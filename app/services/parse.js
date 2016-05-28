@@ -1,5 +1,6 @@
 import Parse from 'parse/node'
 import _ from 'underscore'
+import google from 'googleapis'
 
 const MOVIES_PARSE_ENDPOINT = 'http://149.202.45.9/parse/hammamet/classes/Movie'
 
@@ -73,13 +74,42 @@ export default class DataService {
   }
 
   getShowFromParse(id, type) {
+    const self = this
     var Show = Parse.Object.extend(type)
     var query = new Parse.Query(Show)
     query.include('parent')
 
-    return query.get(id).then(function(result) {
+    return query.get(id).then((result) => {
       return result
     })
+  }
+
+  getTrailerFromYoutube(query, cb) {
+    let youtube = google.youtube({
+     version: 'v3',
+     auth: 'AIzaSyArYwv1MWaj550MwKSbSju8BW4dLAKWsNk'
+    });
+
+    youtube.search.list({
+      part: 'id,snippet',
+      q: `${query} trailer`,
+      videoCategoryId: '1',
+      maxResults: 1,
+      type: 'video',
+      order: 'viewCount'
+    }, function (err, data) {
+      if (!err && data) {
+        let item = data.items[0]
+        let trailer = {
+          videoURL: `http://www.youtube.com/embed/${item.id.videoId}`,
+          thumbURL: item.snippet.thumbnails['high'].url
+        }
+
+        cb(trailer)
+      }
+  });
+
+
   }
 
   getCuratedListFromParse() {
