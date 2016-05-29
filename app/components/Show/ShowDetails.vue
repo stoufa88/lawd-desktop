@@ -41,6 +41,7 @@
             <torrent v-for="torrent in show.get('torrents') | filterBy 'p' in 'quality'"
                   :torrent="torrent"
                   :show-id="show.id"
+                  :show-link-name="torrent.name"
                   :type='"movies"'>
             </torrent>
           </div>

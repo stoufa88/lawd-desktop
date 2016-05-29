@@ -13,15 +13,12 @@
       </span>
 
       <span>
-        <span class="torrent-name" v-if="showName">{{ showName }}</span>
-        <span class="torrent-name small" v-if="torrent.name">{{ torrent.name }}</span>
+        <a class="show-link small"
+          v-link="{ name: 'player', params: { type: type, id: showId, hash: torrent.info_hash }}">
+        {{ showLinkName }}
+        </a>
       </span>
 
-      <span class="pull-xs-right">
-        <a class="btn btn-primary"
-            v-link="{ name: 'player', params: { type: type, id: showId, hash: torrent.info_hash }}">
-            Tfaraj</a>
-      </span>
   </li>
 </template>
 
@@ -31,7 +28,7 @@ export default {
     torrent: Object,
     type: String,
     showId: String,
-    showName: String,
+    showLinkName: String,
     index: Number,
   },
 
