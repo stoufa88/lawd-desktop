@@ -171,9 +171,11 @@ nav.disable-controls {
 }
 
 .show-header {
-  margin: -75px -50px 50px -50px;
-  background: rgb(0, 0, 0);
-  border-bottom: 5px solid;
+	&.has-trailer {
+		margin: -75px -50px 50px -50px;
+		background: rgb(0, 0, 0);
+		border-bottom: 5px solid;
+	}
   #show-trailer {
     position: relative;
     width: 480px;

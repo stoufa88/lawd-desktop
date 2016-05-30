@@ -1,9 +1,11 @@
 <template>
   <div id="main-content" class="movie" v-if="show">
-    <header class="show-header">
-      <div id="show-trailer" v-if="trailer">
-          <i class="fa fa-play invisible" aria-hidden="true" data-toggle="modal" data-target="#trailer-modal"></i>
-        <img v-bind:src="trailer.thumbURL" tabindex="0" />
+    <header :class="{ 'show-header': true,  'has-trailer': trailer}">
+      <div id="show-trailer" tabindex="0" aria-hidden="true"
+						data-toggle="modal" data-target="#trailer-modal"
+						v-if="trailer">
+          <i class="fa fa-play invisible"></i>
+        <img v-bind:src="trailer.thumbURL" />
       </div>
 
       <div id="show-name">

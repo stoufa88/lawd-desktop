@@ -90,22 +90,39 @@ export default class DataService {
      auth: 'AIzaSyArYwv1MWaj550MwKSbSju8BW4dLAKWsNk'
     });
 
+		query = query.toLowerCase()
+
     youtube.search.list({
       part: 'id,snippet',
       q: `${query} trailer`,
       videoCategoryId: '1',
-      maxResults: 1,
       type: 'video',
       order: 'viewCount'
     }, function (err, data) {
       if (!err && data) {
-        let item = data.items[0]
-        let trailer = {
-          videoURL: `http://www.youtube.com/embed/${item.id.videoId}`,
-          thumbURL: item.snippet.thumbnails['high'].url
-        }
+				let index, i = 0
+				while(!index && i < data.items.length) {
+					let title = (data.items[i].snippet.title).toLowerCase()
+					if(title.indexOf(query) > -1 && title.indexOf('trailer') > -1) {
+						index = i
+					}
 
-        cb(trailer)
+					i++
+				}
+
+				if(index) {
+					let item = data.items[index]
+					let trailer = {
+						videoURL: `http://www.youtube.com/embed/${item.id.videoId}`,
+						thumbURL: item.snippet.thumbnails['high'].url
+					}
+
+					cb(trailer)
+				} else {
+					cb(null)
+				}
+
+
       }
   });
 
