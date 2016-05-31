@@ -1,6 +1,6 @@
 <template>
   <div id="main-content" class="movie" v-if="show">
-    <header :class="{ 'show-header': true,  'has-trailer': trailer}">
+    <header :class="{ 'show-header': true, 'has-trailer': trailer}">
       <div id="show-trailer" tabindex="0" aria-hidden="true"
 						data-toggle="modal" data-target="#trailer-modal"
 						v-if="trailer">
@@ -9,7 +9,7 @@
       </div>
 
       <div id="show-name">
-        <h1 class="text-xs-center">{{ show.get("name") }}</h1>
+        <h1 class="text-xs-center display-5">{{ show.get("name") }}</h1>
         <p class="text-xs-center">{{ show.get("genre") }}</p>
       </div>
 
@@ -29,24 +29,33 @@
 
       <div class="movie-center-section col-xs-6">
         <div class="row">
-          <p class="movie-description lead">{{ show.get('plot') }}</p>
+          <p class="movie-description">{{ show.get('plot') }}</p>
 
-          <p><strong>Actors:</strong></p>
-          <p>{{ show.get("actors") }}</p>
+					<div class="col-xs-12">
+	          <strong>Actors:</strong>
+	          <p>{{ show.get("actors") }}</p>
+					</div>
 
-          <p><strong>Director: </strong></p>
-          <p>{{ show.get("director") }}</p>
+					<div class="col-xs-12">
+	          <strong>Director: </strong>
+	          <p>{{ show.get("director") }}</p>
+					</div>
         </div>
 
-        <div class="movie-torrents-section">
-          <div class="row" v-if="type == 'Movie'">
+				<div class="row">
+					<h1>Regarder</h1>
+				</div>
+
+
+        <div class="row movie-torrents-section">
+          <ul v-if="type == 'Movie'">
             <torrent v-for="torrent in show.get('torrents') | filterBy 'p' in 'quality'"
                   :torrent="torrent"
                   :show-id="show.id"
-                  :show-link-name="torrent.name"
+                  :movie-torrent-link="torrent.name"
                   :type='"movies"'>
             </torrent>
-          </div>
+          </ul>
 
           <div v-if="type == 'TV'">
             <div v-for="episodes in seasons">

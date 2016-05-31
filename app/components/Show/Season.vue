@@ -9,6 +9,7 @@
           <torrent v-for="torrent in episode.get('torrents')"
                 :torrent="torrent"
                 :show-id="episode.id"
+								:tv-torrent-link="episode.get('name')"
                 :type='"tv"'
                 :index="$index">
           </torrent>

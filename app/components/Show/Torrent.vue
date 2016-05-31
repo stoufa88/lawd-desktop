@@ -15,7 +15,7 @@
       <span>
         <a class="show-link small"
           v-link="{ name: 'player', params: { type: type, id: showId, hash: torrent.info_hash }}">
-        {{ showLinkName }}
+        {{ tvTorrentLink || movieTorrentLink }}
         </a>
       </span>
 
@@ -28,7 +28,9 @@ export default {
     torrent: Object,
     type: String,
     showId: String,
-    showLinkName: String,
+    movieTorrentLink: String,
+    tvTorrentLink: String,
+    tvShowName: String,
     index: Number,
   },
 

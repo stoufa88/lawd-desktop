@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,900,700italic,700,400italic,300,900italic);
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,900,700italic,700,400italic,300,900italic);
 @import './_variables';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~animate.css/animate.min.css';
@@ -167,14 +167,15 @@ nav.disable-controls {
 
 .movie {
   color: #fff;
-  padding: 25px !important;
+	padding: 0 !important;
 }
 
 .show-header {
+	background: rgb(0, 0, 0);
+	border-bottom: 5px solid;
+	padding: 15px;
 	&.has-trailer {
 		margin: -75px -50px 50px -50px;
-		background: rgb(0, 0, 0);
-		border-bottom: 5px solid;
 	}
   #show-trailer {
     position: relative;
@@ -199,19 +200,24 @@ nav.disable-controls {
     }
   }
   .close {
-    position: absolute;
-    top: 12%;
-    right: 5%;
-    font-size: 3rem;
-    color: #fff;
-    opacity: 1;
+		position: absolute;
+		top: 11%;
+		right: 5%;
+		font-size: 4rem;
+		font-weight: 500;
+		color: #E4E4E4;
+		opacity: 1;
+		&:hover {
+			color: #fff;
+		}
   }
 }
 
 .movie-body {
+	padding: 25px;
   .movie-left-section {
     img {
-      border-radius: 15px;
+      border-radius: 5px;
       width: 250px;
     }
   }
@@ -219,13 +225,16 @@ nav.disable-controls {
   .movie-center-section {
     border-right: 1px solid #ccc;
     padding: 0 25px;
+		.movie-description {
+			max-height: 15rem;
+			overflow-y: auto;
+		}
   }
 
   .movie-torrents-section {
     height: 10rem;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-left: 30px;
     li {
       list-style-type: none;
       width: 100%;
@@ -235,7 +244,7 @@ nav.disable-controls {
       }
     }
 
-    a[data-toggle="collapse"] {
+    a {
       color: #fff;
     }
 
