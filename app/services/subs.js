@@ -37,11 +37,8 @@ export default class Subtitles {
   saveSubData(sub, dir, cb) {
     let self = this
 
-    // Open subs api is broken
-    // Remove the .srt the file url to download
-    let url = sub.url.slice(0, sub.url.indexOf('.srt'))
-
-    http.get(url, function(res) {
+    http.get(sub.url, function(res) {
+			console.log(res)
       res.pipe(iconv.decodeStream('win1252')).collect(function(err, decodedBody) {
         srt2vtt(decodedBody, function(err, vttData) {
           if (err) throw new Error(err)

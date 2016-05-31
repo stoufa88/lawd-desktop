@@ -46,7 +46,6 @@
 					<h1>Regarder</h1>
 				</div>
 
-
         <div class="row movie-torrents-section">
           <ul v-if="type == 'Movie'">
             <torrent v-for="torrent in show.get('torrents') | filterBy 'p' in 'quality'"
@@ -61,13 +60,13 @@
             <div v-for="episodes in seasons">
               <div class="season-title row">
                 <a data-toggle="collapse"
-                    :href="'#' + $key"
+                    :href="'#S' + $key"
                     aria-expanded="false" :aria-controls="$key">
                   Saison {{ $key }}
                 </a>
               </div>
 
-              <div class="collapse" :id="$key">
+              <div class="collapse" :id="'S' + $key">
                 <season :episodes="episodes"></season>
               </div>
             </div>
