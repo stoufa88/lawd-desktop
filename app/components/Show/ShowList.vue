@@ -44,6 +44,7 @@ export default {
 			skip: 0,
 			show: 30,
 			filter: '',
+			sort: '',
 			searchQuery: '',
 			hasMore: true
 		}
@@ -67,7 +68,7 @@ export default {
 
 			service.getShowsFromParse(options).then(function(results) {
 				self.$set('show', results.length)
-				if(results.length === 0) {
+				if(results.length === 0 ) {
 					self.$set('hasMore', false)
 				}
 
@@ -82,6 +83,7 @@ export default {
 				$('img').popover('dispose')
 			}
 		},
+
 		randomEmptyMessage: function() {
 			return nokat[Math.floor(Math.random() * nokat.length)]
 		}
@@ -108,40 +110,49 @@ export default {
 
 			self.$set('shows', [])
 			self.$set('skip', 0)
-			self.$set('show', 30)
 			self.$set('searchQuery', options.searchQuery)
+			self.$set('sort', options.sort)
+			self.$set('filter', options.filter)
 			self.$set('hasMore', true)
 			self.$set('type', type)
 
 			service.getShowsFromParse(options).then(function(results){
 				self.$set('shows', results)
+				if(results.length < self.show) {
+					self.$set('hasMore', false)
+				}
 			})
     }
   },
 	events: {
-		'search-query': function(searchQuery) {
-			const self = this
-
-			self.$set('shows', [])
-			self.$set('type', self.type)
-			self.$set('searchQuery', searchQuery)
-			self.$set('skip', 0)
-			self.$set('show', 30)
-			self.$set('shows', [])
-
-			let options = {
-				sort: to.query.sort || defaultSort,
-				filter: to.query.filter || defaultFilter,
-				searchQuery: to.query.searchQuery || defaultQuery,
-				skip: self.skip,
-				show: self.show,
-				type: self.type
-			}
-
-			service.getShowsFromParse(options).then(function(response) {
-				self.$set('shows', response.data.movies)
-			});
-		}
+	// 	'search-query': function(searchQuery) {
+	// 		const self = this
+	//
+	// 		// self.$set('shows', [])
+	// 		// self.$set('type', self.type)
+	// 		// self.$set('filter', self.filter)
+	// 		// self.$set('sort', self.sort)
+	// 		// self.$set('searchQuery', searchQuery)
+	// 		self.$set('skip', 0)
+	// 		self.$set('show', 30)
+	// 		self.$set('shows', [])
+	//
+	// 		let options = {
+	// 			sort: to.query.sort || defaultSort,
+	// 			filter: to.query.filter || defaultFilter,
+	// 			searchQuery: to.query.searchQuery || defaultQuery,
+	// 			skip: self.skip,
+	// 			show: self.show,
+	// 			type: self.type
+	// 		}
+	//
+	// 		service.getShowsFromParse(options).then(function(results) {
+	// 			self.$set('shows', response.data.movies)
+	// 			if(response.data.movies < self.show) {
+	// 				self.$set('hasMore', false)
+	// 			}
+	// 		});
+	// 	}
   },
 	beforeDestroy() {
 		if('.popover') {

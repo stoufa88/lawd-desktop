@@ -2,8 +2,6 @@ import Parse from 'parse/node'
 import _ from 'underscore'
 import google from 'googleapis'
 
-const MOVIES_PARSE_ENDPOINT = 'http://149.202.45.9/parse/hammamet/classes/Movie'
-
 Parse.initialize('88c22318aaeda928f5a9748884203f6b6c1a6d46');
 Parse.serverURL = 'http://149.202.45.9/parse/streaming'
 
