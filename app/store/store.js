@@ -23,10 +23,6 @@ var store = {
     this.state.searchQuery = searchQuery
   },
 	setType: function (type) {
-		if(type !== 'Movie' || type !== 'TV') {
-			return;
-		}
-
 		this.state.type = type
   }
 }

@@ -90,7 +90,7 @@ export default {
 			let filter = to.query.filter != null ? to.query.filter : store.state.filter
 			let searchQuery = to.query.searchQuery != null ? to.query.searchQuery : store.state.filtsearchQueryer
 
-
+console.log(type)
 			// Update store from query params
 			store.setType(type)
 			store.resetLoad(0)
