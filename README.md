@@ -1,3 +1,5 @@
+![alt text](https://github.com/stoufa88/lawd-desktop/blob/master/logo.png "Lawd logo")
+
 # Videos
 Lawd uses a parse server as its backend to store videos (movies and tv series).
 The torrents from the tracker api are transformed and filtered in our parse server.
