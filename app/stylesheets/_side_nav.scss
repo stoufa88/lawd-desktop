@@ -63,7 +63,7 @@
     left: 0;
   }
 
-  .movie-list {
+  .movie-list:not(.loading) {
     padding-left: $side-menu-width;
   }
 }

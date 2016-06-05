@@ -24,14 +24,11 @@
 
 <script>
 import DataService from '../../services/parse'
+import store from '../../store/store'
 import nokat from '../../i18n/nokat.js'
 import ShowItem from './ShowItem.vue'
 
 let service = new DataService()
-
-let defaultSort = 'popular'
-let defaultFilter = ''
-let defaultQuery = ''
 
 export default {
 	components: {
@@ -40,12 +37,12 @@ export default {
 	data () {
 		return {
 			shows: [],
-			type: '',
-			skip: 0,
-			show: 30,
-			filter: '',
-			sort: '',
-			searchQuery: '',
+			skip: store.state.skip,
+			show: store.state.show,
+			filter: store.state.filter,
+			sort: store.state.sort,
+			searchQuery: store.state.searchQuery,
+			type: store.type,
 			hasMore: true
 		}
 	},
@@ -55,18 +52,10 @@ export default {
 		// XXX: Here we loop the array, should we concat?
 		loadMore: function() {
 			const self = this
-			self.$set('skip', self.skip + self.show)
 
-			let options = {
-				sort: self.sort,
-				filter: self.filter,
-				searchQuery: self.searchQuery,
-				skip: self.skip,
-				show: self.show,
-				type: self.type
-			}
+			store.loadMore()
 
-			service.getShowsFromParse(options).then(function(results) {
+			service.getShowsFromParse(store.state).then(function(results) {
 				self.$set('show', results.length)
 				if(results.length === 0 ) {
 					self.$set('hasMore', false)
@@ -88,7 +77,6 @@ export default {
 			return nokat[Math.floor(Math.random() * nokat.length)]
 		}
 	},
-
   route: {
     data ({ to }) {
 			if('.popover') {
@@ -98,61 +86,36 @@ export default {
 			const self = this
 
 			let type = to.params.type == 'movies' ? 'Movie': 'TV'
+			let sort = to.query.sort != null ? to.query.sort : store.state.sort
+			let filter = to.query.filter != null ? to.query.filter : store.state.filter
+			let searchQuery = to.query.searchQuery != null ? to.query.searchQuery : store.state.filtsearchQueryer
 
-			let options = {
-				sort: to.query.sort || defaultSort,
-				filter: to.query.filter || defaultFilter,
-				searchQuery: to.query.searchQuery || defaultQuery,
-				skip: self.skip,
-				show: self.show,
-				type: type
-			}
+
+			// Update store from query params
+			store.setType(type)
+			store.resetLoad(0)
+
+			store.setSort(sort)
+			store.setFilter(filter)
+			store.setSearchQuery(searchQuery)
+
 
 			self.$set('shows', [])
-			self.$set('skip', 0)
-			self.$set('searchQuery', options.searchQuery)
-			self.$set('sort', options.sort)
-			self.$set('filter', options.filter)
 			self.$set('hasMore', true)
-			self.$set('type', type)
 
-			service.getShowsFromParse(options).then(function(results){
-				self.$set('shows', results)
+			service.getShowsFromParse(store.state).then(function(results){
+				if(results.length == 0) {
+					self.$set('shows', null)
+					return
+				}
+
 				if(results.length < self.show) {
 					self.$set('hasMore', false)
 				}
+
+				self.$set('shows', results)
 			})
     }
-  },
-	events: {
-	// 	'search-query': function(searchQuery) {
-	// 		const self = this
-	//
-	// 		// self.$set('shows', [])
-	// 		// self.$set('type', self.type)
-	// 		// self.$set('filter', self.filter)
-	// 		// self.$set('sort', self.sort)
-	// 		// self.$set('searchQuery', searchQuery)
-	// 		self.$set('skip', 0)
-	// 		self.$set('show', 30)
-	// 		self.$set('shows', [])
-	//
-	// 		let options = {
-	// 			sort: to.query.sort || defaultSort,
-	// 			filter: to.query.filter || defaultFilter,
-	// 			searchQuery: to.query.searchQuery || defaultQuery,
-	// 			skip: self.skip,
-	// 			show: self.show,
-	// 			type: self.type
-	// 		}
-	//
-	// 		service.getShowsFromParse(options).then(function(results) {
-	// 			self.$set('shows', response.data.movies)
-	// 			if(response.data.movies < self.show) {
-	// 				self.$set('hasMore', false)
-	// 			}
-	// 		});
-	// 	}
   },
 	beforeDestroy() {
 		if('.popover') {

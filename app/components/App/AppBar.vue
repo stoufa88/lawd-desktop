@@ -1,6 +1,6 @@
 <template>
 	<nav :class="{ 'navbar': true, 'navbar-dark bg-inverse': true, 'navbar-fixed-top': true,
-	 							'disable-controls': $route.name == 'showDetails' 
+	 							'disable-controls': $route.name == 'showDetails'
 							 }">
 		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
       &#9776;
@@ -46,7 +46,6 @@
 </template>
 
 <script>
-// :href="routePath + '?sort_by=' + sort.value"
 
 export default {
 	methods: {
