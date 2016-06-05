@@ -1,22 +1,26 @@
 <template>
-  <div id="toggle-me" class="invisible" v-if="show">
-    <div class="row">
-      <div class="col-xs-2 col-xs-offset-2">
-        <img v-bind:src="show.get('poster')" tabindex="0" />
-      </div>
+  <div id="toggle-me" class="invisible row" v-if="show">
+    <div class="col-xs-2">
+			<p>{{ show.get("name") }}</p>
+    </div>
 
-      <div class="col-xs-5">
-        <p>{{ downloaded }} / {{ total }} </p>
-    		<p>{{ downloadSpeed }}</p>
-      </div>
+    <div class="col-xs-3 col-xs-offset-1">
+      <p>{{ downloaded }} / {{ total }} </p>
+    </div>
 
-      <div class="col-xs-2">
-        <button type="button" class="close">
-          <a v-link="{ name: 'showList', params: { type: this.$route.params.type }}">
-  				    &times;
-          </a>
-        </button>
-      </div>
+    <div class="col-xs-2 col-xs-offset-1">
+			<p><i class="fa fa-arrow-down" aria-hidden="true"></i>{{ downloadSpeed }}</p>
+    </div>
+
+    <div class="col-xs-2">
+			<p><i class="fa fa-arrow-up" aria-hidden="true"></i>{{ uploadSpeed }}</p>
+    </div>
+
+    <div class="pull-xs-right">
+			<a class="close"
+				v-link="{ name: 'showList', params: { type: this.$route.params.type }}">
+        <span aria-hidden="true">&times;</span>
+      </a>
     </div>
 
 	</div>
@@ -65,6 +69,7 @@ export default {
       torrent: {},
       downloaded: 0,
       downloadSpeed: 0,
+      uploadSpeed: 0,
       total: 0
 		}
 	},
@@ -86,6 +91,7 @@ export default {
       setInterval(() =>{
         self.$set('downloaded', filesize(self.torrent.downloaded))
         self.$set('downloadSpeed', filesize(self.torrent.downloadSpeed) + ' /s')
+        self.$set('uploadSpeed', filesize(self.torrent.uploadSpeed) + ' /s')
       }, 1000)
     },
 
@@ -95,12 +101,12 @@ export default {
 
     addSubtitle(lang, path) {
       console.info('New subtitle is added', lang)
-      let label = lang == 'en' ? 'English' : 'Français'
-      $('#video-player_html5_api').append(
-        `<track kind="captions" srclang=''${lang} label=${label} src=${path}>`
-      )
 
-      // TODO use player.addRemoteTextTrack()
+      player.addRemoteTextTrack({
+				kind: 'subtitles',
+				language: lang,
+				src: path
+			})
     }
 
 	},
@@ -110,8 +116,6 @@ export default {
 		const id = self.$route.params.id
 		const hash = self.$route.params.hash
 		const type = self.$route.params.type === 'movies' ? 'Movie' : 'TVEpisode'
-
-    console.log(self.$route.params.type)
 
 		self._init()
 

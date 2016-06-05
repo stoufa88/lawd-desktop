@@ -30,6 +30,19 @@ html {
 	background: $navbar-bg;
 }
 
+.close {
+	position: absolute;
+	top: 11%;
+	right: 5%;
+	font-size: 4rem;
+	font-weight: 500;
+	color: #E4E4E4;
+	opacity: 1;
+	&:hover {
+		color: #fff;
+	}
+}
+
 #main-content {
 	margin-top: 54px;
   padding: 25px 0;
@@ -199,18 +212,6 @@ nav.disable-controls {
       }
     }
   }
-  .close {
-		position: absolute;
-		top: 11%;
-		right: 5%;
-		font-size: 4rem;
-		font-weight: 500;
-		color: #E4E4E4;
-		opacity: 1;
-		&:hover {
-			color: #fff;
-		}
-  }
 }
 
 .movie-body {
@@ -271,15 +272,9 @@ nav.disable-controls {
 #toggle-me {
   background: #000;
 	position: absolute;
+	padding-top: 15px;
   left: 15px;
   right: 15px;
   z-index: 1;
   color: white;
-  img {
-    width: 50px;
-  }
-  .close {
-    font-size: 4.5rem;
-    opacity: 1;
-  }
 }
