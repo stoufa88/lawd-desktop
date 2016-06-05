@@ -1,7 +1,5 @@
 # **Lawd**
 
-![alt text](https://github.com/stoufa88/lawd-desktop/blob/master/logo.png  =250x "Lawd logo")
-
 ----------
 
 # Videos
