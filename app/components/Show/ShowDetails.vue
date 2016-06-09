@@ -58,7 +58,7 @@
 
           <div v-if="type == 'TV'">
             <div v-for="episodes in seasons">
-              <div class="season-title row">
+              <div class="season-title">
                 <a data-toggle="collapse"
                     :href="'#S' + $key"
                     aria-expanded="false" :aria-controls="$key">

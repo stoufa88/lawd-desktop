@@ -53,7 +53,7 @@ let locales = {
       search: 'Nom du film/acteurs, code Imdb',
       more: 'Voir plus',
       genres: {
-        all: 'All',
+        all: 'Tous',
         action: 'Action',
         adventure: 'Aventure',
         animation: 'Animation',
