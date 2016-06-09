@@ -32,18 +32,18 @@
           <p class="movie-description">{{ show.get('plot') }}</p>
 
 					<div class="col-xs-12">
-	          <strong>Actors:</strong>
+	          <strong>{{ $t('shows.actors') }}:</strong>
 	          <p>{{ show.get("actors") }}</p>
 					</div>
 
 					<div class="col-xs-12">
-	          <strong>Director: </strong>
+	          <strong>{{ $t('shows.director') }}: </strong>
 	          <p>{{ show.get("director") }}</p>
 					</div>
         </div>
 
 				<div class="row">
-					<h1>Regarder</h1>
+					<h1>{{ $t('shows.watch') }}</h1>
 				</div>
 
         <div class="row movie-torrents-section">
@@ -75,10 +75,10 @@
       </div>
 
       <div class="movie-right-section col-xs-2">
-        <h3>Details</h3>
-        <p><strong>Runtime:</strong> {{ show.get("runtime") }}</p>
-        <p><strong>Country:</strong> {{ show.get("country") }}</p>
-        <p><strong>Release Date:</strong> {{ releaseDate }}</p>
+        <h3>{{ $t('shows.details') }}</h3>
+        <p><strong>{{ $t('shows.runtime') }}:</strong> {{ show.get("runtime") }}</p>
+        <p><strong>{{ $t('shows.country') }}:</strong> {{ show.get("country") }}</p>
+        <p><strong>{{ $t('shows.release_date') }}:</strong> {{ releaseDate }}</p>
       </div>
     </div>
 
