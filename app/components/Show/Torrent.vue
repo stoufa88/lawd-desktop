@@ -1,6 +1,6 @@
 <template>
   <li>
-      <span class="torrent-language">
+      <span class="torrent-language" v-if="torrent.language">
         <img class="flag"
           src="https://lipis.github.io/flag-icon-css/flags/1x1/fr.svg"
           v-if="torrent.language == 'fr'"
@@ -15,7 +15,7 @@
       <span>
         <a class="show-link small"
           v-link="{ name: 'player', params: { type: type, id: showId, hash: torrent.info_hash }}">
-        {{ tvTorrentLink || movieTorrentLink }}
+        {{ `Link ${index + 1}` || movieTorrentLink }}
         </a>
       </span>
 
