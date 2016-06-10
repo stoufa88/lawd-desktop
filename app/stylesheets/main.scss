@@ -85,15 +85,6 @@ html {
 
 // -------------------------- App bar ----------------------------------
 
-nav.disable-controls {
-  button {
-    pointer-events: none;
-  }
-  form, .btn-group {
-    display: none;
-  }
-}
-
 .navbar-brand {
 	text-transform: uppercase;
   font-weight: 900;
@@ -240,7 +231,6 @@ nav.disable-controls {
     overflow-x: hidden;
     li {
       list-style-type: none;
-      width: 100%;
       line-height: 34px;
       img {
         width: 15px;
@@ -258,6 +248,7 @@ nav.disable-controls {
     .season-episodes {
       li {
         display: inline-flex;
+				margin-right: 15px;
       }
     }
   }

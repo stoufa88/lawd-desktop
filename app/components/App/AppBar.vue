@@ -1,8 +1,6 @@
 <template>
-	<nav :class="{ 'navbar': true, 'navbar-dark bg-inverse': true, 'navbar-fixed-top': true,
-	 							'disable-controls': $route.name == 'showDetails'
-							 }">
-		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
+	<nav :class="{ 'navbar': true, 'navbar-dark bg-inverse': true, 'navbar-fixed-top': true}">
+		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"} v-if=" $route.name == 'showList'">
       &#9776;
     </button>
 
