@@ -1,6 +1,10 @@
 <template>
-	<nav :class="{ 'navbar': true, 'navbar-dark bg-inverse': true, 'navbar-fixed-top': true}">
-		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"} v-if=" $route.name == 'showList'">
+	<nav v-if="$route.name !== 'showList'" class="navbar navbar-dark bg-inverse navbar-fixed-top">
+		<a class="navbar-brand">lawd</a>
+	</nav>
+	
+	<nav v-else=" $route.name == 'showList'" class="navbar navbar-dark bg-inverse navbar-fixed-top">
+		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
       &#9776;
     </button>
 
@@ -8,8 +12,11 @@
 
 		<form class="form-inline pull-xs-right" v-on:submit="search">
 			<div class="form-group">
-				<input v-model="searchQuery" type="text"
-					class="form-control search-control" placeholder="{{ $t('shows.search') }}">
+				<input v-model="searchQuery" v-if="this.$route.params.type === 'movies'" type="text"
+					class="form-control search-control" placeholder="{{ $t('shows.search_movie') }}">
+
+				<input v-model="searchQuery" v-else="this.$route.params.type === 'tv'" type="text"
+					class="form-control search-control" placeholder="{{ $t('shows.search_serie') }}">
 			</div>
 		</form>
 

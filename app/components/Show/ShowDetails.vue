@@ -1,91 +1,93 @@
 <template>
-  <div id="main-content" class="movie" v-if="show">
-    <header :class="{ 'show-header': true, 'has-trailer': trailer}">
-      <div id="show-trailer" tabindex="0" aria-hidden="true"
-						data-toggle="modal" data-target="#trailer-modal"
-						v-if="trailer">
-          <i class="fa fa-play invisible"></i>
-        <img v-bind:src="trailer.thumbURL" />
-      </div>
+		<div v-if="show && trailer" class="movie" transition="fade">
+	    <header :class="{ 'show-header': true, 'has-trailer': trailer && trailer.videoURL}">
+	      <div id="show-trailer" tabindex="0" aria-hidden="true"
+							data-toggle="modal" data-target="#trailer-modal"
+							v-if="trailer">
+	          <i class="fa fa-play invisible"></i>
+	        <img v-bind:src="trailer.thumbURL" />
+	      </div>
 
-      <div id="show-name">
-        <h1 class="text-xs-center display-5">{{ show.get("name") }}</h1>
-        <p class="text-xs-center">{{ show.get("genre") }}</p>
-      </div>
+	      <div id="show-name">
+	        <h1 class="text-xs-center display-5">{{ show.get("name") }}</h1>
+	        <p class="text-xs-center">{{ show.get("genre") }}</p>
+	      </div>
 
-      <a class="close"
-        v-link="{
-          name: 'showList',
-          params: { type: this.$route.params.type }
-        }">
-        <span aria-hidden="true">&times;</span>
-      </a>
-    </header>
+	      <a class="close"
+	        v-link="{
+	          name: 'showList',
+	          params: { type: this.$route.params.type }
+	        }">
+	        <span aria-hidden="true">&times;</span>
+	      </a>
+	    </header>
 
-    <section class="row movie-body">
-      <div class="movie-left-section col-xs-2">
-        <img v-bind:src="show.get('poster')" tabindex="0" />
-      </div>
+	    <section class="row movie-body">
+	      <div class="movie-left-section col-xs-2">
+	        <img v-bind:src="show.get('poster')" tabindex="0" />
+	      </div>
 
-      <div class="movie-center-section col-xs-6">
-        <div class="row">
-          <p class="movie-description">{{ show.get('plot') }}</p>
+	      <div class="movie-center-section col-xs-6">
+	        <div class="row">
+	          <p class="movie-description">{{ show.get('plot') }}</p>
 
-					<div class="col-xs-12">
-	          <strong>{{ $t('shows.actors') }}:</strong>
-	          <p>{{ show.get("actors") }}</p>
+						<div class="col-xs-12">
+		          <strong>{{ $t('shows.actors') }}:</strong>
+		          <p>{{ show.get("actors") }}</p>
+						</div>
+
+						<div class="col-xs-12">
+		          <strong>{{ $t('shows.director') }}: </strong>
+		          <p>{{ show.get("director") }}</p>
+						</div>
+	        </div>
+
+					<div class="row">
+						<h1>{{ $t('shows.watch') }}</h1>
 					</div>
 
-					<div class="col-xs-12">
-	          <strong>{{ $t('shows.director') }}: </strong>
-	          <p>{{ show.get("director") }}</p>
-					</div>
-        </div>
+	        <div class="row movie-torrents-section">
+	          <ul v-if="type == 'Movie'">
+	            <torrent v-for="torrent in show.get('torrents') | filterBy 'p' in 'quality'"
+	                  :torrent="torrent"
+	                  :show-id="show.id"
+	                  :movie-torrent-link="torrent.name"
+	                  :type='"movies"'>
+	            </torrent>
+	          </ul>
 
-				<div class="row">
-					<h1>{{ $t('shows.watch') }}</h1>
-				</div>
+	          <div v-if="type == 'TV'">
+	            <div v-for="episodes in seasons">
+	              <div class="season-title">
+	                <a data-toggle="collapse"
+	                    :href="'#S' + $key"
+	                    aria-expanded="false" :aria-controls="$key">
+	                  Saison {{ $key }}
+	                </a>
+	              </div>
 
-        <div class="row movie-torrents-section">
-          <ul v-if="type == 'Movie'">
-            <torrent v-for="torrent in show.get('torrents') | filterBy 'p' in 'quality'"
-                  :torrent="torrent"
-                  :show-id="show.id"
-                  :movie-torrent-link="torrent.name"
-                  :type='"movies"'>
-            </torrent>
-          </ul>
+	              <div class="collapse" :id="'S' + $key">
+	                <season :episodes="episodes"></season>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
 
-          <div v-if="type == 'TV'">
-            <div v-for="episodes in seasons">
-              <div class="season-title">
-                <a data-toggle="collapse"
-                    :href="'#S' + $key"
-                    aria-expanded="false" :aria-controls="$key">
-                  Saison {{ $key }}
-                </a>
-              </div>
+	      <div class="movie-right-section col-xs-2">
+	        <h3>{{ $t('shows.details') }}</h3>
+					<p><strong>{{ $t('shows.rating') }}:</strong> {{  show.get("imdbRating") }}</p>
+	        <p><strong>{{ $t('shows.runtime') }}:</strong> {{ show.get("runtime") }}</p>
+	        <p><strong>{{ $t('shows.country') }}:</strong> {{ show.get("country") }}</p>
+	        <p><strong>{{ $t('shows.release_date') }}:</strong> {{ releaseDate }}</p>
+	      </div>
+	    </div>
 
-              <div class="collapse" :id="'S' + $key">
-                <season :episodes="episodes"></season>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="movie-right-section col-xs-2">
-        <h3>{{ $t('shows.details') }}</h3>
-        <p><strong>{{ $t('shows.runtime') }}:</strong> {{ show.get("runtime") }}</p>
-        <p><strong>{{ $t('shows.country') }}:</strong> {{ show.get("country") }}</p>
-        <p><strong>{{ $t('shows.release_date') }}:</strong> {{ releaseDate }}</p>
-      </div>
-    </div>
-
-  </section>
+	  </section>
+		<div v-else="!show" class="loading"></div>
 
   <!-- Modal -->
-  <div v-if="trailer" class="modal fade" id="trailer-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div v-if="trailer && trailer.videoURL" class="modal fade" id="trailer-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <iframe id="ytplayer" type="text/html" width="640" height="390"
@@ -124,8 +126,8 @@ export default {
     const type = self.$route.params.type === 'movies' ? 'Movie' : 'TV'
 
     parseService.getShowFromParse(id, type).then((show) => {
-      self.$set('show', show)
       self.$set('type', type)
+      self.$set('show', show)
 
       parseService.getTrailerFromYoutube(show.get('name'), (trailer) => {
         self.$set('trailer', trailer)

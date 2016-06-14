@@ -1,11 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,900,700italic,700,400italic,300,900italic);
 @import './_variables';
 @import '~bootstrap/scss/bootstrap.scss';
-@import '~animate.css/animate.min.css';
+// @import '~animate.css/animate.min.css';
 @import '~font-awesome/css/font-awesome.css';
-@import '~video.js/dist/video-js.min.css';
+@import '~video.js/dist/video-js.css';
 @import './_loading';
 @import './_side_nav';
+@import './_animations';
 
 html {
   overflow: hidden;
@@ -107,7 +108,7 @@ html {
 //  --------------------------- Movie list ------------------------------------
 
 .movie-list div {
-	justify-content: center;
+	margin-left: 5px;
 }
 
 .card {
@@ -148,16 +149,18 @@ html {
       background: $body-bg;
     }
   }
-  .rating {
+  .show-back {
     visibility: hidden;
     position: absolute;
-    top: 25%;
-    left: 25%;
+		top: 25%;
+		left: 46%;
     cursor: pointer;
     pointer-events: none;
+		color: #fff;
+		font-size: 2rem;
   }
   &:hover {
-    .rating {
+    .show-back {
       visibility: visible;
     }
   }
@@ -173,7 +176,10 @@ html {
 
 .movie {
   color: #fff;
-	padding: 0 !important;
+	margin-top: 54px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: calc(100vh - 54px);
 }
 
 .show-header {
