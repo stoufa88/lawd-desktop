@@ -20,11 +20,6 @@ Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(VueI18n)
 
-Vue.transition('fade', {
-  enterClass: 'slideInRight',
-  leaveClass: 'slideOutRight'
-})
-
 var router = new VueRouter()
 
 router.map({

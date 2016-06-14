@@ -117,7 +117,10 @@ export default class DataService {
 
 					cb(trailer)
 				} else {
-					cb(null)
+					cb({
+						videoURL: null,
+						thumbURL: null
+					})
 				}
 
 

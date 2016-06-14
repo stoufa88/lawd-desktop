@@ -1,17 +1,14 @@
 <template>
-	<div id="main-content" @click="escape" v-on:keyup.27="escape">
+	<div id="main-content" v-if="viewActivated" transition="fade"
+	 	v-infinite-scroll="loadMore()" infinite-scroll-disabled="busy" infinite-scroll-distance="10"
+		infinite-scroll-immediate-check="false">
 		<div v-if="shows" :class="{ 'movie-list': true, 'container-fluid': true, loading: !shows.length > 0 }">
 			<div class="row">
 				<show v-for="show in shows"
 							:show="show"
-							:index="$index">
+							:index="$index"
+							enter-stagger="50">
 				</show>
-			</div>
-
-			<div v-if="shows.length > 0 && hasMore">
-				<button class="btn btn-secondary center-block" v-on:click="loadMore">
-					{{ $t('shows.more') }}
-				</button>
 			</div>
 		</div>
 
@@ -28,9 +25,12 @@ import store from '../../store/store'
 import nokat from '../../i18n/nokat.js'
 import ShowItem from './ShowItem.vue'
 
+var infiniteScroll = require('vue-infinite-scroll').infiniteScroll
+
 let service = new DataService()
 
 export default {
+	directives: {infiniteScroll},
 	components: {
 		'show': ShowItem,
 	},
@@ -43,7 +43,8 @@ export default {
 			sort: store.state.sort,
 			searchQuery: store.state.searchQuery,
 			type: store.type,
-			hasMore: true
+			busy: false,
+			viewActivated: true
 		}
 	},
 	methods: {
@@ -55,42 +56,34 @@ export default {
 
 			store.loadMore()
 
+			self.busy = true
+
 			service.getShowsFromParse(store.state).then(function(results) {
 				self.$set('show', results.length)
-				if(results.length === 0 ) {
-					self.$set('hasMore', false)
-				}
 
 				for (let show of results) {
 					self.shows.push(show)
 				}
+
+				self.busy = false
 			})
 		},
-
-		escape: function() {
-			if($('.popover').length > 0) {
-				$('img').popover('dispose')
-			}
-		},
-
 		randomEmptyMessage: function() {
 			return nokat[Math.floor(Math.random() * nokat.length)]
 		}
 	},
   route: {
     data ({ to }) {
-			if('.popover') {
-				$('.popover').remove()
-			}
-
 			const self = this
 
 			let type = to.params.type == 'movies' ? 'Movie': 'TV'
 			let sort = to.query.sort != null ? to.query.sort : store.state.sort
 			let filter = to.query.filter != null ? to.query.filter : store.state.filter
-			let searchQuery = to.query.searchQuery != null ? to.query.searchQuery : store.state.filtsearchQueryer
+			let searchQuery = to.query.searchQuery ? to.query.searchQuery : store.state.searchQuery
 
-console.log(type)
+			console.log(to.query.searchQuery)
+			console.log(store.state.searchQuery)
+
 			// Update store from query params
 			store.setType(type)
 			store.resetLoad(0)
@@ -99,9 +92,7 @@ console.log(type)
 			store.setFilter(filter)
 			store.setSearchQuery(searchQuery)
 
-
 			self.$set('shows', [])
-			self.$set('hasMore', true)
 
 			service.getShowsFromParse(store.state).then(function(results){
 				if(results.length == 0) {
@@ -109,18 +100,14 @@ console.log(type)
 					return
 				}
 
-				if(results.length < self.show) {
-					self.$set('hasMore', false)
-				}
-
 				self.$set('shows', results)
 			})
+    },
+
+		deactivate (transition) {
+			this.viewActivated = false
+			transition.next()
     }
-  },
-	beforeDestroy() {
-		if('.popover') {
-			$('.popover').remove()
-		}
-	}
+  }
 }
 </script>

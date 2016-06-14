@@ -1,12 +1,14 @@
 <template>
 	<ul class="nav">
 	 <li class="nav-item">
-		 <a class="nav-item-link" v-link="{ name: 'showList', params: { type: 'movies' }}">
+		 <a class="nav-item-link"
+		  	v-link="{ name: 'showList', params: { type: 'movies' }, activeClass: 'is-active'}" @click="close">
 			 <i class="fa fa-film fa-fw"></i> {{ $t('navigation.movies') }}
 		 </a>
 	 </li>
 	 <li class="nav-item">
-		 <a class="nav-item-link" v-link="{ name: 'showList', params: { type: 'tv' }}">
+		 <a class="nav-item-link"
+		 		v-link="{ name: 'showList', params: { type: 'tv' }, activeClass: 'is-active'}" @click="close">
 			 <i class="fa fa-tv fa-fw"></i> {{ $t('navigation.tv') }}
 		 </a>
 	 </li>
@@ -23,11 +25,8 @@
 
 	<div id="nav-footer">
 		<div class="row">
-			<div class="col-xs-4 col-xs-offset-2"><small>v0.1.0</small></div>
+			<div class="col-xs-4 col-xs-offset-2"><small>v0.3.0</small></div>
 		<div>
-
-
-
 	</nav>
 
 </template>
@@ -35,12 +34,9 @@
 <script>
 export default {
 	methods: {
-
-  },
-	data () {
-		return {
-			sort: 'Latest'
-		}
-	}
+		close: function() {
+			$('#wrapper').toggleClass('side-menu-open')
+		},
+  }
 }
 </script>

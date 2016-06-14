@@ -44,14 +44,9 @@
         text-transform: uppercase;
         padding: $side-menu-padding-left/2 $side-menu-padding-left;
 
-        &:hover {
+        &:hover, &:focus, &.is-active {
           text-decoration: none;
           color: #fff;
-        }
-
-        &:focus {
-          text-decoration: none;
-          outline: none;
         }
       }
     }
