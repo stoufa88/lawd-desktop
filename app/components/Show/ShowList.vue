@@ -79,7 +79,10 @@ export default {
 			let type = to.params.type == 'movies' ? 'Movie': 'TV'
 			let sort = to.query.sort != null ? to.query.sort : store.state.sort
 			let filter = to.query.filter != null ? to.query.filter : store.state.filter
-			let searchQuery = to.query.searchQuery != null ? to.query.searchQuery : store.state.filtsearchQueryer
+			let searchQuery = to.query.searchQuery ? to.query.searchQuery : store.state.searchQuery
+
+			console.log(to.query.searchQuery)
+			console.log(store.state.searchQuery)
 
 			// Update store from query params
 			store.setType(type)
@@ -100,7 +103,8 @@ export default {
 				self.$set('shows', results)
 			})
     },
-		deactivate: function (transition) {
+
+		deactivate (transition) {
 			this.viewActivated = false
 			transition.next()
     }
