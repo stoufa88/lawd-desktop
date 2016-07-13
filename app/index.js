@@ -1,7 +1,7 @@
 // Vendor dependencies
 require('bootstrap/dist/js/bootstrap.js')
 
-require('./stylesheets/main.scss')
+require('./assets/stylesheets/main.scss')
 
 var Vue = require('vue')
 var VueResource = require('vue-resource')

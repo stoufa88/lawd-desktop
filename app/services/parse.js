@@ -10,16 +10,10 @@ export default class DataService {
   // options are sort, skip and query
   getShowsFromParse (options) {
     var Show = Parse.Object.extend(options.type);
-    var mainQuery = new Parse.Query(Show);
 
     console.log(options)
 
-    mainQuery.limit(options.show)
-    mainQuery.skip(options.skip)
-    mainQuery.exists('plot')
-    mainQuery.notEqualTo('poster', 'N/A')
-
-    if(options.searchQuery) {
+    if(options.searchQuery && options.searchQuery.length > 0) {
       var queryEqualName = new Parse.Query(Show)
       queryEqualName.contains('nameLowCase', (options.searchQuery).toLowerCase())
 
@@ -30,29 +24,47 @@ export default class DataService {
       queryEqualID.equalTo('imdbID', options.searchQuery)
 
       mainQuery = Parse.Query.or(queryEqualName, queryContainActors, queryEqualID)
+			mainQuery = this.buildQuery(mainQuery, options)
 
       return mainQuery.find().then(function(results) {
         return results
       });
     } else {
-      if(options.sort == 'popular') {
-        mainQuery.descending('released')
-        mainQuery.greaterThan('imdbVotes', 100)
-      }
-
-      if(options.sort == 'imdbRating') {
-        mainQuery.descending('imdbRating')
-      }
-
-      if(options.filter !== '') {
-        mainQuery.contains('genre', (options.filter).capitalizeFirstLetter())
-      }
+			var mainQuery = new Parse.Query(Show)
+			mainQuery = this.buildQuery(mainQuery, options)
 
       return mainQuery.find().then(function(results) {
         return results
       });
     }
   }
+
+	buildQuery(query, options) {
+		if(options.sort == 'latest') {
+			query.descending('released')
+			query.greaterThan('imdbVotes', 100)
+		}
+
+		if(options.sort == 'popular') {
+			query.descending('released')
+			query.greaterThan('imdbRating', 7)
+		}
+
+		if(options.sort == 'imdbRating') {
+			query.descending('imdbRating')
+		}
+
+		if(options.filter !== '') {
+			query.contains('genre', (options.filter).capitalizeFirstLetter())
+		}
+
+		query.limit(options.show)
+		query.skip(options.skip)
+		query.exists('plot')
+		query.notEqualTo('poster', 'N/A')
+
+		return query
+	}
 
   getTVEpisodesFromParse(id) {
     var tv = new Parse.Object('TV');

@@ -1,6 +1,6 @@
 var store = {
   state: {
-		show: 20,
+		show: 30,
 		skip: 0,
     filter: '',
 		sort: 'popular',

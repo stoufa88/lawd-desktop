@@ -2,7 +2,7 @@
 	<nav v-if="$route.name !== 'showList'" class="navbar navbar-dark bg-inverse navbar-fixed-top">
 		<a class="navbar-brand">lawd</a>
 	</nav>
-	
+
 	<nav v-else=" $route.name == 'showList'" class="navbar navbar-dark bg-inverse navbar-fixed-top">
 		<button class="navbar-toggler pull-xs-left" type="button" v-on:click="toggleMenu"}>
       &#9776;
@@ -87,6 +87,7 @@ export default {
 			searchQuery: '',
 			sorting: [
 				{ value: 'popular', text: this.getMessage('shows.popular') },
+				{ value: 'latest', text: this.getMessage('shows.latest') },
 				{ value: 'imdbRating', text: this.getMessage('shows.top_rated') }
 			],
 			filters: [

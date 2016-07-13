@@ -180,14 +180,20 @@ html {
 	overflow-y: auto;
 	overflow-x: hidden;
 	height: calc(100vh - 54px);
+	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.11), rgba(0, 0, 0, 0.72), black), url('../images/background.jpg');
+	background-size: cover;
 }
 
 .show-header {
-	background: rgb(0, 0, 0);
-	border-bottom: 5px solid;
 	padding: 15px;
 	&.has-trailer {
 		margin: -75px -50px 50px -50px;
+	}
+	#show-name {
+		padding-top: 15px;
+		h1 {
+			font-weight: bolder;
+		}
 	}
   #show-trailer {
     position: relative;
@@ -223,13 +229,16 @@ html {
   }
 
   .movie-center-section {
-    border-right: 1px solid #ccc;
     padding: 0 25px;
 		.movie-description {
 			max-height: 15rem;
 			overflow-y: auto;
 		}
   }
+
+	.movie-right-section h3{
+		border-bottom: 1px solid #ccc;
+	}
 
   .movie-torrents-section {
     height: 10rem;

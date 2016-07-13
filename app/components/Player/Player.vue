@@ -18,7 +18,7 @@
 
     <div class="pull-xs-right">
 			<a class="close"
-				v-link="{ name: 'showList', params: { type: this.$route.params.type }}">
+				v-link="{ name: 'showDetails', params: { type: $route.params.type, id: show.id }}">
         <span aria-hidden="true">&times;</span>
       </a>
     </div>
