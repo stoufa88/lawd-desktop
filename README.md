@@ -9,7 +9,7 @@ The torrents from the tracker api are transformed and filtered in our parse serv
 On the frontend, I used Vue.js and I find it extremely powerful library for building simple UI.
 For streaming, I was caught by the simplicity of use of WebTorrent.js.
 So I would like to thank these two fellas for making lawd alive.
-But to not forgive the kat who offered me rapid access to their daily dump api.
+But to not forget the kat who offered me rapid access to their daily dump api.
 
 ## Install
 
