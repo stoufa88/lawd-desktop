@@ -47,7 +47,13 @@ router.redirect({
 
 router.start(App, '#app')
 
-Vue.config.lang = navigator.language.indexOf('fr') > - 1 ? 'fr' : 'en'
+if(navigator.language.indexOf('fr') > - 1) {
+	Vue.config.lang = 'fr'
+}else if (navigator.language.indexOf('nl') > - 1) {
+	Vue.config.lang = 'nl'
+}else {
+	Vue.config.lang = 'en'
+}
 
 Object.keys(locales).forEach(function (lang) {
   Vue.locale(lang, locales[lang])

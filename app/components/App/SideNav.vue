@@ -25,7 +25,7 @@
 
 	<div id="nav-footer">
 		<div class="row">
-			<div class="col-xs-4 col-xs-offset-2"><small>v0.3.0</small></div>
+			<div class="col-xs-4 col-xs-offset-2"><small>v0.4.0</small></div>
 		<div>
 	</nav>
 
