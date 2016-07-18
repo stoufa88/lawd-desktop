@@ -96,6 +96,55 @@ let locales = {
         western: 'Western'
       }
     }
+  },
+  nl: {
+    navigation: {
+      movies: 'films',
+      tv: 'TV',
+      curated: 'Aanbevolen'
+    },
+    shows: {
+      popular: 'Populair',
+      latest: 'Nieuwste',
+      top_rated: 'Top beoordeeld',
+      random: 'Willekeurig',
+      search_movie: 'Titel, naam van acteur/actrice, IMDB-code',
+      search_serie: 'Titel, naam van acteur/actrice, IMDB-code',
+            empty: 'Niets gevonden',
+            watch: 'Kijken',
+            details: 'Details',
+            rating: 'IMDB-score',
+            runtime: 'Duur',
+            country: 'Land',
+            actors: 'Acteurs',
+            director: 'Regisseur',
+            release_date: 'Datum van verschijning',
+      genres: {
+        all: 'Alles',
+        action: 'Actie',
+        adventure: 'Avontuur',
+        animation: 'Animatie',
+        biography: 'Biografie',
+        comedy: 'Komedie',
+        crime: 'Crime',
+        documentary: 'Documentaire',
+        drama: 'Drama',
+        family: 'Familie',
+        fantasy: 'Fantasy',
+        filmnoir: 'Film noir',
+        history: 'Historie',
+        horror: 'Horror',
+        music: 'Muziek',
+        musical: 'Musical',
+        mystery: 'Mystery',
+        romance: 'Romantiek',
+        scienfiction: 'Science-fiction',
+        sport: 'Sport',
+        thriller: 'Thriller',
+        war: 'Oorlog',
+        western: 'Western'
+      }
+    }
   }
 }
 
